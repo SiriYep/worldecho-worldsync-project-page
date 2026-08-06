@@ -1,0 +1,557 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+    <meta name="referrer" content="no-referrer">
+    <meta name="color-scheme" content="light">
+    <title>WorldEcho &amp; WorldSync — Do Robotic World Models Really Follow Actions?</title>
+    <meta
+      name="description"
+      content="Private project-page preview for WorldEcho and WorldSync, a benchmark and training recipe for action-conditioned robotic world models."
+    >
+    <link rel="stylesheet" href="assets/fonts/google-fonts.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="sections.css">
+    <link rel="stylesheet" href="responsive.css">
+    <script>document.documentElement.classList.add("js");</script>
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <div class="scroll-progress" aria-hidden="true"><span id="progress-bar"></span></div>
+
+    <aside class="review-notice" aria-label="Review status">
+      <span class="notice-pulse" aria-hidden="true"></span>
+      <strong>Private review preview</strong>
+      <span class="notice-detail">Anonymous submission · provisional results · do not circulate</span>
+    </aside>
+
+    <header class="site-header">
+      <nav class="nav container" aria-label="Primary navigation">
+        <a class="nav-brand" href="#top" aria-label="WorldEcho and WorldSync home">
+          <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+            <circle cx="16" cy="16" r="12.5" class="mark-orbit"></circle>
+            <path d="M4.6 20.4a12.5 12.5 0 0 1 22.8-8.8" class="mark-arc"></path>
+            <circle cx="16" cy="16" r="4.6" class="mark-core"></circle>
+            <circle cx="27.4" cy="11.6" r="2.8" class="mark-node"></circle>
+          </svg>
+          <span class="nav-wordmark">WorldEcho &amp; WorldSync</span>
+        </a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="nav-links">
+          <span></span><span></span><span></span>
+          <span class="sr-only">Toggle navigation</span>
+        </button>
+        <div id="nav-links" class="nav-links">
+          <a href="#overview">Overview</a>
+          <a href="#worldecho">WorldEcho</a>
+          <a href="#evidence">Evidence</a>
+          <a href="#worldsync">WorldSync</a>
+          <a href="#results">Results</a>
+          <a href="#abstract">Abstract</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="hero-bg" aria-hidden="true">
+          <span class="hero-grid"></span>
+          <span class="hero-aurora hero-aurora-echo"></span>
+          <span class="hero-aurora hero-aurora-sync"></span>
+        </div>
+
+        <div class="container hero-layout">
+          <div class="hero-copy">
+            <p class="eyebrow">
+              <span>Action-conditioned world models</span>
+              <b>AAAI 2027 draft</b>
+            </p>
+            <h1>
+              <span class="headline-plain">Do robotic world models</span>
+              <span class="headline-accent">really follow actions?</span>
+            </h1>
+            <p class="hero-subtitle">Diagnosing and Aligning Action-Conditioned Generation for Policy Learning</p>
+            <p class="hero-lead">
+              A world model can look plausible and still ignore the action it was given. We test that assumption beyond
+              expert replay, then train the model to respond to the commanded future.
+            </p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#evidence">
+                See the failure modes
+                <svg class="button-arrow" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                  <path d="M3 8h9M8.5 4.2 12.4 8l-3.9 3.8"></path>
+                </svg>
+              </a>
+              <a class="button button-secondary" href="#worldecho">Explore the benchmark</a>
+            </div>
+            <ul class="resource-status" aria-label="Resource availability">
+              <li><span class="resource-key">Paper</span><span class="resource-value">withheld for review</span></li>
+              <li><span class="resource-key">Code</span><span class="resource-value">withheld for review</span></li>
+              <li><span class="resource-key">Data</span><span class="resource-value">withheld for review</span></li>
+            </ul>
+          </div>
+
+          <div class="hero-console" aria-label="Ground-truth and world-model rollout comparison">
+            <div class="console-bar">
+              <span class="console-id">Action probe · 01</span>
+              <span class="console-live"><i aria-hidden="true"></i> synchronized rollouts</span>
+            </div>
+
+            <div class="console-videos">
+              <figure class="rollout rollout-reference">
+                <figcaption class="rollout-tag"><span>Reference</span><b>Ground truth</b></figcaption>
+                <video autoplay muted loop playsinline preload="metadata" poster="assets/posters/grab-gt.png" aria-label="Ground-truth grab roller rollout">
+                  <source src="assets/videos/grab-gt.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure class="rollout rollout-collapse">
+                <figcaption class="rollout-tag"><span>Failure 01</span><b>Visual collapse</b></figcaption>
+                <video autoplay muted loop playsinline preload="metadata" poster="assets/posters/grab-collapse.png" aria-label="World-model rollout with visual collapse">
+                  <source src="assets/videos/grab-collapse.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure class="rollout rollout-mismatch">
+                <figcaption class="rollout-tag"><span>Failure 02</span><b>Action mismatch</b></figcaption>
+                <video autoplay muted loop playsinline preload="metadata" poster="assets/posters/grab-mismatch.png" aria-label="World-model rollout that does not follow the queried action">
+                  <source src="assets/videos/grab-mismatch.mp4" type="video/mp4">
+                </video>
+              </figure>
+            </div>
+
+            <div class="console-trace">
+              <svg viewBox="0 0 640 76" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                <path class="trace-axis" d="M14 40H628"></path>
+                <path class="trace-ref" d="M18 40C150 40 232 30 336 24s196-9 288-11"></path>
+                <path class="trace-mismatch" d="M18 40c140 4 232 12 330 22s200 14 276 15"></path>
+                <path class="trace-collapse" d="M18 40c96 0 150 2 196 12s54 26 92 6 52 24 96 4 74 18 122 6"></path>
+                <circle class="trace-origin" cx="18" cy="40" r="4.5"></circle>
+              </svg>
+              <p class="trace-caption">
+                <span class="trace-symbol">a<sub>1:H</sub></span>
+                one action query · three different futures
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="overview" class="section-pad overview-section">
+        <div class="container">
+          <div class="section-heading split-heading">
+            <div>
+              <p class="kicker">The hidden assumption</p>
+              <h2>A believable video is not yet a faithful simulator.</h2>
+            </div>
+            <p class="lead">
+              Policy improvement asks a world model about actions that depart from expert demonstrations. If the model
+              ignores those actions—or breaks visually—the resulting feedback cannot be trusted as dynamics.
+            </p>
+          </div>
+
+          <div class="overview-grid">
+            <article class="thesis-card thesis-question">
+              <span class="thesis-badge" aria-hidden="true">Q</span>
+              <h3>Does the generated future change with the queried action?</h3>
+              <p>Expert-only evaluation cannot separate action following from state-conditioned optimism.</p>
+              <p class="thesis-tag">the open question</p>
+            </article>
+            <article class="thesis-card thesis-diagnose">
+              <span class="thesis-badge" aria-hidden="true">D</span>
+              <h3>WorldEcho diagnoses both validity and motion fidelity.</h3>
+              <p>Every rollout faces a visual-integrity gate and a pose-aware SE(3) trajectory comparison.</p>
+              <p class="thesis-tag">the benchmark</p>
+            </article>
+            <article class="thesis-card thesis-align">
+              <span class="thesis-badge" aria-hidden="true">A</span>
+              <h3>WorldSync aligns generation with intervention.</h3>
+              <p>Coverage, dynamics grounding, and paired interventions teach the future to move with the action.</p>
+              <p class="thesis-tag">the training recipe</p>
+            </article>
+          </div>
+
+          <dl class="scope-strip" aria-label="Project scope">
+            <div><dt>5</dt><dd>action-query families</dd></div>
+            <div><dt>2</dt><dd>failure modes exposed</dd></div>
+            <div><dt>SE(3)</dt><dd>end-effector alignment</dd></div>
+            <div><dt>50</dt><dd>RoboTwin tasks in the draft benchmark</dd></div>
+          </dl>
+        </div>
+      </section>
+
+      <section id="worldecho" class="section-pad section-light">
+        <div class="container">
+          <div class="section-heading split-heading">
+            <div>
+              <div class="brand-lockup">
+                <img class="brand-icon" src="assets/brand/worldecho-icon.svg" alt="" width="400" height="400" loading="lazy">
+                <span class="brand-name">World<em class="brand-echo">Echo</em></span>
+                <span class="brand-role">Benchmark</span>
+              </div>
+              <h2>Ask the model actions it did not memorize.</h2>
+            </div>
+            <p class="lead">
+              WorldEcho broadens the query distribution from demonstrated actions toward the feasible action space,
+              always replaying the same query in the simulator to obtain an action-specific future.
+            </p>
+          </div>
+
+          <div class="ladder">
+            <p class="ladder-scale" aria-hidden="true">
+              <span>in-distribution</span>
+              <i></i>
+              <span>off-expert</span>
+            </p>
+            <ol class="query-ladder">
+              <li class="query-card" style="--step: 0">
+                <span class="query-number">01</span>
+                <h3>Demonstrated action</h3>
+                <p>The in-distribution expert replay baseline.</p>
+                <small>expert prior</small>
+              </li>
+              <li class="query-card" style="--step: 1">
+                <span class="query-number">02</span>
+                <h3>Cross-state replay</h3>
+                <p>Apply an expert action sequence from another state.</p>
+                <small>state dependence</small>
+              </li>
+              <li class="query-card" style="--step: 2">
+                <span class="query-number">03</span>
+                <h3>Local perturbation</h3>
+                <p>Probe sensitivity near the expert action manifold.</p>
+                <small>local response</small>
+              </li>
+              <li class="query-card" style="--step: 3">
+                <span class="query-number">04</span>
+                <h3>Policy rollout</h3>
+                <p>Use actions produced by a learned policy.</p>
+                <small>deployment shift</small>
+              </li>
+              <li class="query-card" style="--step: 4">
+                <span class="query-number">05</span>
+                <h3>Feasible-space sampling</h3>
+                <p>Sample valid actions with minimal expert reliance.</p>
+                <small>broad control</small>
+              </li>
+            </ol>
+          </div>
+
+          <div class="metric-system">
+            <article class="metric-card metric-gate">
+              <span class="metric-glyph" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  <path d="M12 2.8 20 6v6.1c0 4.6-3.3 7.6-8 9.1-4.7-1.5-8-4.5-8-9.1V6z"></path>
+                  <path d="m8.4 12.1 2.5 2.5 4.8-4.9"></path>
+                </svg>
+              </span>
+              <p class="metric-label">Visual integrity gate</p>
+              <h3>Can this rollout be evaluated at all?</h3>
+              <p class="metric-body">Quality, temporal smoothness, end-effector visibility, and arm integrity must all pass.</p>
+            </article>
+            <article class="metric-card metric-trajectory">
+              <span class="metric-glyph" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  <path d="M2.6 18.6c4-.4 6.1-3.2 8.2-6.6s4.1-6.3 8.4-6.7"></path>
+                  <path d="M2.6 18.6c4.3 1 6.6-.7 9.3-2.7s5-3.7 8.5-3.2" class="glyph-dashed"></path>
+                  <circle cx="2.6" cy="18.6" r="1.9"></circle>
+                  <circle cx="19.9" cy="5.3" r="1.9"></circle>
+                </svg>
+              </span>
+              <p class="metric-label">Trajectory alignment</p>
+              <h3>Did the robot move as that action should?</h3>
+              <p class="metric-body">AnyPos recovers both end-effector trajectories; pose-aware NDTW compares them in SE(3).</p>
+            </article>
+            <article class="metric-card metric-score">
+              <span class="metric-glyph" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  <path d="M3.2 4.4h17.6l-6.9 8.1v7.3l-3.8 2.1v-9.4z"></path>
+                  <path d="M12 8.2h6"></path>
+                </svg>
+              </span>
+              <p class="metric-label">Integrity-gated score</p>
+              <h3>Invalid videos cannot hide behind motion error.</h3>
+              <p class="metric-body">Valid rollouts use trajectory error; visually invalid rollouts receive a fixed penalty.</p>
+            </article>
+          </div>
+
+          <figure class="figure-shell" data-zoom>
+            <button class="figure-button" type="button" aria-label="Open the WorldEcho benchmark figure">
+              <img src="assets/figures/worldecho-benchmark.png" alt="WorldEcho benchmark: five action queries, matched world-model and simulator rollouts, parallel visual and trajectory evaluation, and an integrity-gated score." width="1815" height="867" loading="lazy">
+              <span class="figure-zoom" aria-hidden="true">
+                <svg viewBox="0 0 20 20" focusable="false">
+                  <circle cx="8.6" cy="8.6" r="5.6"></circle>
+                  <path d="M12.8 12.8 17 17M8.6 6.2v4.8M6.2 8.6h4.8"></path>
+                </svg>
+              </span>
+            </button>
+            <figcaption><b>Figure 1</b> WorldEcho evaluates every query through visual integrity and SE(3) motion alignment before task-macro aggregation.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section id="evidence" class="section-pad evidence-section">
+        <div class="evidence-bg" aria-hidden="true"></div>
+        <div class="container">
+          <div class="section-heading split-heading">
+            <div>
+              <p class="kicker kicker-warn">Failure lab</p>
+              <h2>Two ways an off-expert future can fail.</h2>
+            </div>
+            <p class="lead">
+              Switch tasks to compare the simulator reference with a visually broken prediction and a plausible-looking
+              prediction that follows the wrong motion.
+            </p>
+          </div>
+
+          <div class="case-tabs" role="tablist" aria-label="Failure case">
+            <button id="case-grab" class="case-tab active" type="button" role="tab" aria-selected="true" aria-controls="failure-console" data-case="grab">Grab roller</button>
+            <button id="case-handover" class="case-tab" type="button" role="tab" aria-selected="false" aria-controls="failure-console" tabindex="-1" data-case="handover">Handover block</button>
+            <button id="case-bread" class="case-tab" type="button" role="tab" aria-selected="false" aria-controls="failure-console" tabindex="-1" data-case="bread">Place bread in basket</button>
+          </div>
+
+          <div id="failure-console" class="failure-console" role="tabpanel" aria-live="polite" aria-labelledby="case-grab">
+            <article class="failure-video failure-good">
+              <header><span>Reference</span><b>Simulator ground truth</b></header>
+              <video id="video-gt" autoplay muted loop playsinline preload="metadata" poster="assets/posters/grab-gt.png" aria-label="Simulator ground-truth rollout">
+                <source src="assets/videos/grab-gt.mp4" type="video/mp4">
+              </video>
+              <p>The queried action is executed from the matched initial state.</p>
+            </article>
+            <article class="failure-video failure-collapse">
+              <header><span>Failure 01</span><b>Visual collapse</b></header>
+              <video id="video-collapse" autoplay muted loop playsinline preload="metadata" poster="assets/posters/grab-collapse.png" aria-label="World-model rollout with visual collapse">
+                <source src="assets/videos/grab-collapse.mp4" type="video/mp4">
+              </video>
+              <p>Robot geometry breaks, blurs, or disappears under the query.</p>
+            </article>
+            <article class="failure-video failure-mismatch">
+              <header><span>Failure 02</span><b>Action mismatch</b></header>
+              <video id="video-mismatch" autoplay muted loop playsinline preload="metadata" poster="assets/posters/grab-mismatch.png" aria-label="Plausible world-model rollout with action mismatch">
+                <source src="assets/videos/grab-mismatch.mp4" type="video/mp4">
+              </video>
+              <p>The video looks plausible, but its end-effector motion disagrees.</p>
+            </article>
+          </div>
+
+          <div class="evidence-grid">
+            <figure class="compact-figure" data-zoom>
+              <button class="figure-button" type="button" aria-label="Open the compact failure comparison">
+                <img src="assets/figures/diagnosis-strip.png" alt="Input, ground-truth output, visual collapse, and action mismatch frames." width="1509" height="384" loading="lazy">
+                <span class="figure-zoom" aria-hidden="true">
+                  <svg viewBox="0 0 20 20" focusable="false">
+                    <circle cx="8.6" cy="8.6" r="5.6"></circle>
+                    <path d="M12.8 12.8 17 17M8.6 6.2v4.8M6.2 8.6h4.8"></path>
+                  </svg>
+                </span>
+              </button>
+              <figcaption><b>Figure 2</b> The same input can produce either visible corruption or a deceptively plausible mismatch.</figcaption>
+            </figure>
+            <figure class="compact-figure" data-zoom>
+              <button class="figure-button" type="button" aria-label="Open the end-effector trajectory comparison">
+                <img src="assets/figures/trajectory-comparison.png" alt="AnyPos-estimated left and right end-effector trajectories comparing the simulator reference in blue and an action-mismatched world-model rollout in orange." width="2000" height="1145" loading="lazy">
+                <span class="figure-zoom" aria-hidden="true">
+                  <svg viewBox="0 0 20 20" focusable="false">
+                    <circle cx="8.6" cy="8.6" r="5.6"></circle>
+                    <path d="M12.8 12.8 17 17M8.6 6.2v4.8M6.2 8.6h4.8"></path>
+                  </svg>
+                </span>
+              </button>
+              <figcaption><b>Figure 3</b> Pose trajectories expose motion disagreement that appearance alone can miss.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section id="worldsync" class="section-pad section-light">
+        <div class="container">
+          <div class="section-heading split-heading">
+            <div>
+              <div class="brand-lockup">
+                <img class="brand-icon" src="assets/brand/worldsync-icon.svg" alt="" width="400" height="400" loading="lazy">
+                <span class="brand-name">World<em class="brand-sync">Sync</em></span>
+                <span class="brand-role brand-role-sync">Training recipe</span>
+              </div>
+              <h2>Make the predicted future move with the action.</h2>
+            </div>
+            <p class="lead">
+              WorldSync strengthens action following at three complementary levels: the action distribution, the video
+              representation, and the response to controlled action interventions.
+            </p>
+          </div>
+
+          <ol class="sync-steps">
+            <li class="sync-step">
+              <div class="step-head">
+                <span class="step-number">01</span>
+                <p class="step-type">Coverage</p>
+              </div>
+              <h3>Action coverage expansion</h3>
+              <p>Mix diverse simulated expert and off-expert trajectories with target-domain real expert data in a shared relative Cartesian action space.</p>
+            </li>
+            <li class="sync-step">
+              <div class="step-head">
+                <span class="step-number">02</span>
+                <p class="step-type">Grounding</p>
+              </div>
+              <h3>Action-Forcing Expert</h3>
+              <p>Decode future end-effector trajectories from intermediate video features so the representation encodes action-induced robot dynamics.</p>
+            </li>
+            <li class="sync-step">
+              <div class="step-head">
+                <span class="step-number">03</span>
+                <p class="step-type">Sensitivity</p>
+              </div>
+              <h3>Intervention-effect supervision</h3>
+              <p>Pair the same observation with different actions and match the change in predicted futures to the change in ground-truth futures.</p>
+            </li>
+          </ol>
+
+          <figure class="figure-shell figure-shell-sync" data-zoom>
+            <button class="figure-button" type="button" aria-label="Open the WorldSync training figure">
+              <img src="assets/figures/worldsync-method.png" alt="WorldSync combines expanded action coverage, an Action-Forcing Expert on intermediate video features, and intervention-effect supervision." width="1825" height="862" loading="lazy">
+              <span class="figure-zoom" aria-hidden="true">
+                <svg viewBox="0 0 20 20" focusable="false">
+                  <circle cx="8.6" cy="8.6" r="5.6"></circle>
+                  <path d="M12.8 12.8 17 17M8.6 6.2v4.8M6.2 8.6h4.8"></path>
+                </svg>
+              </span>
+            </button>
+            <figcaption><b>Figure 4</b> The two auxiliary objectives are used only during training; inference keeps the base action-conditioned world model.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section id="results" class="section-pad results-section">
+        <div class="container">
+          <div class="section-heading split-heading">
+            <div>
+              <p class="kicker kicker-result">Draft results</p>
+              <h2>Better gated fidelity without hiding invalid rollouts.</h2>
+            </div>
+            <p class="lead">
+              The current manuscript reports task-macro averages across 50 RoboTwin tasks. These values remain provisional
+              while the anonymous submission is being completed.
+            </p>
+          </div>
+
+          <div class="draft-callout">
+            <span class="callout-glyph" aria-hidden="true">
+              <svg viewBox="0 0 20 20" focusable="false">
+                <path d="M10 2.6 18.4 17H1.6z"></path>
+                <path d="M10 7.9v4.2M10 14.4h.01"></path>
+              </svg>
+            </span>
+            <p>
+              <strong>Internal preview only.</strong>
+              Figure 4, Figure 5, citations, real-robot plots, and the conclusion are still incomplete. Endpoint update
+              budgets also differ, so the current table is not a compute-matched comparison.
+            </p>
+          </div>
+
+          <div class="result-cards">
+            <article class="result-card result-card-primary">
+              <p class="result-label">Integrity-gated error</p>
+              <strong>0.0661</strong>
+              <span class="result-note-line"><i class="dir dir-down" aria-hidden="true"></i>lower is better · best in current Table 1</span>
+            </article>
+            <article class="result-card result-card-pass">
+              <p class="result-label">Visual pass rate</p>
+              <strong>84.51%</strong>
+              <span class="result-note-line"><i class="dir dir-up" aria-hidden="true"></i>higher is better · best in current Table 1</span>
+            </article>
+            <article class="result-card result-card-scope">
+              <p class="result-label">Benchmark breadth</p>
+              <strong>50 tasks</strong>
+              <span class="result-note-line"><i class="dir dir-flat" aria-hidden="true"></i>RoboTwin task-macro evaluation</span>
+            </article>
+          </div>
+
+          <div class="results-layout">
+            <div class="results-copy">
+              <p class="result-note">
+                WorldSync leads the draft table on the primary integrity-gated error and visual pass rate. Raw NDTW tells
+                a different part of the story: expanded Cosmos-Predict2.5 reports the lowest raw NDTW, reinforcing why
+                WorldEcho retains both gated and ungated diagnostics.
+              </p>
+              <div class="result-legend" aria-label="Metric direction">
+                <span><i class="legend-gated"></i> gated error ↓</span>
+                <span><i class="legend-raw"></i> raw NDTW ↓</span>
+                <span><i class="legend-pass"></i> visual pass ↑</span>
+              </div>
+            </div>
+            <div class="table-scroll" role="region" aria-label="Draft WorldEcho results" tabindex="0">
+              <table>
+                <caption class="sr-only">Draft WorldEcho results across 50 RoboTwin tasks</caption>
+                <thead>
+                  <tr><th scope="col">Model</th><th scope="col">Training</th><th scope="col">Gated</th><th scope="col">Raw</th><th scope="col">Pass</th></tr>
+                </thead>
+                <tbody>
+                  <tr><th scope="row">CtrlWorld</th><td>Expert</td><td>0.0716</td><td>0.0266</td><td>83.89</td></tr>
+                  <tr><th scope="row">CtrlWorld</th><td>Expanded</td><td>0.0670</td><td>0.0210</td><td>83.71</td></tr>
+                  <tr><th scope="row">Cosmos-Predict2.5</th><td>Expanded</td><td>0.0842</td><td class="best-raw">0.0127</td><td>75.03</td></tr>
+                  <tr class="ours"><th scope="row">WorldSync</th><td>Expanded</td><td>0.0661</td><td>0.0223</td><td>84.51</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="abstract" class="section-pad abstract-section">
+        <div class="container abstract-layout">
+          <div class="abstract-side">
+            <p class="kicker">Abstract</p>
+            <h2>Action following needs evidence beyond expert replay.</h2>
+          </div>
+          <div class="abstract-copy">
+            <p class="abstract-opening">
+              Action-conditioned world models are increasingly used as learned simulators for policy evaluation and
+              improvement, but their utility depends on whether generated futures reflect the numerical actions supplied to
+              the model. We introduce WorldEcho, an evaluation protocol that pairs five action-query categories with
+              reference RoboTwin rollouts and evaluates both visual integrity and SE(3) end-effector trajectory alignment.
+            </p>
+            <p>
+              Qualitative analysis identifies two off-expert failure modes: visual collapse and visually plausible but
+              action-inconsistent motion. We also present WorldSync, a training recipe that expands action coverage with
+              simulated and target-domain real expert trajectories, grounds intermediate video features with an auxiliary
+              Action-Forcing Expert, and supervises the effect of changing actions through paired interventions. In the
+              current 50-task RoboTwin evaluation, WorldSync obtains a task-macro integrity-gated error of 0.0661 and an
+              84.51% visual pass rate. These results are preliminary and remain subject to revision.
+            </p>
+            <p class="abstract-status">Synced from the current Overleaf anonymous-submission draft. Wording and results may change before release.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-layout">
+        <div class="footer-brand-block">
+          <p class="footer-brand">
+            <svg class="brand-mark brand-mark-inverse" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+              <circle cx="16" cy="16" r="12.5" class="mark-orbit"></circle>
+              <path d="M4.6 20.4a12.5 12.5 0 0 1 22.8-8.8" class="mark-arc"></path>
+              <circle cx="16" cy="16" r="4.6" class="mark-core"></circle>
+              <circle cx="27.4" cy="11.6" r="2.8" class="mark-node"></circle>
+            </svg>
+            WorldEcho &amp; WorldSync
+          </p>
+          <p class="footer-tagline"><b>WorldEcho</b> diagnoses. <b>WorldSync</b> aligns.</p>
+        </div>
+        <div class="footer-status">
+          <strong>Anonymous review material</strong>
+          <span>Distribution, citation, or public sharing is prohibited until the authors release a public version.</span>
+        </div>
+      </div>
+    </footer>
+
+    <dialog id="figure-dialog" class="figure-dialog" aria-label="Enlarged research figure">
+      <button class="dialog-close" type="button" aria-label="Close enlarged figure">
+        <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="m4 4 8 8M12 4l-8 8"></path></svg>
+        <span>Close</span>
+      </button>
+      <img src="assets/figures/worldecho-benchmark.png" alt="">
+      <p></p>
+    </dialog>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "name": "worldecho-worldsync-project-page",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs"
+  }
+}

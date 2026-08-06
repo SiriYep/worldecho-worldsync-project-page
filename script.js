@@ -1,0 +1,263 @@
+const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* Scroll progress and section-aware navigation */
+const progressBar = document.getElementById("progress-bar");
+const navLinks = Array.from(document.querySelectorAll('.nav-links a[href^="#"]'));
+const trackedSections = navLinks
+  .map((link) => document.querySelector(link.getAttribute("href")))
+  .filter(Boolean);
+
+/* Assigned by the reveal block below; a no-op until then. */
+let revealPending = () => {};
+
+function updateScrollState() {
+  const scrollY = window.scrollY;
+  const viewportHeight = window.innerHeight;
+  const documentHeight = document.documentElement.scrollHeight;
+  const scrollable = documentHeight - viewportHeight;
+
+  revealPending();
+
+  if (progressBar) {
+    const progress = scrollable > 0 ? scrollY / scrollable : 0;
+    progressBar.style.width = `${Math.min(100, Math.max(0, progress * 100))}%`;
+  }
+
+  if (!trackedSections.length) return;
+  const activationLine = viewportHeight * 0.34;
+  let activeSection = null;
+  trackedSections.forEach((section) => {
+    if (section.getBoundingClientRect().top <= activationLine) activeSection = section;
+  });
+  if (scrollY + viewportHeight >= documentHeight - 2) {
+    activeSection = trackedSections[trackedSections.length - 1];
+  }
+  const activeId = activeSection ? activeSection.id : "";
+  navLinks.forEach((link) => {
+    link.classList.toggle("active", link.getAttribute("href") === `#${activeId}`);
+  });
+}
+
+let scrollFramePending = false;
+function requestScrollUpdate() {
+  if (scrollFramePending) return;
+  scrollFramePending = true;
+  window.requestAnimationFrame(() => {
+    updateScrollState();
+    scrollFramePending = false;
+  });
+}
+
+window.addEventListener("scroll", requestScrollUpdate, { passive: true });
+window.addEventListener("resize", requestScrollUpdate);
+updateScrollState();
+
+/* Compact navigation */
+const menuToggle = document.querySelector(".menu-toggle");
+const navPanel = document.getElementById("nav-links");
+
+if (menuToggle && navPanel) {
+  const setMenuOpen = (open) => {
+    navPanel.classList.toggle("open", open);
+    menuToggle.setAttribute("aria-expanded", String(open));
+  };
+
+  menuToggle.addEventListener("click", () => {
+    setMenuOpen(menuToggle.getAttribute("aria-expanded") !== "true");
+  });
+
+  navPanel.addEventListener("click", (event) => {
+    if (event.target.closest("a")) setMenuOpen(false);
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") setMenuOpen(false);
+  });
+}
+
+/* Reveal content once, while respecting reduced motion */
+const revealSelectors = [
+  ".section-heading",
+  ".thesis-card",
+  ".scope-strip",
+  ".ladder-scale",
+  ".query-card",
+  ".metric-card",
+  ".figure-shell",
+  ".case-tabs",
+  ".failure-console",
+  ".compact-figure",
+  ".sync-step",
+  ".draft-callout",
+  ".result-card",
+  ".results-layout",
+  ".abstract-copy",
+];
+
+if (!prefersReducedMotion) {
+  const groupCounts = new Map();
+  let waiting = Array.from(document.querySelectorAll(revealSelectors.join(",")));
+
+  waiting.forEach((element) => {
+    element.classList.add("reveal");
+    const parent = element.parentElement;
+    const index = groupCounts.get(parent) || 0;
+    if (index > 0 && index < 4) element.classList.add(`delay-${index}`);
+    groupCounts.set(parent, index + 1);
+  });
+
+  /* Anything already at or above the fold reveals, so jumping straight to a
+     deep anchor never strands content at opacity zero. */
+  revealPending = () => {
+    if (!waiting.length) return;
+    const line = window.innerHeight * 0.93;
+    waiting = waiting.filter((element) => {
+      if (element.getBoundingClientRect().top > line) return true;
+      element.classList.add("in");
+      return false;
+    });
+  };
+
+  requestAnimationFrame(revealPending);
+}
+
+/* Play short evidence clips only while visible */
+const pageVideos = Array.from(document.querySelectorAll("video[autoplay]"));
+
+function safePlay(video) {
+  video.muted = true;
+  video.defaultMuted = true;
+  const playAttempt = video.play();
+  if (playAttempt && typeof playAttempt.catch === "function") playAttempt.catch(() => {});
+}
+
+if ("IntersectionObserver" in window) {
+  const videoObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        const video = entry.target;
+        video.dataset.visible = entry.isIntersecting ? "true" : "false";
+        if (entry.isIntersecting && !document.hidden) safePlay(video);
+        else video.pause();
+      });
+    },
+    { rootMargin: "140px 0px", threshold: 0.1 }
+  );
+  pageVideos.forEach((video) => videoObserver.observe(video));
+} else {
+  pageVideos.forEach(safePlay);
+}
+
+document.addEventListener("visibilitychange", () => {
+  pageVideos.forEach((video) => {
+    if (document.hidden) video.pause();
+    else if (video.dataset.visible !== "false") safePlay(video);
+  });
+});
+
+/* Failure-case switcher */
+const caseData = {
+  grab: {
+    label: "Grab roller",
+    gt: ["assets/videos/grab-gt.mp4", "assets/posters/grab-gt.png"],
+    collapse: ["assets/videos/grab-collapse.mp4", "assets/posters/grab-collapse.png"],
+    mismatch: ["assets/videos/grab-mismatch.mp4", "assets/posters/grab-mismatch.png"],
+  },
+  handover: {
+    label: "Handover block",
+    gt: ["assets/videos/handover-gt.mp4", "assets/posters/handover-gt.png"],
+    collapse: ["assets/videos/handover-collapse.mp4", "assets/posters/handover-collapse.png"],
+    mismatch: ["assets/videos/handover-mismatch.mp4", "assets/posters/handover-mismatch.png"],
+  },
+  bread: {
+    label: "Place bread in basket",
+    gt: ["assets/videos/bread-gt.mp4", "assets/posters/bread-gt.png"],
+    collapse: ["assets/videos/bread-collapse.mp4", "assets/posters/bread-collapse.png"],
+    mismatch: ["assets/videos/bread-mismatch.mp4", "assets/posters/bread-mismatch.png"],
+  },
+};
+
+const caseTabs = Array.from(document.querySelectorAll(".case-tab"));
+const failurePanel = document.querySelector(".failure-console");
+
+function replaceVideo(videoId, sourceData, description) {
+  const video = document.getElementById(videoId);
+  if (!video) return;
+  const source = video.querySelector("source");
+  if (!source) return;
+  video.pause();
+  source.src = sourceData[0];
+  video.poster = sourceData[1];
+  video.setAttribute("aria-label", description);
+  video.load();
+  if (!document.hidden && video.dataset.visible !== "false") safePlay(video);
+}
+
+function selectCase(tab) {
+  const key = tab.dataset.case;
+  const data = caseData[key];
+  if (!data) return;
+
+  caseTabs.forEach((candidate) => {
+    const selected = candidate === tab;
+    candidate.classList.toggle("active", selected);
+    candidate.setAttribute("aria-selected", String(selected));
+    candidate.tabIndex = selected ? 0 : -1;
+  });
+
+  if (failurePanel) failurePanel.setAttribute("aria-labelledby", tab.id);
+  replaceVideo("video-gt", data.gt, `${data.label} simulator ground-truth rollout`);
+  replaceVideo("video-collapse", data.collapse, `${data.label} world-model rollout with visual collapse`);
+  replaceVideo("video-mismatch", data.mismatch, `${data.label} plausible world-model rollout with action mismatch`);
+}
+
+caseTabs.forEach((tab, index) => {
+  tab.addEventListener("click", () => selectCase(tab));
+  tab.addEventListener("keydown", (event) => {
+    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+    event.preventDefault();
+    let nextIndex = index;
+    if (event.key === "ArrowRight") nextIndex = (index + 1) % caseTabs.length;
+    if (event.key === "ArrowLeft") nextIndex = (index - 1 + caseTabs.length) % caseTabs.length;
+    if (event.key === "Home") nextIndex = 0;
+    if (event.key === "End") nextIndex = caseTabs.length - 1;
+    caseTabs[nextIndex].focus();
+    selectCase(caseTabs[nextIndex]);
+  });
+});
+
+const initialCaseTab = caseTabs.find((tab) => tab.classList.contains("active"));
+if (initialCaseTab) selectCase(initialCaseTab);
+
+/* Accessible figure enlargement */
+const figureDialog = document.getElementById("figure-dialog");
+if (figureDialog) {
+  const dialogImage = figureDialog.querySelector("img");
+  const dialogCaption = figureDialog.querySelector("p");
+  const dialogClose = figureDialog.querySelector(".dialog-close");
+  let lastFigureTrigger = null;
+
+  document.querySelectorAll("[data-zoom] .figure-button").forEach((button) => {
+    button.addEventListener("click", () => {
+      const figure = button.closest("figure");
+      const image = button.querySelector("img");
+      const caption = figure ? figure.querySelector("figcaption") : null;
+      if (!image || !dialogImage) return;
+      dialogImage.src = image.currentSrc || image.src;
+      dialogImage.alt = image.alt;
+      if (dialogCaption) dialogCaption.textContent = caption ? caption.textContent : "";
+      lastFigureTrigger = button;
+      figureDialog.showModal();
+    });
+  });
+
+  const closeDialog = () => {
+    figureDialog.close();
+    if (lastFigureTrigger) lastFigureTrigger.focus();
+  };
+
+  if (dialogClose) dialogClose.addEventListener("click", closeDialog);
+  figureDialog.addEventListener("click", (event) => {
+    if (event.target === figureDialog) closeDialog();
+  });
+}
