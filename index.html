@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="sections.css">
     <link rel="stylesheet" href="responsive.css">
     <link rel="stylesheet" href="publication.css">
+    <link rel="stylesheet" href="wm-preview.css">
     <script>document.documentElement.classList.add("js");</script>
     <script src="script.js" type="module"></script>
   </head>
@@ -35,6 +36,7 @@
         <div id="nav-links" class="nav-links">
           <a href="#team">Team</a>
           <a href="#overview">Overview</a>
+          <a href="#interactive">Playground</a>
           <a href="#evidence">Films</a>
           <a href="#worldecho">Benchmark</a>
           <a href="#worldsync">Method</a>
@@ -126,7 +128,7 @@
           <div class="hero-actions">
             <a class="button button-primary" href="https://arxiv.org/pdf/2608.24885" target="_blank" rel="noopener">Paper PDF <span aria-hidden="true">↗</span></a>
             <a class="button button-secondary" href="https://arxiv.org/abs/2608.24885" target="_blank" rel="noopener">arXiv <span aria-hidden="true">↗</span></a>
-            <a class="button button-secondary" href="#evidence"><span class="play-icon" aria-hidden="true">▶</span> Demos</a>
+            <a class="button button-secondary" href="#interactive"><span class="play-icon" aria-hidden="true">▶</span> Playground</a>
           </div>
           <p class="publication-status">arXiv:2608.24885 <span>·</span> August 2026</p>
         </div>
@@ -229,6 +231,72 @@
             <div><dt>SE(3)</dt><dd>end-effector alignment</dd></div>
             <div><dt>50</dt><dd>RoboTwin benchmark tasks</dd></div>
           </dl>
+        </div>
+      </section>
+
+      <section id="interactive" class="section-pad wm-section" aria-labelledby="wm-heading">
+        <div class="container">
+          <div class="section-heading split-heading">
+            <div><p class="kicker">Interactive preview</p><h2 id="wm-heading">Build an action sequence.</h2></div>
+            <p class="lead">Choose a scene and draft commands for either arm. Explore the controls here before live world-model inference is connected.</p>
+          </div>
+          <div class="wm-workbench" data-wm-preview>
+            <div class="wm-toolbar">
+              <label class="wm-scene-label" for="wm-scene">Scene <select id="wm-scene" data-wm-scene><option value="grab">Grab roller</option><option value="handover">Handover block</option><option value="bread">Place bread in basket</option></select></label>
+              <span class="wm-mode"><span aria-hidden="true"></span> Interface preview</span>
+              <button type="button" class="wm-text-button" data-wm-reset>Reset draft</button>
+            </div>
+            <div class="wm-layout">
+              <div class="wm-visuals">
+                <div class="wm-viewports">
+                  <figure class="wm-view">
+                    <figcaption><strong>Reference image</strong><span>Recorded simulator frame</span></figcaption>
+                    <div class="wm-image-frame"><img data-wm-reference src="assets/posters/grab-gt.png" alt="Recorded simulator reference frame for Grab roller" width="320" height="240" loading="lazy"></div>
+                    <p class="wm-media-note">A frame from the existing experiment recording.</p>
+                  </figure>
+                  <figure class="wm-view">
+                    <figcaption><strong data-wm-output-title>Model rollout</strong><span data-wm-output-badge>Not connected</span></figcaption>
+                    <div class="wm-output-frame">
+                      <div class="wm-output-empty" data-wm-empty><span class="wm-empty-mark" aria-hidden="true">↗</span><strong>Your generated future</strong><p>A live model will generate a rollout from your action sequence here.</p></div>
+                      <video data-wm-example hidden controls playsinline muted preload="none" aria-label="Recorded simulator example for Grab roller"></video>
+                    </div>
+                    <p class="wm-media-note" data-wm-output-note>No inference is running in this preview.</p>
+                  </figure>
+                </div>
+                <div class="wm-stage-actions"><button type="button" class="wm-outline-button" data-wm-show-example>Play recorded example</button><span>Recorded examples do not respond to your draft.</span></div>
+                <div class="wm-draft-header"><h3>Action sequence <span data-wm-count>0 / 48</span></h3><button type="button" class="wm-text-button" data-wm-undo disabled>Undo last</button></div>
+                <p class="wm-history-empty" data-wm-history-empty>No commands yet. Choose an arm and use the controls to start.</p>
+                <ol class="wm-history" data-wm-history aria-label="Drafted commands" tabindex="0" hidden></ol>
+                <div class="wm-draft-actions"><button type="button" class="wm-generate" disabled aria-describedby="wm-generation-note">Generate rollout</button><button type="button" class="wm-outline-button" data-wm-download disabled>Download actions</button><span id="wm-generation-note">Live model not connected</span></div>
+              </div>
+              <div class="wm-action-controls" data-wm-controls tabindex="0" role="group" aria-label="Action controls" aria-describedby="wm-key-help">
+                <div class="wm-controls-heading"><h3>Action draft</h3><span data-wm-active-arm>Left arm</span></div>
+                <div class="wm-arm-toggle" role="group" aria-label="Active arm"><button type="button" data-wm-arm="left" aria-pressed="true">Left arm</button><button type="button" data-wm-arm="right" aria-pressed="false">Right arm</button></div>
+                <div class="wm-step-settings"><label>Move step<select data-wm-move-step aria-label="Translation step"><option value="0.01">1 cm</option><option value="0.02" selected>2 cm</option><option value="0.05">5 cm</option></select></label><label>Rotate step<select data-wm-rotate-step aria-label="Rotation step"><option value="5" selected>5°</option><option value="10">10°</option><option value="15">15°</option></select></label></div>
+                  <fieldset class="wm-key-group"><legend>Translation</legend><div class="wm-key-grid">
+                    <button type="button" class="wm-key" data-wm-key="q" data-kind="translate" data-axis="z" data-sign="1" aria-keyshortcuts="Q"><kbd>Q</kbd><span>Lift</span></button>
+                    <button type="button" class="wm-key" data-wm-key="w" data-kind="translate" data-axis="y" data-sign="1" aria-keyshortcuts="W"><kbd>W</kbd><span>Forward</span></button>
+                    <button type="button" class="wm-key" data-wm-key="e" data-kind="translate" data-axis="z" data-sign="-1" aria-keyshortcuts="E"><kbd>E</kbd><span>Lower</span></button>
+                    <button type="button" class="wm-key" data-wm-key="a" data-kind="translate" data-axis="x" data-sign="-1" aria-keyshortcuts="A"><kbd>A</kbd><span>Left</span></button>
+                    <button type="button" class="wm-key" data-wm-key="s" data-kind="translate" data-axis="y" data-sign="-1" aria-keyshortcuts="S"><kbd>S</kbd><span>Back</span></button>
+                    <button type="button" class="wm-key" data-wm-key="d" data-kind="translate" data-axis="x" data-sign="1" aria-keyshortcuts="D"><kbd>D</kbd><span>Right</span></button>
+                  </div></fieldset>
+                  <fieldset class="wm-key-group"><legend>Rotation</legend><div class="wm-key-grid">
+                    <button type="button" class="wm-key" data-wm-key="u" data-kind="rotate" data-axis="x" data-sign="-1" aria-keyshortcuts="U"><kbd>U</kbd><span>Roll −</span></button>
+                    <button type="button" class="wm-key" data-wm-key="i" data-kind="rotate" data-axis="y" data-sign="1" aria-keyshortcuts="I"><kbd>I</kbd><span>Pitch +</span></button>
+                    <button type="button" class="wm-key" data-wm-key="o" data-kind="rotate" data-axis="x" data-sign="1" aria-keyshortcuts="O"><kbd>O</kbd><span>Roll +</span></button>
+                    <button type="button" class="wm-key" data-wm-key="j" data-kind="rotate" data-axis="z" data-sign="-1" aria-keyshortcuts="J"><kbd>J</kbd><span>Yaw −</span></button>
+                    <button type="button" class="wm-key" data-wm-key="k" data-kind="rotate" data-axis="y" data-sign="-1" aria-keyshortcuts="K"><kbd>K</kbd><span>Pitch −</span></button>
+                    <button type="button" class="wm-key" data-wm-key="l" data-kind="rotate" data-axis="z" data-sign="1" aria-keyshortcuts="L"><kbd>L</kbd><span>Yaw +</span></button>
+                  </div></fieldset>
+                <fieldset class="wm-key-group"><legend>Gripper</legend><div class="wm-key-grid wm-gripper-grid"><button type="button" class="wm-key" data-wm-key="z" data-kind="gripper" data-value="close" aria-keyshortcuts="Z"><kbd>Z</kbd><span>Close</span></button><button type="button" class="wm-key" data-wm-key="x" data-kind="gripper" data-value="open" aria-keyshortcuts="X"><kbd>X</kbd><span>Open</span></button></div></fieldset>
+                <div class="wm-deltas"><p>Drafted change <span>UI axes</span></p><div><span>Position · cm</span><output data-wm-position>0.0 / 0.0 / 0.0</output></div><div><span>Rotation · °</span><output data-wm-rotation>0 / 0 / 0</output></div><div><span>Gripper</span><output data-wm-gripper>Unchanged</output></div></div>
+                <p id="wm-key-help" class="wm-key-help">Focus these controls to use the keys. Each press adds one command. X / Y / Z are preview axes; no robot motion is executed.</p>
+              </div>
+            </div>
+            <p class="wm-status" data-wm-status role="status" aria-live="polite">Ready to draft. No model is connected.</p>
+          </div>
+          <noscript><p class="wm-noscript">Enable JavaScript to edit an action draft. This page does not connect to a live model.</p></noscript>
         </div>
       </section>
 

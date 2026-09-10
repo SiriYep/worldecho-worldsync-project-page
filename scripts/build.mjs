@@ -14,6 +14,9 @@ const publicEntries = [
   "robots.txt",
   "script.js",
   "video-playback.js",
+  "wm-preview.js",
+  "wm-preview-state.js",
+  "wm-preview.css",
   "sections.css",
   "styles.css"
 ];

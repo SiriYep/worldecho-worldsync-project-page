@@ -11,7 +11,13 @@ Serve this directory with any static HTTP server, then open `index.html`. The pa
 
 For example, run `python3 -m http.server 4186 --bind 127.0.0.1` and open `http://127.0.0.1:4186/`.
 Run `npm run build` to produce the deployable static page in `dist/client`.
-Run `npm test` for the grouped-playback behavior tests; no dependency installation is needed.
+Run `npm test` for the grouped-playback and action-draft behavior tests; no dependency installation is needed.
+
+## Interactive interface preview
+
+The Playground section supports three experiment scenes, independent left/right arm drafts, translation and rotation step sizes, gripper commands, scoped keyboard shortcuts, undo/reset, and a JSON download. It runs entirely in the browser. Generate rollout remains disabled until an inference service is connected.
+
+Reference images are recorded simulator frames, not initial observations. The optional recorded simulator example is independent of the drafted actions and is explicitly labeled. Neither editing commands nor playing an example invokes a model or moves a robot. The exported deltas describe UI axes only; they are not an agreed robot or inference API. See [preview behavior and integration notes](docs/wm-interface-preview.md).
 
 ## Rollout comparisons
 
@@ -27,6 +33,7 @@ The page opens with a centered paper masthead: project title, paper subtitle, au
 - `sections.css`: research sections, figures, evidence stage, tables, dialog, and their responsive rules.
 - `responsive.css`: shared layout, hero, navigation, and reduced-motion rules.
 - `publication.css`: author and affiliation layout with official institution logos, wide scientific media, and original-size figure links.
+- `wm-preview.css`, `wm-preview.js`, and `wm-preview-state.js`: responsive Playground, browser interactions, and validated immutable action drafts.
 - **Palette:** deep forest backgrounds and ivory reading surfaces, with muted jade for WorldEcho and warm copper for WorldSync. Use fine rules instead of shadows or nested cards.
 - **Type:** Georgia for large editorial headings, locally bundled Inter for body copy, and Space Mono for restrained metadata. Use supported weights 400/500/600/700.
 - **Identity:** the header and footer share a typography-only WorldEcho & WorldSync wordmark. Jade and copper distinguish Echo and Sync; a subdued Georgia ampersand connects the names. The generic orbit symbol has been removed.

@@ -1,3 +1,4 @@
+import { setupWorldModelPreview } from "./wm-preview.js";
 import { setupVideoGroups } from "./video-playback.js";
 
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -246,3 +247,6 @@ if (figureDialog) {
     if (event.target === figureDialog) closeDialog();
   });
 }
+
+/* Local action-draft interface; no inference or network requests. */
+setupWorldModelPreview();
