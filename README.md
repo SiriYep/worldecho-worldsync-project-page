@@ -29,7 +29,7 @@ The page uses a cinematic hero followed by an editorial research narrative: ques
 - **Palette:** deep forest backgrounds and ivory reading surfaces, with muted jade for WorldEcho and warm copper for WorldSync. Use fine rules instead of shadows or nested cards.
 - **Type:** Georgia for large editorial headings, locally bundled Inter for body copy, and Space Mono for restrained metadata. Use supported weights 400/500/600/700.
 - **Media:** the hero uses nine existing clips as an atmospheric montage. The scientific comparison stage retains three equal, uncropped video viewports with task selection and accessible controls. Keep the original results and provisional-data caveat intact.
-- **Rhythm:** a maximum 1180px content width, 110px desktop section spacing, generous figure sizes, short section introductions, and open numbered columns. Page figure numbers follow the order on this page.
+- **Rhythm:** a maximum 1180px content width, 110px desktop section spacing, generous figure sizes, short section introductions, and open numbered columns. Figure numbers match the paper.
 
 ## Review-status guardrails
 
@@ -45,4 +45,6 @@ Before converting this review preview into a final public release, confirm venue
 
 ## Source material
 
-The page content and copied media come from the WorldEcho & WorldSync project hub and the synced paper repository. The interaction and layout patterns were informed by the local LaST-HD and LaST-R1 project pages, while the visual identity is specific to WorldEcho and WorldSync.
+All scientific figures must come directly from the paper. The page now displays paper Figures 2, 3, and 4, rendered from the original PDFs at the paper's CropBox without redrawing, relabeling, or rearranging their contents. Each caption links to the byte-identical source PDF. See [figure provenance and rendering recipe](docs/paper-figures.md) for the verified paper revision and checksums.
+
+The previous website schematics were not identical to the current paper, and the separate trajectory plot had no corresponding figure in the active manuscript. Those four legacy image assets have been removed. Rollout videos and their posters remain experiment media inherited from the project-page repository; they are not labeled as manuscript figures. Interface icons are decorative UI elements.

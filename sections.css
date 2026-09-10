@@ -40,6 +40,7 @@
 .figure-button:hover .figure-zoom { background: var(--ink); border-color: var(--ink); color: #fff; }
 .figure-shell figcaption, .compact-figure figcaption { max-width: 900px; padding-top: 16px; color: var(--ink-soft); font-size: 13px; line-height: 1.7; }
 .figure-shell figcaption b, .compact-figure figcaption b { margin-right: 10px; color: var(--ink); font: 12px/1.7 var(--font-mono); }
+.figure-shell figcaption a, .compact-figure figcaption a { margin-left: 10px; color: inherit; text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; }
 
 /* The comparison is a single stage; the videos carry the visual emphasis. */
 .evidence-section { position: relative; background: var(--navy-deep); color: #edf3ee; }
@@ -64,7 +65,7 @@
 .failure-comparison .playback-controls { --playback-text: #edf3ee; --playback-muted: #b2c2b9; --playback-border: #40534a; --playback-surface: #15291f; padding-top: 24px; border-top: 1px solid #32463b; }
 .failure-comparison [data-playback-toggle] { border-color: #e8f0e8; background: #e8f0e8; color: var(--navy-deep); }
 .evidence-section :focus-visible { outline-color: #a7d1b8; }
-.evidence-grid { display: grid; grid-template-columns: 1.2fr 1fr; align-items: center; gap: 40px; margin-top: 72px; }
+.evidence-grid { display: grid; grid-template-columns: minmax(0, 1fr); margin-top: 72px; }
 .evidence-grid .compact-figure { margin: 0; }
 .evidence-grid .figure-button { border-color: #40534a; }
 .evidence-grid figcaption { color: #b2c2b9; }

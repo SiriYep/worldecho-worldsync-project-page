@@ -229,7 +229,7 @@
           <div class="evidence-grid">
             <figure class="compact-figure" data-zoom>
               <button class="figure-button" type="button" aria-label="Open the compact failure comparison">
-                <img src="assets/figures/diagnosis-strip.png" alt="Input, ground-truth output, visual collapse, and action mismatch frames." width="1509" height="384" loading="lazy">
+                <img src="assets/figures/paper-figure-2.png" alt="Paper Figure 2: observation and action input, ground-truth final frame, visual collapse, and action mismatch." width="3200" height="868" loading="lazy">
                 <span class="figure-zoom" aria-hidden="true">
                   <svg viewBox="0 0 20 20" focusable="false">
                     <circle cx="8.6" cy="8.6" r="5.6"></circle>
@@ -237,19 +237,7 @@
                   </svg>
                 </span>
               </button>
-              <figcaption><b>Figure 1</b> The same input can produce either visible corruption or a deceptively plausible mismatch.</figcaption>
-            </figure>
-            <figure class="compact-figure" data-zoom>
-              <button class="figure-button" type="button" aria-label="Open the end-effector trajectory comparison">
-                <img src="assets/figures/trajectory-comparison.png" alt="AnyPos-estimated left and right end-effector trajectories comparing the simulator reference in blue and an action-mismatched world-model rollout in orange." width="2000" height="1145" loading="lazy">
-                <span class="figure-zoom" aria-hidden="true">
-                  <svg viewBox="0 0 20 20" focusable="false">
-                    <circle cx="8.6" cy="8.6" r="5.6"></circle>
-                    <path d="M12.8 12.8 17 17M8.6 6.2v4.8M6.2 8.6h4.8"></path>
-                  </svg>
-                </span>
-              </button>
-              <figcaption><b>Figure 2</b> Pose trajectories expose motion disagreement that appearance alone can miss.</figcaption>
+              <figcaption><b>Paper Figure 2</b> Action-following failures under off-expert actions: visual collapse and plausible but action-inconsistent motion. <a href="assets/figures/paper-figure-2.pdf" target="_blank" rel="noopener" aria-label="View paper Figure 2 as the original PDF">Original PDF ↗</a></figcaption>
             </figure>
           </div>
         </div>
@@ -351,7 +339,7 @@
 
           <figure class="figure-shell" data-zoom>
             <button class="figure-button" type="button" aria-label="Open the WorldEcho benchmark figure">
-              <img src="assets/figures/worldecho-benchmark.png" alt="WorldEcho benchmark: five action queries, matched world-model and simulator rollouts, parallel visual and trajectory evaluation, and an integrity-gated score." width="1815" height="867" loading="lazy">
+              <img src="assets/figures/paper-figure-3.png" alt="Paper Figure 3: WorldEcho action query construction, matched simulator and world-model rollouts, and integrity-gated evaluation with SE(3) alignment." width="3200" height="695" loading="lazy">
               <span class="figure-zoom" aria-hidden="true">
                 <svg viewBox="0 0 20 20" focusable="false">
                   <circle cx="8.6" cy="8.6" r="5.6"></circle>
@@ -359,7 +347,7 @@
                 </svg>
               </span>
             </button>
-            <figcaption><b>Figure 3</b> WorldEcho evaluates every query through visual integrity and SE(3) motion alignment before task-macro aggregation.</figcaption>
+            <figcaption><b>Paper Figure 3</b> WorldEcho jointly evaluates visual integrity and SE(3) end-effector alignment. Valid rollouts use NDTW; invalid rollouts receive the fixed penalty κ. <a href="assets/figures/paper-figure-3.pdf" target="_blank" rel="noopener" aria-label="View paper Figure 3 as the original PDF">Original PDF ↗</a></figcaption>
           </figure>
         </div>
       </section>
@@ -409,7 +397,7 @@
 
           <figure class="figure-shell figure-shell-sync" data-zoom>
             <button class="figure-button" type="button" aria-label="Open the WorldSync training figure">
-              <img src="assets/figures/worldsync-method.png" alt="WorldSync combines expanded action coverage, an Action-Forcing Expert on intermediate video features, and intervention-effect supervision." width="1825" height="862" loading="lazy">
+              <img src="assets/figures/paper-figure-4.png" alt="Paper Figure 4: WorldSync action coverage expansion, intervention-effect supervision, the action-conditioned world model, and Action-Forcing Expert with their joint training objective." width="3200" height="1706" loading="lazy">
               <span class="figure-zoom" aria-hidden="true">
                 <svg viewBox="0 0 20 20" focusable="false">
                   <circle cx="8.6" cy="8.6" r="5.6"></circle>
@@ -417,7 +405,7 @@
                 </svg>
               </span>
             </button>
-            <figcaption><b>Figure 4</b> The two auxiliary objectives are used only during training; inference keeps the base action-conditioned world model.</figcaption>
+            <figcaption><b>Paper Figure 4</b> WorldSync jointly optimizes expanded action coverage, the Action-Forcing Expert, and intervention-effect supervision for faithful action following. <a href="assets/figures/paper-figure-4.pdf" target="_blank" rel="noopener" aria-label="View paper Figure 4 as the original PDF">Original PDF ↗</a></figcaption>
           </figure>
         </div>
       </section>
@@ -550,7 +538,7 @@
         <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="m4 4 8 8M12 4l-8 8"></path></svg>
         <span>Close</span>
       </button>
-      <img src="assets/figures/worldecho-benchmark.png" alt="">
+      <img src="assets/figures/paper-figure-3.png" alt="">
       <p></p>
     </dialog>
   </body>
