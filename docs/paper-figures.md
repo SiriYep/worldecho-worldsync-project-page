@@ -1,10 +1,10 @@
 # Paper figure provenance
 
-All scientific figure images displayed by the website are direct raster renders of the corresponding paper assets. The accompanying PDFs are copied byte-for-byte; no content is redrawn, rearranged, or removed. Rendering respects each original PDF CropBox, which is the figure boundary used by the paper.
+All paper figure images displayed by the website are direct raster renders of the corresponding paper assets. The accompanying PDFs are copied byte-for-byte; no content is redrawn, rearranged, or removed. Rendering respects each original PDF CropBox, which is the figure boundary used by the paper.
 
 - Source: the WorldEcho / WorldSync Overleaf paper checkout (`overleaf-6a4e16c53ee74fbcfe34c4d1`).
 - Verified paper revision: `12fa131ed7c2a954260e8025b4f60e103f2f8b27` (2026-09-06); remote checked 2026-09-10.
-- Figure numbering and labels follow the paper.
+- Figure numbering and labels follow the paper. Figures 1, 3, and 4 are displayed; the static Figure 2 is retained as an original asset but its on-page panel is replaced by the vertical experiment-video comparison. See `evidence-media.md` for that separate media provenance.
 
 | Paper figure | Source asset | LaTeX label | Website PDF / PNG stem | PNG dimensions |
 | --- | --- | --- | --- | --- |

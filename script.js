@@ -82,13 +82,10 @@ if (menuToggle && navPanel) {
 const revealSelectors = [
   ".section-heading",
   ".thesis-card",
-  ".scope-strip",
   ".ladder-scale",
   ".query-card",
   ".metric-card",
-  ".figure-shell",
   ".case-tabs",
-  ".failure-console",
   ".compact-figure",
   ".sync-step",
   ".draft-callout",
@@ -124,25 +121,28 @@ if (!prefersReducedMotion) {
   requestAnimationFrame(revealPending);
 }
 
-/* Shared timelines for the hero and failure comparisons. */
+/* Shared timeline for the three recorded failure-comparison outputs. */
 const videoGroups = setupVideoGroups();
 
 /* Failure-case switcher */
 const caseData = {
   grab: {
     label: "Grab roller",
+    input: "assets/inputs/grab-start.png",
     gt: ["assets/videos/grab-gt.mp4", "assets/posters/grab-gt.png"],
     collapse: ["assets/videos/grab-collapse.mp4", "assets/posters/grab-collapse.png"],
     mismatch: ["assets/videos/grab-mismatch.mp4", "assets/posters/grab-mismatch.png"],
   },
   handover: {
     label: "Handover block",
+    input: "assets/inputs/handover-start.png",
     gt: ["assets/videos/handover-gt.mp4", "assets/posters/handover-gt.png"],
     collapse: ["assets/videos/handover-collapse.mp4", "assets/posters/handover-collapse.png"],
     mismatch: ["assets/videos/handover-mismatch.mp4", "assets/posters/handover-mismatch.png"],
   },
   bread: {
     label: "Place bread in basket",
+    input: "assets/inputs/bread-start.png",
     gt: ["assets/videos/bread-gt.mp4", "assets/posters/bread-gt.png"],
     collapse: ["assets/videos/bread-collapse.mp4", "assets/posters/bread-collapse.png"],
     mismatch: ["assets/videos/bread-mismatch.mp4", "assets/posters/bread-mismatch.png"],
@@ -176,6 +176,13 @@ function selectCase(tab) {
   });
 
   if (failurePanel) failurePanel.setAttribute("aria-labelledby", tab.id);
+  const inputFrame = document.getElementById("failure-input");
+  if (inputFrame) {
+    inputFrame.src = data.input;
+    inputFrame.alt = `First recorded simulator frame for ${data.label}`;
+  }
+  const inputTask = document.getElementById("input-task");
+  if (inputTask) inputTask.textContent = data.label;
   const updateSources = () => {
     replaceVideo("video-gt", data.gt, `${data.label} simulator ground-truth rollout`);
     replaceVideo("video-collapse", data.collapse, `${data.label} world-model rollout with visual collapse`);

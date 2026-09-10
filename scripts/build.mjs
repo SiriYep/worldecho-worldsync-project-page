@@ -13,6 +13,8 @@ const publicEntries = [
   "publication.css",
   "robots.txt",
   "script.js",
+  "theme.js",
+  "theme.css",
   "video-playback.js",
   "wm-preview.js",
   "wm-preview-state.js",
