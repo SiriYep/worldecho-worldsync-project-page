@@ -38,7 +38,8 @@ The page opens with a centered paper masthead: project title, paper subtitle, au
 - **Type:** Georgia for large editorial headings, locally bundled Inter for body copy, and Space Mono for restrained metadata. Use supported weights 400/500/600/700.
 - **Identity:** the header and footer share a typography-only WorldEcho & WorldSync wordmark. Jade and copper distinguish Echo and Sync; a subdued Georgia ampersand connects the names. The generic orbit symbol has been removed.
 - **Media:** the hero uses nine existing clips as an atmospheric montage. The scientific comparison stage retains three equal, uncropped video viewports with task selection and accessible controls. Keep the published results and training-budget context intact.
-- **Rhythm:** a 1180px reading width with figures and demos up to 1600px, compact paper metadata and institution logos, and short section introductions. The overview begins 64px below the logo band; later desktop sections keep their 110px spacing. Figure numbers match the paper.
+- **Research overview:** four editorial columns explain query coverage, observed failure modes, SE(3) trajectory comparison, and 50-task evaluation. Each includes concrete definitions and a link to its detailed section. The layout changes to two columns on tablets and one on phones; it adds no new scientific images or result claims.
+- **Rhythm:** a 1180px reading width with figures and demos up to 1600px, compact paper metadata and institution logos, and short section introductions. The overview has 64px desktop spacing above and below; later desktop sections keep their 110px spacing. Figure numbers match the paper.
 
 ## Publication and attribution
 

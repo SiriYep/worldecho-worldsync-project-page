@@ -225,12 +225,63 @@
             <figcaption><b>Paper Figure 1</b> The diagnose–improve–validate pipeline: evaluate action following with WorldEcho, align the model with WorldSync, and evaluate policy improvement. <a href="assets/figures/paper-figure-1.pdf" target="_blank" rel="noopener" aria-label="View paper Figure 1 as the original PDF">Figure PDF ↗</a></figcaption>
           </figure>
 
-          <dl class="scope-strip" aria-label="Project scope">
-            <div><dt>5</dt><dd>action-query families</dd></div>
-            <div><dt>2</dt><dd>failure modes exposed</dd></div>
-            <div><dt>SE(3)</dt><dd>end-effector alignment</dd></div>
-            <div><dt>50</dt><dd>RoboTwin benchmark tasks</dd></div>
-          </dl>
+          <div id="research-scope" class="research-scope" role="region" aria-label="WorldEcho at a glance">
+            <div class="scope-heading">
+              <p class="kicker">WorldEcho at a glance</p>
+              <p>What we query. What we diagnose. What we measure.</p>
+            </div>
+            <div class="scope-grid">
+              <article class="scope-item">
+                <p class="scope-category">01 / Query coverage</p>
+                <p class="scope-value">5</p>
+                <h3>Action-query families</h3>
+                <p class="scope-description">One demonstrated-action baseline and four off-expert families test whether the model follows actions beyond expert replay.</p>
+                <ol class="scope-queries" aria-label="The five action-query families">
+                  <li>Demonstrated action</li>
+                  <li>Cross-state replay</li>
+                  <li>Local perturbation</li>
+                  <li>Policy rollout</li>
+                  <li>Feasible-space sampling</li>
+                </ol>
+                <a class="scope-link" href="#worldecho">Explore the queries <span aria-hidden="true">↗</span></a>
+              </article>
+              <article class="scope-item scope-failures">
+                <p class="scope-category">02 / Failure diagnosis</p>
+                <p class="scope-value">2</p>
+                <h3>Observed failure modes</h3>
+                <p class="scope-description">A generated future can lose visual integrity or look convincing while moving inconsistently with the supplied actions.</p>
+                <dl class="scope-details">
+                  <div><dt>Visual collapse</dt><dd>Distorted arms or disappearing grippers.</dd></div>
+                  <div><dt>Action mismatch</dt><dd>Plausible video, incorrect motion.</dd></div>
+                </dl>
+                <a class="scope-link" href="#evidence">Compare the rollouts <span aria-hidden="true">↗</span></a>
+              </article>
+              <article class="scope-item">
+                <p class="scope-category">03 / Motion fidelity</p>
+                <p class="scope-value">SE(3)</p>
+                <h3>End-effector alignment</h3>
+                <p class="scope-description">Recover position and orientation from both videos, then compare generated motion with the simulator reference using pose-aware NDTW.</p>
+                <ul class="scope-facets" aria-label="Trajectory comparison covers">
+                  <li><span>Both arms</span>Left and right end effectors</li>
+                  <li><span>Full pose</span>Translation and rotation</li>
+                  <li><span>Over time</span>Aligned motion trajectories</li>
+                </ul>
+                <a class="scope-link" href="#alignment">See how it is measured <span aria-hidden="true">↗</span></a>
+              </article>
+              <article class="scope-item">
+                <p class="scope-category">04 / Evaluation breadth</p>
+                <p class="scope-value">50</p>
+                <h3>RoboTwin tasks</h3>
+                <p class="scope-description">Evaluate manipulation tasks under a common query protocol. Task-macro averages give each task equal weight in the final results.</p>
+                <dl class="scope-details scope-metrics">
+                  <div><dt>Integrity-gated error <span aria-hidden="true">↓</span><span class="sr-only">(lower is better)</span></dt><dd>Retains a penalty for invalid videos.</dd></div>
+                  <div><dt>Raw NDTW <span aria-hidden="true">↓</span><span class="sr-only">(lower is better)</span></dt><dd>Reports trajectory error separately.</dd></div>
+                  <div><dt>Visual pass rate <span aria-hidden="true">↑</span><span class="sr-only">(higher is better)</span></dt><dd>Tracks visual integrity.</dd></div>
+                </dl>
+                <a class="scope-link" href="#results">Read the results <span aria-hidden="true">↗</span></a>
+              </article>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -444,7 +495,7 @@
             </ol>
           </div>
 
-          <div class="metric-system">
+          <div id="alignment" class="metric-system">
             <article class="metric-card metric-gate">
               <span class="metric-glyph" aria-hidden="true">
                 <svg viewBox="0 0 24 24" focusable="false">

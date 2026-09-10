@@ -19,13 +19,12 @@
 
 .container-wide { width: min(calc(100% - 80px), 1600px); }
 .container-wide > .section-heading,
-.container-wide > .scope-strip,
+.container-wide > .research-scope,
 .container-wide > .ladder,
 .container-wide > .metric-system,
 .container-wide > .sync-steps { max-width: var(--container); margin-inline: auto; }
 .container-wide figcaption { max-width: var(--container); margin-inline: auto; }
 .container-wide .figure-button { border: 0; }
-.overview-section .scope-strip { margin-top: 40px; }
 .abstract-status a, .footer-status a { text-decoration: underline; text-underline-offset: 4px; }
 
 .dialog-toolbar { position: sticky; top: 0; z-index: 1; display: flex; align-items: center; gap: 24px; background: #fff; }

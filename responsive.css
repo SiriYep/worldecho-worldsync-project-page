@@ -3,6 +3,12 @@
   .container { width: calc(100% - 64px); }
   .nav-links { gap: 20px; }
   .split-heading { gap: 50px; }
+  .scope-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .scope-item { padding: 24px 28px 8px; }
+  .scope-item:nth-child(odd) { padding-left: 0; border-left: 0; }
+  .scope-item:nth-child(even) { padding-right: 0; }
+  .scope-item:nth-child(n+3) { border-top: 1px solid var(--line); }
+  .scope-description { min-height: 65px; }
 }
 @media (max-width: 850px) {
   :root { --header-h: 64px; }
@@ -18,7 +24,7 @@
   .thesis-card { padding-right: 22px; }
   .thesis-card + .thesis-card { padding-left: 22px; }
   .thesis-card h3 { font-size: 17px; }
-  .scope-strip { grid-template-columns: repeat(2,1fr); gap: 28px; }
+  .overview-section { padding-bottom: 48px; }
 }
 @media (max-width: 560px) {
   .container { width: calc(100% - 40px); }
@@ -45,9 +51,19 @@
   .thesis-badge { margin-bottom: 12px; }
   .thesis-card h3 { font-size: 21px; }
   .thesis-tag { margin-top: 14px; }
-  .scope-strip { margin-top: 16px; gap: 25px 15px; }
-  .scope-strip dt { font-size: 32px; }
-  .scope-strip dd { font-size: 11px; }
+  .overview-section { padding-bottom: 40px; }
+  .research-scope { margin-top: 28px; }
+  .scope-heading { gap: 8px; padding-block: 16px; }
+  .scope-heading > p:last-child { max-width: 28ch; font-size: 11px; }
+  .scope-grid { grid-template-columns: 1fr; }
+  .scope-item, .scope-item:first-child, .scope-item:last-child { padding: 24px 0 8px; border-left: 0; }
+  .scope-item + .scope-item { border-top: 1px solid var(--line); }
+  .scope-value { font-size: 46px; }
+  .scope-item h3 { font-size: 18px; }
+  .scope-description { min-height: 0; font-size: 13px; }
+  .scope-queries, .scope-details, .scope-facets { margin-block: 16px; }
+  .scope-queries li, .scope-details dd, .scope-facets li { font-size: 12px; }
+  .scope-link { font-size: 12px; }
   .playback-status { flex-basis: 100%; }
 }
 @media (prefers-reduced-motion: reduce) {
