@@ -31,9 +31,7 @@
 }
 @media (max-width: 560px) {
   .container { width: calc(100% - 40px); }
-  .nav-brand { gap: 8px; }
-  .nav-wordmark { font-size: 13px; }
-  .brand-mark { width: 25px; height: 25px; }
+  .nav-wordmark { font-size: 14px; }
   .nav-links { padding-inline: 20px; }
   .hero { min-height: 810px; padding-top: 66px; padding-bottom: 174px; align-items: start; }
   .hero h1 { font-size: clamp(51px,13.7vw,76px); }

@@ -132,12 +132,7 @@
 
 .site-footer { padding: 56px 0; background: var(--navy-deep); color: #b2c2b9; }
 .footer-layout { display: grid; grid-template-columns: 1fr 1fr; align-items: end; gap: 60px; }
-.footer-brand { display: flex; align-items: center; gap: 12px; margin: 0; color: #edf3ee; font: 25px/1.3 var(--font-display); letter-spacing: -.025em; }
-.brand-mark-inverse { width: 28px; height: 28px; }
-.brand-mark-inverse .mark-orbit { stroke: #60766a; }
-.brand-mark-inverse .mark-arc { stroke: var(--ref); }
-.brand-mark-inverse .mark-core { fill: #edf3ee; }
-.brand-mark-inverse .mark-node { fill: #c9957b; stroke: var(--navy-deep); }
+.footer-brand { flex-wrap: wrap; margin: 0; font-size: 25px; }
 .footer-tagline { margin: 12px 0 0; color: #9bab9f; font-size: 13px; }
 .footer-tagline b { color: #b2c2b9; font-weight: 500; }
 .footer-status { display: flex; flex-direction: column; gap: 6px; max-width: 400px; margin-left: auto; color: #9bab9f; font-size: 12px; line-height: 1.8; }

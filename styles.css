@@ -56,14 +56,13 @@ h3 { font-family: var(--font-body); font-size: 20px; font-weight: 500; line-heig
 /* A quiet masthead lets the project identity own the first screen. */
 .site-header { position: sticky; top: 0; z-index: 100; background: #0a1814; color: #eff4ed; border-bottom: 1px solid #26352f; }
 .nav { display: flex; align-items: center; justify-content: space-between; gap: 28px; min-height: var(--header-h); }
-.nav-brand { display: inline-flex; align-items: center; gap: 11px; flex: none; }
-.brand-mark { width: 30px; height: 30px; fill: none; flex: none; }
-.mark-orbit { stroke: currentColor; opacity: .28; stroke-width: 1; }
-.mark-arc { stroke: #a4cdb7; stroke-width: 1.7; }
-.mark-core { fill: #a4cdb7; }
-.mark-node { fill: var(--navy-deep); stroke: #a4cdb7; stroke-width: 1.5; }
-.nav-wordmark { font-size: 15px; font-weight: 500; letter-spacing: -.035em; }
-.nav-amp { color: #85a997; font-family: var(--font-display); font-style: italic; padding: 0 3px; }
+.nav-brand { display: inline-flex; align-items: center; min-height: 44px; flex: none; }
+.project-wordmark { display: inline-flex; align-items: baseline; gap: .32em; color: #eff4ed; font-family: var(--font-body); font-weight: 500; line-height: 1.3; letter-spacing: -.045em; }
+.project-wordmark > span { white-space: nowrap; }
+.wordmark-echo { color: #a4cdb7; font-weight: 600; }
+.wordmark-sync { color: #d4b49e; font-weight: 600; }
+.wordmark-amp { color: #859c90; font-family: var(--font-display); font-style: italic; font-weight: 400; }
+.nav-wordmark { font-size: 17px; }
 .nav-links { display: flex; align-items: center; gap: 27px; }
 .nav-links a { position: relative; padding: 26px 0; color: #a4b2a9; font-size: 12px; font-weight: 400; transition: color 180ms; }
 .nav-links a:hover, .nav-links a.active { color: #f3f8f0; }

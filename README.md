@@ -28,6 +28,7 @@ The page uses a cinematic hero followed by an editorial research narrative: ques
 - `responsive.css`: shared layout, hero, navigation, and reduced-motion rules.
 - **Palette:** deep forest backgrounds and ivory reading surfaces, with muted jade for WorldEcho and warm copper for WorldSync. Use fine rules instead of shadows or nested cards.
 - **Type:** Georgia for large editorial headings, locally bundled Inter for body copy, and Space Mono for restrained metadata. Use supported weights 400/500/600/700.
+- **Identity:** the header and footer share a typography-only WorldEcho & WorldSync wordmark. Jade and copper distinguish Echo and Sync; a subdued Georgia ampersand connects the names. The generic orbit symbol has been removed.
 - **Media:** the hero uses nine existing clips as an atmospheric montage. The scientific comparison stage retains three equal, uncropped video viewports with task selection and accessible controls. Keep the original results and provisional-data caveat intact.
 - **Rhythm:** a maximum 1180px content width, 110px desktop section spacing, generous figure sizes, short section introductions, and open numbered columns. Figure numbers match the paper.
 
