@@ -7,7 +7,7 @@ This is a static project page for the WorldEcho & WorldSync preprint:
 
 ## Local preview
 
-Serve this directory with any static HTTP server, then open `index.html`. The page uses only local fonts, figures, posters, and videos.
+Serve this directory with any static HTTP server, then open `index.html`. The page uses only local fonts, figures, institution logos, posters, and videos.
 
 For example, run `python3 -m http.server 4186 --bind 127.0.0.1` and open `http://127.0.0.1:4186/`.
 Run `npm run build` to produce the deployable static page in `dist/client`.
@@ -26,7 +26,7 @@ The page uses a cinematic hero followed by an editorial research narrative: pape
 - `styles.css`: shared tokens, typography, navigation, hero, overview, and playback controls.
 - `sections.css`: research sections, figures, evidence stage, tables, dialog, and their responsive rules.
 - `responsive.css`: shared layout, hero, navigation, and reduced-motion rules.
-- `publication.css`: author and affiliation layout, wide scientific media, and original-size figure links.
+- `publication.css`: author and affiliation layout with official institution logos, wide scientific media, and original-size figure links.
 - **Palette:** deep forest backgrounds and ivory reading surfaces, with muted jade for WorldEcho and warm copper for WorldSync. Use fine rules instead of shadows or nested cards.
 - **Type:** Georgia for large editorial headings, locally bundled Inter for body copy, and Space Mono for restrained metadata. Use supported weights 400/500/600/700.
 - **Identity:** the header and footer share a typography-only WorldEcho & WorldSync wordmark. Jade and copper distinguish Echo and Sync; a subdued Georgia ampersand connects the names. The generic orbit symbol has been removed.
@@ -41,6 +41,8 @@ The paper was publicly released on arXiv on 25 August 2026:
 - [Complete paper PDF](https://arxiv.org/pdf/2608.24885)
 
 The ten authors, their order, six affiliations, core-contributor markers, and corresponding-author markers match the public PDF and the current manuscript. The page exposes these verified resources and removes the obsolete anonymous-review notices. It does not invent code, dataset, or personal-profile links.
+
+All six affiliation marks are sourced from the institutions themselves and stored locally in `assets/institutions/`. Their original colors and proportions are preserved on white, with captions in paper order and links to the official institutional websites. See [institution logo provenance](docs/institution-logos.md).
 
 The displayed Table 1 values match the public preprint. Preserve the different training budgets: expert baselines use 20k updates, expanded baselines 40k, and WorldSync 60k. The website shows selected rows; the complete comparison is in the paper.
 
