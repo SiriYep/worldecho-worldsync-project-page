@@ -613,28 +613,24 @@
         </div>
       </section>
 
-      <section id="abstract" class="section-pad abstract-section">
+      <section id="abstract" class="section-pad abstract-section" aria-labelledby="abstract-heading">
         <div class="container abstract-layout">
-          <div class="abstract-side">
-            <p class="kicker">06 / Abstract</p>
-            <h2>From plausible video<br>to faithful dynamics.</h2>
-          </div>
+          <header class="abstract-heading">
+            <p class="kicker">06 / The paper</p>
+            <h2 id="abstract-heading">Abstract</h2>
+          </header>
           <div class="abstract-copy">
-            <p class="abstract-opening">
-              Action-conditioned world models are increasingly used as learned simulators for policy evaluation and
-              improvement, but their utility depends on whether generated futures reflect the numerical actions supplied to
-              the model. We introduce WorldEcho, an evaluation protocol that pairs five action-query categories with
-              reference RoboTwin rollouts and evaluates both visual integrity and SE(3) end-effector trajectory alignment.
-            </p>
-            <p>
-              Qualitative analysis identifies two off-expert failure modes: visual collapse and visually plausible but
-              action-inconsistent motion. We also present WorldSync, a training recipe that expands action coverage with
-              simulated and target-domain real expert trajectories, grounds intermediate video features with an auxiliary
-              Action-Forcing Expert, and supervises the effect of changing actions through paired interventions. In the
-              current 50-task RoboTwin evaluation, WorldSync obtains a task-macro integrity-gated error of 0.0661 and an
-              84.51% visual pass rate.
-            </p>
-            <p class="abstract-status">Read the complete methodology and experiments in the <a href="https://arxiv.org/pdf/2608.24885" target="_blank" rel="noopener">paper PDF ↗</a>.</p>
+            <p>Action-conditioned world models are increasingly used as learned simulators for policy evaluation and improvement, yet their effectiveness rests on an unverified assumption: generated futures faithfully reflect arbitrary valid actions. Existing benchmarks are typically confined to expert demonstrations, leaving off-expert action following inadequately evaluated.</p>
+            <p>To address this gap, we introduce WorldEcho, which probes action following over a broader action distribution using visual integrity and SE(3) trajectory alignment. Our diagnosis shows that current world models reasonably execute expert actions but struggle with diverse off-expert trajectories, either ignoring the commanded actions or producing visually invalid rollouts.</p>
+            <p>We further propose WorldSync, which strengthens action following along three complementary axes: distributional coverage, representational grounding, and intervention-effect alignment. It broadens the training distribution over action consequences, grounds intermediate video representations in action-induced robot dynamics through an Action-Forcing Expert, and aligns predicted changes under action interventions with the corresponding changes in ground-truth futures.</p>
+            <p>Experiments on RoboTwin benchmarks and real-robot tasks show that WorldSync improves WorldEcho metrics and serves as a more reliable simulator for iterative policy improvement, enabling policies to achieve higher success rates.</p>
+          </div>
+          <div class="abstract-resources">
+            <span>arXiv:2608.24885</span>
+            <div>
+              <a href="https://arxiv.org/pdf/2608.24885" target="_blank" rel="noopener">Paper PDF <span aria-hidden="true">↗</span></a>
+              <a href="https://arxiv.org/abs/2608.24885" target="_blank" rel="noopener">Read on arXiv <span aria-hidden="true">↗</span></a>
+            </div>
           </div>
         </div>
       </section>
