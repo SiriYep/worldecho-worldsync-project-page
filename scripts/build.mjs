@@ -10,6 +10,7 @@ const publicEntries = [
   "assets",
   "index.html",
   "responsive.css",
+  "publication.css",
   "robots.txt",
   "script.js",
   "video-playback.js",

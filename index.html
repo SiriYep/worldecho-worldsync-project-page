@@ -3,18 +3,19 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+    <meta name="robots" content="index, follow">
     <meta name="referrer" content="no-referrer">
     <meta name="color-scheme" content="light">
     <title>WorldEcho &amp; WorldSync — Do Robotic World Models Really Follow Actions?</title>
     <meta
       name="description"
-      content="Private project-page preview for WorldEcho and WorldSync, a benchmark and training recipe for action-conditioned robotic world models."
+      content="WorldEcho and WorldSync: diagnosing and aligning action-conditioned robotic world models. Read the paper, explore the results, and meet the research team."
     >
     <link rel="stylesheet" href="assets/fonts/google-fonts.css">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="sections.css">
     <link rel="stylesheet" href="responsive.css">
+    <link rel="stylesheet" href="publication.css">
     <script>document.documentElement.classList.add("js");</script>
     <script src="script.js" type="module"></script>
   </head>
@@ -32,6 +33,7 @@
           <span class="sr-only">Toggle navigation</span>
         </button>
         <div id="nav-links" class="nav-links">
+          <a href="#team">Team</a>
           <a href="#overview">Overview</a>
           <a href="#evidence">Films</a>
           <a href="#worldecho">Benchmark</a>
@@ -98,10 +100,11 @@
           <p class="hero-subtitle">Do robotic world models<br>really follow actions?</p>
           <p class="hero-lead">Diagnosing and aligning action-conditioned<br class="desktop-break"> generation for policy learning.</p>
           <div class="hero-actions">
-            <a class="button button-primary" href="#evidence"><span class="play-icon" aria-hidden="true">▶</span> Explore the films</a>
-            <a class="button button-secondary" href="#worldecho">Discover the benchmark <span aria-hidden="true">↗</span></a>
+            <a class="button button-primary" href="https://arxiv.org/pdf/2608.24885" target="_blank" rel="noopener">Read the paper <span aria-hidden="true">↗</span></a>
+            <a class="button button-secondary" href="https://arxiv.org/abs/2608.24885" target="_blank" rel="noopener">arXiv:2608.24885 <span aria-hidden="true">↗</span></a>
+            <a class="button button-secondary" href="#evidence"><span class="play-icon" aria-hidden="true">▶</span> Watch the demos</a>
           </div>
-          <p class="hero-review">Anonymous research preview <span>·</span> Paper, code &amp; data withheld for review</p>
+          <p class="publication-status">Preprint · August 2026 <span>·</span> <a href="#team">Meet the research team ↓</a></p>
         </div>
         <div class="hero-bottom container">
           <a class="hero-scroll" href="#overview"><span aria-hidden="true">↓</span> A closer look at action following</a>
@@ -119,8 +122,35 @@
         </div>
       </section>
 
-      <section id="overview" class="section-pad overview-section">
+      <section id="team" class="publication-team" aria-labelledby="team-heading">
         <div class="container">
+          <h2 class="kicker" id="team-heading">Research team</h2>
+          <ul class="author-list" aria-label="Authors in paper order">
+            <li>Sixiang Chen<sup>1</sup></li>
+            <li>Jiaming Liu<sup>1,*</sup></li>
+            <li>Jixian Wu<sup>2,3,*</sup></li>
+            <li>Yichen Guo<sup>5,*</sup></li>
+            <li>Tinghao Wang<sup>2,4,*</sup></li>
+            <li>Siyuan Qian<sup>1</sup></li>
+            <li>Hao Chen<sup>6</sup></li>
+            <li>Jiajun Cao<sup>2,1</sup></li>
+            <li>Jian Tang<sup>2,†</sup></li>
+            <li>Shanghang Zhang<sup>1,†</sup></li>
+          </ul>
+          <p class="author-notes"><span>* Core contributors</span><span>† Corresponding authors</span></p>
+          <ol class="affiliation-list" aria-label="Author affiliations">
+            <li><span>1</span> State Key Laboratory of Multimedia Information Processing, School of Computer Science, Peking University</li>
+            <li><span>2</span> Beijing Innovation Center of Humanoid Robotics</li>
+            <li><span>3</span> New York University</li>
+            <li><span>4</span> University of Electronic Science and Technology of China</li>
+            <li><span>5</span> Nanyang Technological University</li>
+            <li><span>6</span> The Chinese University of Hong Kong</li>
+          </ol>
+        </div>
+      </section>
+
+      <section id="overview" class="section-pad overview-section">
+        <div class="container container-wide">
           <div class="section-heading split-heading">
             <div>
               <p class="kicker">01 / The question</p>
@@ -132,39 +162,28 @@
             </p>
           </div>
 
-          <div class="overview-grid">
-            <article class="thesis-card thesis-question">
-              <span class="thesis-badge" aria-hidden="true">01</span>
-              <h3>Question the prediction.</h3>
-              <p>Expert-only evaluation cannot separate action following from state-conditioned optimism.</p>
-              <p class="thesis-tag">the open question</p>
-            </article>
-            <article class="thesis-card thesis-diagnose">
-              <span class="thesis-badge" aria-hidden="true">02</span>
-              <h3>Diagnose with WorldEcho.</h3>
-              <p>Every rollout faces a visual-integrity gate and a pose-aware SE(3) trajectory comparison.</p>
-              <p class="thesis-tag">the benchmark</p>
-            </article>
-            <article class="thesis-card thesis-align">
-              <span class="thesis-badge" aria-hidden="true">03</span>
-              <h3>Align with WorldSync.</h3>
-              <p>Coverage, dynamics grounding, and paired interventions teach the future to move with the action.</p>
-              <p class="thesis-tag">the training recipe</p>
-            </article>
-          </div>
+          <figure class="figure-shell" data-zoom>
+            <button class="figure-button" type="button" aria-label="Open the paper overview figure">
+              <img src="assets/figures/paper-figure-1.png" alt="Paper Figure 1: WorldEcho diagnoses action-following failures, WorldSync improves action-conditioned generation, and policy-improvement experiments validate the learned simulator." width="3200" height="1673" loading="lazy">
+              <span class="figure-zoom" aria-hidden="true">
+                <svg viewBox="0 0 20 20" focusable="false"><circle cx="8.6" cy="8.6" r="5.6"></circle><path d="M12.8 12.8 17 17M8.6 6.2v4.8M6.2 8.6h4.8"></path></svg>
+              </span>
+            </button>
+            <figcaption><b>Paper Figure 1</b> The diagnose–improve–validate pipeline: evaluate action following with WorldEcho, align the model with WorldSync, and evaluate policy improvement. <a href="assets/figures/paper-figure-1.pdf" target="_blank" rel="noopener" aria-label="View paper Figure 1 as the original PDF">Figure PDF ↗</a></figcaption>
+          </figure>
 
           <dl class="scope-strip" aria-label="Project scope">
             <div><dt>5</dt><dd>action-query families</dd></div>
             <div><dt>2</dt><dd>failure modes exposed</dd></div>
             <div><dt>SE(3)</dt><dd>end-effector alignment</dd></div>
-            <div><dt>50</dt><dd>RoboTwin tasks in the draft benchmark</dd></div>
+            <div><dt>50</dt><dd>RoboTwin benchmark tasks</dd></div>
           </dl>
         </div>
       </section>
 
       <section id="evidence" class="section-pad evidence-section">
         <div class="evidence-bg" aria-hidden="true"></div>
-        <div class="container">
+        <div class="container container-wide">
           <div class="section-heading split-heading">
             <div>
               <p class="kicker kicker-warn">02 / The evidence</p>
@@ -231,14 +250,14 @@
                   </svg>
                 </span>
               </button>
-              <figcaption><b>Paper Figure 2</b> Action-following failures under off-expert actions: visual collapse and plausible but action-inconsistent motion. <a href="assets/figures/paper-figure-2.pdf" target="_blank" rel="noopener" aria-label="View paper Figure 2 as the original PDF">Original PDF ↗</a></figcaption>
+              <figcaption><b>Paper Figure 2</b> Action-following failures under off-expert actions: visual collapse and plausible but action-inconsistent motion. <a href="assets/figures/paper-figure-2.pdf" target="_blank" rel="noopener" aria-label="View paper Figure 2 as the original PDF">Figure PDF ↗</a></figcaption>
             </figure>
           </div>
         </div>
       </section>
 
       <section id="worldecho" class="section-pad section-light">
-        <div class="container">
+        <div class="container container-wide">
           <div class="section-heading split-heading">
             <div>
               <div class="brand-lockup">
@@ -252,6 +271,19 @@
               always replaying the same query in the simulator to obtain an action-specific future.
             </p>
           </div>
+
+          <figure class="figure-shell" data-zoom>
+            <button class="figure-button" type="button" aria-label="Open the WorldEcho benchmark figure">
+              <img src="assets/figures/paper-figure-3.png" alt="Paper Figure 3: WorldEcho action query construction, matched simulator and world-model rollouts, and integrity-gated evaluation with SE(3) alignment." width="3200" height="695" loading="lazy">
+              <span class="figure-zoom" aria-hidden="true">
+                <svg viewBox="0 0 20 20" focusable="false">
+                  <circle cx="8.6" cy="8.6" r="5.6"></circle>
+                  <path d="M12.8 12.8 17 17M8.6 6.2v4.8M6.2 8.6h4.8"></path>
+                </svg>
+              </span>
+            </button>
+            <figcaption><b>Paper Figure 3</b> WorldEcho jointly evaluates visual integrity and SE(3) end-effector alignment. Valid rollouts use NDTW; invalid rollouts receive the fixed penalty κ. <a href="assets/figures/paper-figure-3.pdf" target="_blank" rel="noopener" aria-label="View paper Figure 3 as the original PDF">Figure PDF ↗</a></figcaption>
+          </figure>
 
           <div class="ladder">
             <p class="ladder-scale" aria-hidden="true">
@@ -331,23 +363,11 @@
             </article>
           </div>
 
-          <figure class="figure-shell" data-zoom>
-            <button class="figure-button" type="button" aria-label="Open the WorldEcho benchmark figure">
-              <img src="assets/figures/paper-figure-3.png" alt="Paper Figure 3: WorldEcho action query construction, matched simulator and world-model rollouts, and integrity-gated evaluation with SE(3) alignment." width="3200" height="695" loading="lazy">
-              <span class="figure-zoom" aria-hidden="true">
-                <svg viewBox="0 0 20 20" focusable="false">
-                  <circle cx="8.6" cy="8.6" r="5.6"></circle>
-                  <path d="M12.8 12.8 17 17M8.6 6.2v4.8M6.2 8.6h4.8"></path>
-                </svg>
-              </span>
-            </button>
-            <figcaption><b>Paper Figure 3</b> WorldEcho jointly evaluates visual integrity and SE(3) end-effector alignment. Valid rollouts use NDTW; invalid rollouts receive the fixed penalty κ. <a href="assets/figures/paper-figure-3.pdf" target="_blank" rel="noopener" aria-label="View paper Figure 3 as the original PDF">Original PDF ↗</a></figcaption>
-          </figure>
         </div>
       </section>
 
       <section id="worldsync" class="section-pad section-light">
-        <div class="container">
+        <div class="container container-wide">
           <div class="section-heading split-heading">
             <div>
               <div class="brand-lockup">
@@ -361,6 +381,19 @@
               representation, and the response to controlled action interventions.
             </p>
           </div>
+
+          <figure class="figure-shell figure-shell-sync" data-zoom>
+            <button class="figure-button" type="button" aria-label="Open the WorldSync training figure">
+              <img src="assets/figures/paper-figure-4.png" alt="Paper Figure 4: WorldSync action coverage expansion, intervention-effect supervision, the action-conditioned world model, and Action-Forcing Expert with their joint training objective." width="3200" height="1706" loading="lazy">
+              <span class="figure-zoom" aria-hidden="true">
+                <svg viewBox="0 0 20 20" focusable="false">
+                  <circle cx="8.6" cy="8.6" r="5.6"></circle>
+                  <path d="M12.8 12.8 17 17M8.6 6.2v4.8M6.2 8.6h4.8"></path>
+                </svg>
+              </span>
+            </button>
+            <figcaption><b>Paper Figure 4</b> WorldSync jointly optimizes expanded action coverage, the Action-Forcing Expert, and intervention-effect supervision for faithful action following. <a href="assets/figures/paper-figure-4.pdf" target="_blank" rel="noopener" aria-label="View paper Figure 4 as the original PDF">Figure PDF ↗</a></figcaption>
+          </figure>
 
           <ol class="sync-steps">
             <li class="sync-step">
@@ -389,18 +422,6 @@
             </li>
           </ol>
 
-          <figure class="figure-shell figure-shell-sync" data-zoom>
-            <button class="figure-button" type="button" aria-label="Open the WorldSync training figure">
-              <img src="assets/figures/paper-figure-4.png" alt="Paper Figure 4: WorldSync action coverage expansion, intervention-effect supervision, the action-conditioned world model, and Action-Forcing Expert with their joint training objective." width="3200" height="1706" loading="lazy">
-              <span class="figure-zoom" aria-hidden="true">
-                <svg viewBox="0 0 20 20" focusable="false">
-                  <circle cx="8.6" cy="8.6" r="5.6"></circle>
-                  <path d="M12.8 12.8 17 17M8.6 6.2v4.8M6.2 8.6h4.8"></path>
-                </svg>
-              </span>
-            </button>
-            <figcaption><b>Paper Figure 4</b> WorldSync jointly optimizes expanded action coverage, the Action-Forcing Expert, and intervention-effect supervision for faithful action following. <a href="assets/figures/paper-figure-4.pdf" target="_blank" rel="noopener" aria-label="View paper Figure 4 as the original PDF">Original PDF ↗</a></figcaption>
-          </figure>
         </div>
       </section>
 
@@ -408,12 +429,12 @@
         <div class="container">
           <div class="section-heading split-heading">
             <div>
-              <p class="kicker kicker-result">05 / Preliminary results</p>
+              <p class="kicker kicker-result">05 / Results</p>
               <h2>Measure fidelity.<br>Count every failure.</h2>
             </div>
             <p class="lead">
-              The current manuscript reports task-macro averages across 50 RoboTwin tasks. These values remain provisional
-              while the anonymous submission is being completed.
+              WorldEcho reports task-macro averages across 50 RoboTwin tasks. WorldSync achieves the lowest
+              integrity-gated error and highest visual pass rate in the paper's main comparison.
             </p>
           </div>
 
@@ -425,8 +446,8 @@
               </svg>
             </span>
             <p>
-              <strong>Internal preview only.</strong>
-              Results are provisional. Training update budgets differ, so this is not a compute-matched comparison.
+              <strong>Evaluation protocol.</strong>
+              Training uses 20k updates for expert baselines, 40k for expanded baselines, and 60k for WorldSync. The comparison uses different training budgets.
             </p>
           </div>
 
@@ -434,12 +455,12 @@
             <article class="result-card result-card-primary">
               <p class="result-label">Integrity-gated error</p>
               <strong>0.0661</strong>
-              <span class="result-note-line"><i class="dir dir-down" aria-hidden="true"></i>lower is better · best in current Table 1</span>
+              <span class="result-note-line"><i class="dir dir-down" aria-hidden="true"></i>lower is better · best in Table 1</span>
             </article>
             <article class="result-card result-card-pass">
               <p class="result-label">Visual pass rate</p>
               <strong>84.51%</strong>
-              <span class="result-note-line"><i class="dir dir-up" aria-hidden="true"></i>higher is better · best in current Table 1</span>
+              <span class="result-note-line"><i class="dir dir-up" aria-hidden="true"></i>higher is better · best in Table 1</span>
             </article>
             <article class="result-card result-card-scope">
               <p class="result-label">Benchmark breadth</p>
@@ -451,7 +472,7 @@
           <div class="results-layout">
             <div class="results-copy">
               <p class="result-note">
-                WorldSync leads the draft table on the primary integrity-gated error and visual pass rate. Raw NDTW tells
+                WorldSync leads the main comparison on the primary integrity-gated error and visual pass rate. Raw NDTW tells
                 a different part of the story: expanded Cosmos-Predict2.5 reports the lowest raw NDTW, reinforcing why
                 WorldEcho retains both gated and ungated diagnostics.
               </p>
@@ -461,9 +482,9 @@
                 <span><i class="legend-pass"></i> visual pass ↑</span>
               </div>
             </div>
-            <div class="table-scroll" role="region" aria-label="Draft WorldEcho results" tabindex="0">
+            <div class="table-scroll" role="region" aria-label="WorldEcho results" tabindex="0">
               <table>
-                <caption class="sr-only">Draft WorldEcho results across 50 RoboTwin tasks</caption>
+                <caption class="sr-only">Selected WorldEcho results across 50 RoboTwin tasks from Table 1</caption>
                 <thead>
                   <tr><th scope="col">Model</th><th scope="col">Training</th><th scope="col">Gated</th><th scope="col">Raw</th><th scope="col">Pass</th></tr>
                 </thead>
@@ -498,9 +519,9 @@
               simulated and target-domain real expert trajectories, grounds intermediate video features with an auxiliary
               Action-Forcing Expert, and supervises the effect of changing actions through paired interventions. In the
               current 50-task RoboTwin evaluation, WorldSync obtains a task-macro integrity-gated error of 0.0661 and an
-              84.51% visual pass rate. These results are preliminary and remain subject to revision.
+              84.51% visual pass rate.
             </p>
-            <p class="abstract-status">Synced from the current Overleaf anonymous-submission draft. Wording and results may change before release.</p>
+            <p class="abstract-status">Read the complete methodology and experiments in the <a href="https://arxiv.org/pdf/2608.24885" target="_blank" rel="noopener">paper PDF ↗</a>.</p>
           </div>
         </div>
       </section>
@@ -513,17 +534,21 @@
           <p class="footer-tagline"><b>WorldEcho</b> diagnoses. <b>WorldSync</b> aligns.</p>
         </div>
         <div class="footer-status">
-          <strong>Anonymous review material</strong>
-          <span>Distribution, citation, or public sharing is prohibited until the authors release a public version.</span>
+          <strong>Do Robotic World Models Really Follow Actions?</strong>
+          <a href="https://arxiv.org/abs/2608.24885" target="_blank" rel="noopener">Read on arXiv · 2608.24885 ↗</a>
         </div>
       </div>
     </footer>
 
     <dialog id="figure-dialog" class="figure-dialog" aria-label="Enlarged research figure">
-      <button class="dialog-close" type="button" aria-label="Close enlarged figure">
-        <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="m4 4 8 8M12 4l-8 8"></path></svg>
-        <span>Close</span>
-      </button>
+      <div class="dialog-toolbar">
+        <a class="dialog-fullsize" href="assets/figures/paper-figure-3.png" target="_blank" rel="noopener">Full-size image ↗</a>
+        <a class="dialog-source" href="assets/figures/paper-figure-3.pdf" target="_blank" rel="noopener">Figure PDF ↗</a>
+        <button class="dialog-close" type="button" aria-label="Close enlarged figure">
+          <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="m4 4 8 8M12 4l-8 8"></path></svg>
+          <span>Close</span>
+        </button>
+      </div>
       <img src="assets/figures/paper-figure-3.png" alt="">
       <p></p>
     </dialog>

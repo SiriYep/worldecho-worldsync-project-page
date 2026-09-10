@@ -8,6 +8,7 @@ All scientific figure images displayed by the website are direct raster renders 
 
 | Paper figure | Source asset | LaTeX label | Website PDF / PNG stem | PNG dimensions |
 | --- | --- | --- | --- | --- |
+| 1 | `assets/figure1.pdf` | `fig:teaser` | `assets/figures/paper-figure-1` | 3200 x 1673 |
 | 2 | `assets/figure2.pdf` | `fig:motivation` | `assets/figures/paper-figure-2` | 3200 x 868 |
 | 3 | `assets/figure3.pdf` | `fig:benchmark` | `assets/figures/paper-figure-3` | 3200 x 695 |
 | 4 | `assets/figure4.pdf` | `fig:method-overview` | `assets/figures/paper-figure-4` | 3200 x 1706 |
@@ -17,7 +18,7 @@ All scientific figure images displayed by the website are direct raster renders 
 From the website repository root, after copying each source PDF to its matching destination:
 
 ```sh
-for number in 2 3 4; do
+for number in 1 2 3 4; do
   pdftoppm -f 1 -singlefile -cropbox -scale-to-x 3200 -scale-to-y -1 -png \
     "assets/figures/paper-figure-${number}.pdf" \
     "assets/figures/paper-figure-${number}"
@@ -28,6 +29,8 @@ done
 
 | Website asset | SHA-256 |
 | --- | --- |
+| `assets/figures/paper-figure-1.pdf` | `3911c10a877de19282735a74d86dff1d3686178e017e9b37d718ca6b0d1e4cd9` |
+| `assets/figures/paper-figure-1.png` | `9bd6ee942a0d646be88d7c5d74ea87a3778e3b8317d8cea1e08b0215657658b3` |
 | `assets/figures/paper-figure-2.pdf` | `0e04f8b9c85ef83858ae886a9fa1a0706fa3a879ee4b4096bdba37eebc833606` |
 | `assets/figures/paper-figure-2.png` | `8e9583099364582e953d5b26d8cd3152f4efecdaf6e40814ca6aaecf91537348` |
 | `assets/figures/paper-figure-3.pdf` | `a3987be78ed1198d698a12838d713664046613708b189efbca4cb3de6573fa16` |

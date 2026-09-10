@@ -208,6 +208,8 @@ if (figureDialog) {
   const dialogImage = figureDialog.querySelector("img");
   const dialogCaption = figureDialog.querySelector("p");
   const dialogClose = figureDialog.querySelector(".dialog-close");
+  const dialogFullsize = figureDialog.querySelector(".dialog-fullsize");
+  const dialogSource = figureDialog.querySelector(".dialog-source");
   let lastFigureTrigger = null;
 
   document.querySelectorAll("[data-zoom] .figure-button").forEach((button) => {
@@ -218,7 +220,17 @@ if (figureDialog) {
       if (!image || !dialogImage) return;
       dialogImage.src = image.currentSrc || image.src;
       dialogImage.alt = image.alt;
-      if (dialogCaption) dialogCaption.textContent = caption ? caption.textContent : "";
+      if (dialogFullsize) dialogFullsize.href = dialogImage.src;
+      const sourceLink = caption?.querySelector('a[href$=".pdf"]');
+      if (dialogSource) {
+        dialogSource.hidden = !sourceLink;
+        if (sourceLink) dialogSource.href = sourceLink.href;
+      }
+      if (dialogCaption) {
+        dialogCaption.textContent = caption
+          ? Array.from(caption.childNodes).filter((node) => node.nodeName !== "A").map((node) => node.textContent).join("").trim()
+          : "";
+      }
       lastFigureTrigger = button;
       figureDialog.showModal();
     });
