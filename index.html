@@ -38,12 +38,12 @@
         <div id="nav-links" class="nav-links">
           <a href="#team">Team</a>
           <a href="#overview">Overview</a>
+          <a href="#abstract">Abstract</a>
           <a href="#interactive">Playground</a>
           <a href="#evidence">Films</a>
           <a href="#worldecho">Benchmark</a>
           <a href="#worldsync">Method</a>
           <a href="#results">Results</a>
-          <a href="#abstract">Abstract</a>
         </div>
         <button type="button" class="theme-toggle" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false" hidden><span class="theme-toggle-icon" aria-hidden="true"></span><span data-theme-label>Light</span></button>
       </nav>
@@ -166,6 +166,27 @@
             </button>
             <figcaption><b>Paper Figure 1</b> The diagnose–improve–validate pipeline: evaluate action following with WorldEcho, align the model with WorldSync, and evaluate policy improvement. <a href="assets/figures/paper-figure-1.pdf" target="_blank" rel="noopener" aria-label="View paper Figure 1 as the original PDF">Figure PDF ↗</a></figcaption>
           </figure>
+
+          <section id="abstract" class="abstract-section" aria-labelledby="abstract-heading">
+            <div class="abstract-layout">
+              <header class="abstract-heading">
+                <h2 id="abstract-heading">Abstract</h2>
+              </header>
+              <div class="abstract-copy">
+                <p>Action-conditioned world models are increasingly used as learned simulators for policy evaluation and improvement, yet their effectiveness rests on an unverified assumption: generated futures faithfully reflect arbitrary valid actions. Existing benchmarks are typically confined to expert demonstrations, leaving off-expert action following inadequately evaluated.</p>
+                <p>To address this gap, we introduce WorldEcho, which probes action following over a broader action distribution using visual integrity and SE(3) trajectory alignment. Our diagnosis shows that current world models reasonably execute expert actions but struggle with diverse off-expert trajectories, either ignoring the commanded actions or producing visually invalid rollouts.</p>
+                <p>We further propose WorldSync, which strengthens action following along three complementary axes: distributional coverage, representational grounding, and intervention-effect alignment. It broadens the training distribution over action consequences, grounds intermediate video representations in action-induced robot dynamics through an Action-Forcing Expert, and aligns predicted changes under action interventions with the corresponding changes in ground-truth futures.</p>
+                <p>Experiments on RoboTwin benchmarks and real-robot tasks show that WorldSync improves WorldEcho metrics and serves as a more reliable simulator for iterative policy improvement, enabling policies to achieve higher success rates.</p>
+              </div>
+              <div class="abstract-resources">
+                <span>arXiv:2608.24885</span>
+                <div>
+                  <a href="https://arxiv.org/pdf/2608.24885" target="_blank" rel="noopener">Paper PDF <span aria-hidden="true">↗</span></a>
+                  <a href="https://arxiv.org/abs/2608.24885" target="_blank" rel="noopener">Read on arXiv <span aria-hidden="true">↗</span></a>
+                </div>
+              </div>
+            </div>
+          </section>
 
           <div id="research-scope" class="research-scope" role="region" aria-label="WorldEcho at a glance">
             <div class="scope-heading">
@@ -608,28 +629,6 @@
                   <tr class="ours"><th scope="row">WorldSync</th><td>Expanded</td><td>0.0661</td><td>0.0223</td><td>84.51</td></tr>
                 </tbody>
               </table>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="abstract" class="section-pad abstract-section" aria-labelledby="abstract-heading">
-        <div class="container abstract-layout">
-          <header class="abstract-heading">
-            <p class="kicker">06 / The paper</p>
-            <h2 id="abstract-heading">Abstract</h2>
-          </header>
-          <div class="abstract-copy">
-            <p>Action-conditioned world models are increasingly used as learned simulators for policy evaluation and improvement, yet their effectiveness rests on an unverified assumption: generated futures faithfully reflect arbitrary valid actions. Existing benchmarks are typically confined to expert demonstrations, leaving off-expert action following inadequately evaluated.</p>
-            <p>To address this gap, we introduce WorldEcho, which probes action following over a broader action distribution using visual integrity and SE(3) trajectory alignment. Our diagnosis shows that current world models reasonably execute expert actions but struggle with diverse off-expert trajectories, either ignoring the commanded actions or producing visually invalid rollouts.</p>
-            <p>We further propose WorldSync, which strengthens action following along three complementary axes: distributional coverage, representational grounding, and intervention-effect alignment. It broadens the training distribution over action consequences, grounds intermediate video representations in action-induced robot dynamics through an Action-Forcing Expert, and aligns predicted changes under action interventions with the corresponding changes in ground-truth futures.</p>
-            <p>Experiments on RoboTwin benchmarks and real-robot tasks show that WorldSync improves WorldEcho metrics and serves as a more reliable simulator for iterative policy improvement, enabling policies to achieve higher success rates.</p>
-          </div>
-          <div class="abstract-resources">
-            <span>arXiv:2608.24885</span>
-            <div>
-              <a href="https://arxiv.org/pdf/2608.24885" target="_blank" rel="noopener">Paper PDF <span aria-hidden="true">↗</span></a>
-              <a href="https://arxiv.org/abs/2608.24885" target="_blank" rel="noopener">Read on arXiv <span aria-hidden="true">↗</span></a>
             </div>
           </div>
         </div>
