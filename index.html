@@ -19,13 +19,8 @@
     <script src="script.js" type="module"></script>
   </head>
   <body>
+    <a class="skip-link" href="#overview">Skip to content</a>
     <div class="scroll-progress" aria-hidden="true"><span id="progress-bar"></span></div>
-
-    <aside class="review-notice" aria-label="Review status">
-      <span class="notice-pulse" aria-hidden="true"></span>
-      <strong>Private review preview</strong>
-      <span class="notice-detail">Anonymous submission · provisional results · do not circulate</span>
-    </aside>
 
     <header class="site-header">
       <nav class="nav container" aria-label="Primary navigation">
@@ -36,7 +31,7 @@
             <circle cx="16" cy="16" r="4.6" class="mark-core"></circle>
             <circle cx="27.4" cy="11.6" r="2.8" class="mark-node"></circle>
           </svg>
-          <span class="nav-wordmark">WorldEcho &amp; WorldSync</span>
+          <span class="nav-wordmark">WorldEcho <span class="nav-amp">&amp;</span> WorldSync</span>
         </a>
         <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="nav-links">
           <span></span><span></span><span></span>
@@ -44,9 +39,9 @@
         </button>
         <div id="nav-links" class="nav-links">
           <a href="#overview">Overview</a>
-          <a href="#worldecho">WorldEcho</a>
-          <a href="#evidence">Evidence</a>
-          <a href="#worldsync">WorldSync</a>
+          <a href="#evidence">Films</a>
+          <a href="#worldecho">Benchmark</a>
+          <a href="#worldsync">Method</a>
           <a href="#results">Results</a>
           <a href="#abstract">Abstract</a>
         </div>
@@ -54,95 +49,77 @@
     </header>
 
     <main id="top">
-      <section class="hero">
-        <div class="hero-bg" aria-hidden="true">
-          <span class="hero-grid"></span>
-          <span class="hero-aurora hero-aurora-echo"></span>
-          <span class="hero-aurora hero-aurora-sync"></span>
-        </div>
-
-        <div class="container hero-layout">
-          <div class="hero-copy">
-            <p class="eyebrow">
-              <span>Action-conditioned world models</span>
-              <b>AAAI 2027 draft</b>
-            </p>
-            <h1>
-              <span class="headline-plain">Do robotic world models</span>
-              <span class="headline-accent">really follow actions?</span>
-            </h1>
-            <p class="hero-subtitle">Diagnosing and Aligning Action-Conditioned Generation for Policy Learning</p>
-            <p class="hero-lead">
-              A world model can look plausible and still ignore the action it was given. We test that assumption beyond
-              expert replay, then train the model to respond to the commanded future.
-            </p>
-            <div class="hero-actions">
-              <a class="button button-primary" href="#evidence">
-                See the failure modes
-                <svg class="button-arrow" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                  <path d="M3 8h9M8.5 4.2 12.4 8l-3.9 3.8"></path>
-                </svg>
-              </a>
-              <a class="button button-secondary" href="#worldecho">Explore the benchmark</a>
-            </div>
-            <ul class="resource-status" aria-label="Resource availability">
-              <li><span class="resource-key">Paper</span><span class="resource-value">withheld for review</span></li>
-              <li><span class="resource-key">Code</span><span class="resource-value">withheld for review</span></li>
-              <li><span class="resource-key">Data</span><span class="resource-value">withheld for review</span></li>
-            </ul>
+      <section class="hero" data-video-group aria-label="WorldEcho and WorldSync project introduction">
+        <div class="hero-media" aria-hidden="true">
+          <div class="hero-film hero-film-gt">
+            <video muted playsinline preload="auto" poster="assets/posters/grab-gt.png">
+              <source src="assets/videos/grab-gt.mp4" type="video/mp4">
+            </video>
           </div>
-
-          <div class="hero-console" data-video-group aria-label="Ground-truth and world-model rollout comparison">
-            <div class="console-bar">
-              <span class="console-id">Action probe · 01</span>
-              <span class="console-live"><i aria-hidden="true"></i> synchronized rollouts</span>
+          <div class="hero-film hero-film-collapse">
+            <video muted playsinline preload="auto" poster="assets/posters/grab-collapse.png">
+              <source src="assets/videos/grab-collapse.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="hero-film hero-film-mismatch">
+            <video muted playsinline preload="auto" poster="assets/posters/grab-mismatch.png">
+              <source src="assets/videos/grab-mismatch.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="hero-film hero-film-gt">
+            <video muted playsinline preload="auto" poster="assets/posters/handover-gt.png">
+              <source src="assets/videos/handover-gt.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="hero-film hero-film-collapse">
+            <video muted playsinline preload="auto" poster="assets/posters/handover-collapse.png">
+              <source src="assets/videos/handover-collapse.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="hero-film hero-film-mismatch">
+            <video muted playsinline preload="auto" poster="assets/posters/handover-mismatch.png">
+              <source src="assets/videos/handover-mismatch.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="hero-film hero-film-gt">
+            <video muted playsinline preload="auto" poster="assets/posters/bread-gt.png">
+              <source src="assets/videos/bread-gt.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="hero-film hero-film-collapse">
+            <video muted playsinline preload="auto" poster="assets/posters/bread-collapse.png">
+              <source src="assets/videos/bread-collapse.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="hero-film hero-film-mismatch">
+            <video muted playsinline preload="auto" poster="assets/posters/bread-mismatch.png">
+              <source src="assets/videos/bread-mismatch.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+        <div class="hero-shade" aria-hidden="true"></div>
+        <div class="container hero-content">
+          <p class="eyebrow"><span class="eyebrow-line"></span> Seeing is not following.</p>
+          <h1><span>WorldEcho</span><span><em>&amp;</em> WorldSync</span></h1>
+          <p class="hero-subtitle">Do robotic world models<br>really follow actions?</p>
+          <p class="hero-lead">Diagnosing and aligning action-conditioned<br class="desktop-break"> generation for policy learning.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#evidence"><span class="play-icon" aria-hidden="true">▶</span> Explore the films</a>
+            <a class="button button-secondary" href="#worldecho">Discover the benchmark <span aria-hidden="true">↗</span></a>
+          </div>
+          <p class="hero-review">Anonymous research preview <span>·</span> Paper, code &amp; data withheld for review</p>
+        </div>
+        <div class="hero-bottom container">
+          <a class="hero-scroll" href="#overview"><span aria-hidden="true">↓</span> A closer look at action following</a>
+          <div class="playback-controls hero-playback" role="group" aria-label="Hero comparison playback" hidden>
+            <div class="playback-actions">
+              <button type="button" data-playback-toggle>Play comparison</button>
+              <button type="button" data-playback-restart>Restart</button>
+              <span class="playback-status" data-playback-status role="status">Ready</span>
             </div>
-
-            <div class="console-videos">
-              <figure class="rollout rollout-reference">
-                <figcaption class="rollout-tag"><span>Reference</span><b>Ground truth</b></figcaption>
-                <video controls muted playsinline preload="auto" poster="assets/posters/grab-gt.png" aria-label="Ground-truth grab roller rollout">
-                  <source src="assets/videos/grab-gt.mp4" type="video/mp4">
-                </video>
-              </figure>
-              <figure class="rollout rollout-collapse">
-                <figcaption class="rollout-tag"><span>Failure 01</span><b>Visual collapse</b></figcaption>
-                <video controls muted playsinline preload="auto" poster="assets/posters/grab-collapse.png" aria-label="World-model rollout with visual collapse">
-                  <source src="assets/videos/grab-collapse.mp4" type="video/mp4">
-                </video>
-              </figure>
-              <figure class="rollout rollout-mismatch">
-                <figcaption class="rollout-tag"><span>Failure 02</span><b>Action mismatch</b></figcaption>
-                <video controls muted playsinline preload="auto" poster="assets/posters/grab-mismatch.png" aria-label="World-model rollout that does not follow the queried action">
-                  <source src="assets/videos/grab-mismatch.mp4" type="video/mp4">
-                </video>
-              </figure>
-            </div>
-
-            <div class="playback-controls" role="group" aria-label="Hero comparison playback" hidden>
-              <div class="playback-actions">
-                <button type="button" data-playback-toggle>Play comparison</button>
-                <button type="button" data-playback-restart>Restart</button>
-                <span class="playback-status" data-playback-status role="status">Ready</span>
-              </div>
-              <div class="playback-timeline">
-                <input type="range" data-playback-seek min="0" max="100" value="0" step="0.1" aria-label="Hero comparison progress">
-                <span class="playback-time" data-playback-time>0:00 / 0:00</span>
-              </div>
-            </div>
-
-            <div class="console-trace">
-              <svg viewBox="0 0 640 76" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-                <path class="trace-axis" d="M14 40H628"></path>
-                <path class="trace-ref" d="M18 40C150 40 232 30 336 24s196-9 288-11"></path>
-                <path class="trace-mismatch" d="M18 40c140 4 232 12 330 22s200 14 276 15"></path>
-                <path class="trace-collapse" d="M18 40c96 0 150 2 196 12s54 26 92 6 52 24 96 4 74 18 122 6"></path>
-                <circle class="trace-origin" cx="18" cy="40" r="4.5"></circle>
-              </svg>
-              <p class="trace-caption">
-                <span class="trace-symbol">a<sub>1:H</sub></span>
-                one action query · three different futures
-              </p>
+            <div class="playback-timeline">
+              <input type="range" data-playback-seek min="0" max="100" value="0" step="0.1" aria-label="Hero comparison progress">
+              <span class="playback-time" data-playback-time>0.0s / 1.5s</span>
             </div>
           </div>
         </div>
@@ -152,31 +129,31 @@
         <div class="container">
           <div class="section-heading split-heading">
             <div>
-              <p class="kicker">The hidden assumption</p>
-              <h2>A believable video is not yet a faithful simulator.</h2>
+              <p class="kicker">01 / The question</p>
+              <h2>A plausible future.<br>A faithful simulator?</h2>
             </div>
             <p class="lead">
-              Policy improvement asks a world model about actions that depart from expert demonstrations. If the model
-              ignores those actions—or breaks visually—the resulting feedback cannot be trusted as dynamics.
+              A world model can look convincing and still ignore the action it was given. WorldEcho tests this gap
+              beyond expert replay. WorldSync trains the model to respond to the commanded future.
             </p>
           </div>
 
           <div class="overview-grid">
             <article class="thesis-card thesis-question">
-              <span class="thesis-badge" aria-hidden="true">Q</span>
-              <h3>Does the generated future change with the queried action?</h3>
+              <span class="thesis-badge" aria-hidden="true">01</span>
+              <h3>Question the prediction.</h3>
               <p>Expert-only evaluation cannot separate action following from state-conditioned optimism.</p>
               <p class="thesis-tag">the open question</p>
             </article>
             <article class="thesis-card thesis-diagnose">
-              <span class="thesis-badge" aria-hidden="true">D</span>
-              <h3>WorldEcho diagnoses both validity and motion fidelity.</h3>
+              <span class="thesis-badge" aria-hidden="true">02</span>
+              <h3>Diagnose with WorldEcho.</h3>
               <p>Every rollout faces a visual-integrity gate and a pose-aware SE(3) trajectory comparison.</p>
               <p class="thesis-tag">the benchmark</p>
             </article>
             <article class="thesis-card thesis-align">
-              <span class="thesis-badge" aria-hidden="true">A</span>
-              <h3>WorldSync aligns generation with intervention.</h3>
+              <span class="thesis-badge" aria-hidden="true">03</span>
+              <h3>Align with WorldSync.</h3>
               <p>Coverage, dynamics grounding, and paired interventions teach the future to move with the action.</p>
               <p class="thesis-tag">the training recipe</p>
             </article>
@@ -191,16 +168,102 @@
         </div>
       </section>
 
+      <section id="evidence" class="section-pad evidence-section">
+        <div class="evidence-bg" aria-hidden="true"></div>
+        <div class="container">
+          <div class="section-heading split-heading">
+            <div>
+              <p class="kicker kicker-warn">02 / The evidence</p>
+              <h2>One action.<br>Three different futures.</h2>
+            </div>
+            <p class="lead">
+              Looking right is only half the story. Compare the simulator with two failure modes: a broken visual
+              world, and a convincing world that moves the wrong way.
+            </p>
+          </div>
+
+          <div class="failure-comparison" data-video-group aria-label="Failure case rollout comparison">
+          <div class="case-tabs" role="tablist" aria-label="Failure case">
+            <button id="case-grab" class="case-tab active" type="button" role="tab" aria-selected="true" aria-controls="failure-console" data-case="grab">Grab roller</button>
+            <button id="case-handover" class="case-tab" type="button" role="tab" aria-selected="false" aria-controls="failure-console" tabindex="-1" data-case="handover">Handover block</button>
+            <button id="case-bread" class="case-tab" type="button" role="tab" aria-selected="false" aria-controls="failure-console" tabindex="-1" data-case="bread">Place bread in basket</button>
+          </div>
+
+          <div id="failure-console" class="failure-console" role="tabpanel" tabindex="0" aria-labelledby="case-grab">
+            <article class="failure-video failure-good">
+              <header><span>Reference</span><b>Simulator ground truth</b></header>
+              <video id="video-gt" controls muted playsinline preload="auto" poster="assets/posters/grab-gt.png" aria-label="Simulator ground-truth rollout">
+                <source src="assets/videos/grab-gt.mp4" type="video/mp4">
+              </video>
+              <p>The queried action is executed from the matched initial state.</p>
+            </article>
+            <article class="failure-video failure-collapse">
+              <header><span>Failure 01</span><b>Visual collapse</b></header>
+              <video id="video-collapse" controls muted playsinline preload="auto" poster="assets/posters/grab-collapse.png" aria-label="World-model rollout with visual collapse">
+                <source src="assets/videos/grab-collapse.mp4" type="video/mp4">
+              </video>
+              <p>Robot geometry breaks, blurs, or disappears under the query.</p>
+            </article>
+            <article class="failure-video failure-mismatch">
+              <header><span>Failure 02</span><b>Action mismatch</b></header>
+              <video id="video-mismatch" controls muted playsinline preload="auto" poster="assets/posters/grab-mismatch.png" aria-label="Plausible world-model rollout with action mismatch">
+                <source src="assets/videos/grab-mismatch.mp4" type="video/mp4">
+              </video>
+              <p>The video looks plausible, but its end-effector motion disagrees.</p>
+            </article>
+          </div>
+
+          <div class="playback-controls" role="group" aria-label="Failure comparison playback" hidden>
+            <div class="playback-actions">
+              <button type="button" data-playback-toggle>Play comparison</button>
+              <button type="button" data-playback-restart>Restart</button>
+              <span class="playback-status" data-playback-status role="status">Ready</span>
+            </div>
+            <div class="playback-timeline">
+              <input type="range" data-playback-seek min="0" max="100" value="0" step="0.1" aria-label="Failure comparison progress">
+              <span class="playback-time" data-playback-time>0:00 / 0:00</span>
+            </div>
+          </div>
+          </div>
+
+          <div class="evidence-grid">
+            <figure class="compact-figure" data-zoom>
+              <button class="figure-button" type="button" aria-label="Open the compact failure comparison">
+                <img src="assets/figures/diagnosis-strip.png" alt="Input, ground-truth output, visual collapse, and action mismatch frames." width="1509" height="384" loading="lazy">
+                <span class="figure-zoom" aria-hidden="true">
+                  <svg viewBox="0 0 20 20" focusable="false">
+                    <circle cx="8.6" cy="8.6" r="5.6"></circle>
+                    <path d="M12.8 12.8 17 17M8.6 6.2v4.8M6.2 8.6h4.8"></path>
+                  </svg>
+                </span>
+              </button>
+              <figcaption><b>Figure 1</b> The same input can produce either visible corruption or a deceptively plausible mismatch.</figcaption>
+            </figure>
+            <figure class="compact-figure" data-zoom>
+              <button class="figure-button" type="button" aria-label="Open the end-effector trajectory comparison">
+                <img src="assets/figures/trajectory-comparison.png" alt="AnyPos-estimated left and right end-effector trajectories comparing the simulator reference in blue and an action-mismatched world-model rollout in orange." width="2000" height="1145" loading="lazy">
+                <span class="figure-zoom" aria-hidden="true">
+                  <svg viewBox="0 0 20 20" focusable="false">
+                    <circle cx="8.6" cy="8.6" r="5.6"></circle>
+                    <path d="M12.8 12.8 17 17M8.6 6.2v4.8M6.2 8.6h4.8"></path>
+                  </svg>
+                </span>
+              </button>
+              <figcaption><b>Figure 2</b> Pose trajectories expose motion disagreement that appearance alone can miss.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
       <section id="worldecho" class="section-pad section-light">
         <div class="container">
           <div class="section-heading split-heading">
             <div>
               <div class="brand-lockup">
-                <img class="brand-icon" src="assets/brand/worldecho-icon.svg" alt="" width="400" height="400" loading="lazy">
                 <span class="brand-name">World<em class="brand-echo">Echo</em></span>
-                <span class="brand-role">Benchmark</span>
+                <span class="brand-role">03 / Benchmark</span>
               </div>
-              <h2>Ask the model actions it did not memorize.</h2>
+              <h2>Beyond the<br>demonstrated action.</h2>
             </div>
             <p class="lead">
               WorldEcho broadens the query distribution from demonstrated actions toward the feasible action space,
@@ -296,95 +359,8 @@
                 </svg>
               </span>
             </button>
-            <figcaption><b>Figure 1</b> WorldEcho evaluates every query through visual integrity and SE(3) motion alignment before task-macro aggregation.</figcaption>
+            <figcaption><b>Figure 3</b> WorldEcho evaluates every query through visual integrity and SE(3) motion alignment before task-macro aggregation.</figcaption>
           </figure>
-        </div>
-      </section>
-
-      <section id="evidence" class="section-pad evidence-section">
-        <div class="evidence-bg" aria-hidden="true"></div>
-        <div class="container">
-          <div class="section-heading split-heading">
-            <div>
-              <p class="kicker kicker-warn">Failure lab</p>
-              <h2>Two ways an off-expert future can fail.</h2>
-            </div>
-            <p class="lead">
-              Switch tasks to compare the simulator reference with a visually broken prediction and a plausible-looking
-              prediction that follows the wrong motion.
-            </p>
-          </div>
-
-          <div class="failure-comparison" data-video-group aria-label="Failure case rollout comparison">
-          <div class="case-tabs" role="tablist" aria-label="Failure case">
-            <button id="case-grab" class="case-tab active" type="button" role="tab" aria-selected="true" aria-controls="failure-console" data-case="grab">Grab roller</button>
-            <button id="case-handover" class="case-tab" type="button" role="tab" aria-selected="false" aria-controls="failure-console" tabindex="-1" data-case="handover">Handover block</button>
-            <button id="case-bread" class="case-tab" type="button" role="tab" aria-selected="false" aria-controls="failure-console" tabindex="-1" data-case="bread">Place bread in basket</button>
-          </div>
-
-          <div id="failure-console" class="failure-console" role="tabpanel" tabindex="0" aria-labelledby="case-grab">
-            <article class="failure-video failure-good">
-              <header><span>Reference</span><b>Simulator ground truth</b></header>
-              <video id="video-gt" controls muted playsinline preload="auto" poster="assets/posters/grab-gt.png" aria-label="Simulator ground-truth rollout">
-                <source src="assets/videos/grab-gt.mp4" type="video/mp4">
-              </video>
-              <p>The queried action is executed from the matched initial state.</p>
-            </article>
-            <article class="failure-video failure-collapse">
-              <header><span>Failure 01</span><b>Visual collapse</b></header>
-              <video id="video-collapse" controls muted playsinline preload="auto" poster="assets/posters/grab-collapse.png" aria-label="World-model rollout with visual collapse">
-                <source src="assets/videos/grab-collapse.mp4" type="video/mp4">
-              </video>
-              <p>Robot geometry breaks, blurs, or disappears under the query.</p>
-            </article>
-            <article class="failure-video failure-mismatch">
-              <header><span>Failure 02</span><b>Action mismatch</b></header>
-              <video id="video-mismatch" controls muted playsinline preload="auto" poster="assets/posters/grab-mismatch.png" aria-label="Plausible world-model rollout with action mismatch">
-                <source src="assets/videos/grab-mismatch.mp4" type="video/mp4">
-              </video>
-              <p>The video looks plausible, but its end-effector motion disagrees.</p>
-            </article>
-          </div>
-
-          <div class="playback-controls" role="group" aria-label="Failure comparison playback" hidden>
-            <div class="playback-actions">
-              <button type="button" data-playback-toggle>Play comparison</button>
-              <button type="button" data-playback-restart>Restart</button>
-              <span class="playback-status" data-playback-status role="status">Ready</span>
-            </div>
-            <div class="playback-timeline">
-              <input type="range" data-playback-seek min="0" max="100" value="0" step="0.1" aria-label="Failure comparison progress">
-              <span class="playback-time" data-playback-time>0:00 / 0:00</span>
-            </div>
-          </div>
-          </div>
-
-          <div class="evidence-grid">
-            <figure class="compact-figure" data-zoom>
-              <button class="figure-button" type="button" aria-label="Open the compact failure comparison">
-                <img src="assets/figures/diagnosis-strip.png" alt="Input, ground-truth output, visual collapse, and action mismatch frames." width="1509" height="384" loading="lazy">
-                <span class="figure-zoom" aria-hidden="true">
-                  <svg viewBox="0 0 20 20" focusable="false">
-                    <circle cx="8.6" cy="8.6" r="5.6"></circle>
-                    <path d="M12.8 12.8 17 17M8.6 6.2v4.8M6.2 8.6h4.8"></path>
-                  </svg>
-                </span>
-              </button>
-              <figcaption><b>Figure 2</b> The same input can produce either visible corruption or a deceptively plausible mismatch.</figcaption>
-            </figure>
-            <figure class="compact-figure" data-zoom>
-              <button class="figure-button" type="button" aria-label="Open the end-effector trajectory comparison">
-                <img src="assets/figures/trajectory-comparison.png" alt="AnyPos-estimated left and right end-effector trajectories comparing the simulator reference in blue and an action-mismatched world-model rollout in orange." width="2000" height="1145" loading="lazy">
-                <span class="figure-zoom" aria-hidden="true">
-                  <svg viewBox="0 0 20 20" focusable="false">
-                    <circle cx="8.6" cy="8.6" r="5.6"></circle>
-                    <path d="M12.8 12.8 17 17M8.6 6.2v4.8M6.2 8.6h4.8"></path>
-                  </svg>
-                </span>
-              </button>
-              <figcaption><b>Figure 3</b> Pose trajectories expose motion disagreement that appearance alone can miss.</figcaption>
-            </figure>
-          </div>
         </div>
       </section>
 
@@ -393,11 +369,10 @@
           <div class="section-heading split-heading">
             <div>
               <div class="brand-lockup">
-                <img class="brand-icon" src="assets/brand/worldsync-icon.svg" alt="" width="400" height="400" loading="lazy">
                 <span class="brand-name">World<em class="brand-sync">Sync</em></span>
-                <span class="brand-role brand-role-sync">Training recipe</span>
+                <span class="brand-role brand-role-sync">04 / Training recipe</span>
               </div>
-              <h2>Make the predicted future move with the action.</h2>
+              <h2>Make the future<br>follow the action.</h2>
             </div>
             <p class="lead">
               WorldSync strengthens action following at three complementary levels: the action distribution, the video
@@ -451,8 +426,8 @@
         <div class="container">
           <div class="section-heading split-heading">
             <div>
-              <p class="kicker kicker-result">Draft results</p>
-              <h2>Better gated fidelity without hiding invalid rollouts.</h2>
+              <p class="kicker kicker-result">05 / Preliminary results</p>
+              <h2>Measure fidelity.<br>Count every failure.</h2>
             </div>
             <p class="lead">
               The current manuscript reports task-macro averages across 50 RoboTwin tasks. These values remain provisional
@@ -469,8 +444,7 @@
             </span>
             <p>
               <strong>Internal preview only.</strong>
-              Figure 4, Figure 5, citations, real-robot plots, and the conclusion are still incomplete. Endpoint update
-              budgets also differ, so the current table is not a compute-matched comparison.
+              Results are provisional. Training update budgets differ, so this is not a compute-matched comparison.
             </p>
           </div>
 
@@ -526,8 +500,8 @@
       <section id="abstract" class="section-pad abstract-section">
         <div class="container abstract-layout">
           <div class="abstract-side">
-            <p class="kicker">Abstract</p>
-            <h2>Action following needs evidence beyond expert replay.</h2>
+            <p class="kicker">06 / Abstract</p>
+            <h2>From plausible video<br>to faithful dynamics.</h2>
           </div>
           <div class="abstract-copy">
             <p class="abstract-opening">

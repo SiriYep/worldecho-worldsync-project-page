@@ -1,304 +1,74 @@
-/* WorldEcho & WorldSync private project page — responsive behaviour */
-
-@media (max-width: 1120px) {
-  .query-ladder {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
+/* Shared layout and hero. Section-specific breakpoints live in sections.css. */
+@media (max-width: 1050px) {
+  .container { width: calc(100% - 64px); }
+  .nav-links { gap: 20px; }
+  .hero { min-height: 740px; }
+  .hero h1 { font-size: 82px; }
+  .hero-media { left: 0; }
+  .split-heading { gap: 50px; }
 }
-
-@media (max-width: 1040px) {
-  .hero {
-    min-height: 0;
-  }
-
-  .hero-layout {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 52px;
-  }
-
-  .hero-copy,
-  .hero-console {
-    max-width: 780px;
-  }
-
-  .hero h1,
-  .hero-subtitle {
-    max-width: 20ch;
-  }
-
-  .evidence-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .results-layout {
-    grid-template-columns: 1fr;
-  }
+@media (max-width: 850px) {
+  :root { --header-h: 64px; }
+  .nav { gap: 12px; }
+  .menu-toggle { display: block; }
+  .nav-links { display: none; position: absolute; top: var(--header-h); left: 0; right: 0; padding: 12px 32px 22px; background: #0a1814; border-bottom: 1px solid #37483d; }
+  .nav-links.open { display: grid; grid-template-columns: repeat(3,1fr); gap: 0 20px; }
+  .nav-links a { padding: 12px 0; }
+  .nav-links a.active::after { bottom: 5px; }
+  .hero h1 { font-size: 76px; }
+  .hero-media { left: 0; opacity: .6; }
+  .hero-shade { background: linear-gradient(90deg,rgba(10,24,20,.95),rgba(10,24,20,.45)),linear-gradient(0deg,#0a1814,transparent 48%); }
+  .hero-scroll { display: none; }
+  .hero-bottom { justify-content: end; }
+  .hero-film figcaption { font-size: 9px; right: 12px; }
+  .section-pad { padding: 80px 0; }
+  .split-heading { grid-template-columns: 1fr; gap: 25px; }
+  .lead { max-width: 60ch; }
+  .thesis-card { padding-right: 22px; }
+  .thesis-card + .thesis-card { padding-left: 22px; }
+  .thesis-card h3 { font-size: 17px; }
+  .scope-strip { grid-template-columns: repeat(2,1fr); gap: 28px; }
 }
-
-@media (max-width: 900px) {
-  .metric-system,
-  .overview-grid,
-  .sync-steps,
-  .result-cards {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .overview-grid > :last-child,
-  .result-cards > :last-child {
-    grid-column: 1 / -1;
-  }
-
-  .sync-step::after {
-    display: none;
-  }
-
-  .metric-system > :last-child {
-    grid-column: 1 / -1;
-  }
+@media (max-width: 560px) {
+  .container { width: calc(100% - 40px); }
+  .nav-brand { gap: 8px; }
+  .nav-wordmark { font-size: 13px; }
+  .brand-mark { width: 25px; height: 25px; }
+  .nav-links { padding-inline: 20px; }
+  .hero { min-height: 810px; padding-top: 66px; padding-bottom: 174px; align-items: start; }
+  .hero h1 { font-size: clamp(51px,13.7vw,76px); }
+  .eyebrow { font-size: 9px; letter-spacing: .12em; margin-bottom: 25px; }
+  .hero-subtitle { margin-top: 25px; font-size: 22px; }
+  .hero-lead { font-size: 13px; }
+  .hero-actions { flex-direction: column; align-items: start; gap: 10px; margin-top: 24px; }
+  .hero-actions .button { min-width: 211px; justify-content: space-between; }
+  .hero-review { font-size: 10px; max-width: 32ch; line-height: 1.8; }
+  .hero-review span { padding: 0 2px; }
+  .hero-media { left: -40%; right: -40%; opacity: .65; }
+  .hero-film-reference video { object-position: 60% center; }
+  .hero-film figcaption { display: none; }
+  .hero .hero-playback { width: 100%; }
+  .hero .playback-actions button { font-size: 12px; min-height: 38px; padding: 8px 12px; }
+  .hero .playback-status { flex-basis: 100%; }
+  .hero .playback-timeline input { min-height: 30px; }
+  .hero-bottom { bottom: 26px; }
+  .section-pad { padding: 68px 0; }
+  h2 { font-size: 38px; }
+  .kicker { font-size: 10px; margin-bottom: 18px; }
+  .lead { font-size: 15px; line-height: 1.8; }
+  .overview-grid { grid-template-columns: 1fr; margin-top: 38px; }
+  .thesis-card, .thesis-card + .thesis-card { padding: 23px 0; border-left: 0; }
+  .thesis-card + .thesis-card { border-top: 1px solid var(--line); }
+  .thesis-badge { margin-bottom: 12px; }
+  .thesis-card h3 { font-size: 21px; }
+  .thesis-tag { margin-top: 14px; }
+  .scope-strip { margin-top: 16px; gap: 25px 15px; }
+  .scope-strip dt { font-size: 32px; }
+  .scope-strip dd { font-size: 11px; }
+  .playback-status { flex-basis: 100%; }
 }
-
-@media (max-width: 860px) {
-  .container {
-    width: min(calc(100% - 36px), var(--container));
-  }
-
-  .menu-toggle {
-    display: block;
-  }
-
-  .nav {
-    position: relative;
-  }
-
-  .nav-links {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: calc(var(--header-h) - 6px);
-    display: none;
-    padding: 10px;
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    background: rgba(255, 255, 255, 0.98);
-    box-shadow: var(--shadow-2);
-  }
-
-  .nav-links.open {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .nav-links a {
-    padding: 11px 12px;
-  }
-
-  .nav-links a::after {
-    bottom: 6px;
-  }
-
-  .split-heading,
-  .abstract-layout {
-    grid-template-columns: 1fr;
-    gap: 28px;
-  }
-
-  .split-heading > .lead {
-    margin: 0;
-  }
-
-  h2 {
-    max-width: 18ch;
-  }
-
-  .query-ladder {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .query-card {
-    min-height: 0;
-  }
-
-  .failure-console {
-    grid-template-columns: 1fr;
-  }
-
-  .failure-video video {
-    aspect-ratio: 16 / 9;
-  }
-
-  .scope-strip {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .scope-strip div:nth-child(2n) {
-    border-right: 0;
-  }
-
-  .scope-strip div:nth-child(-n + 2) {
-    border-bottom: 1px solid var(--line);
-  }
-
-  .abstract-side h2 {
-    max-width: 18ch;
-  }
-}
-
-@media (max-width: 640px) {
-  .container {
-    width: min(calc(100% - 28px), var(--container));
-  }
-
-  .section-pad {
-    padding: 68px 0;
-  }
-
-  .review-notice {
-    padding: 8px 14px;
-    font-size: 0.68rem;
-  }
-
-  .notice-detail {
-    display: none;
-  }
-
-  .hero {
-    padding-top: 44px;
-  }
-
-  .hero h1 {
-    max-width: none;
-    font-size: clamp(2.4rem, 11vw, 3.4rem);
-  }
-
-  .hero-subtitle {
-    max-width: none;
-    font-size: 1.05rem;
-  }
-
-  .hero-actions {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .button {
-    width: 100%;
-  }
-
-  .hero-console {
-    padding: 9px;
-  }
-
-  .console-bar {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .console-videos {
-    grid-template-columns: 1fr;
-  }
-
-  .rollout-reference {
-    grid-column: auto;
-  }
-
-  .rollout-reference video,
-  .rollout video {
-    aspect-ratio: 16 / 10;
-  }
-
-  .console-trace svg {
-    height: 44px;
-  }
-
-  .overview-grid,
-  .metric-system,
-  .sync-steps,
-  .result-cards,
-  .query-ladder,
-  .scope-strip {
-    grid-template-columns: 1fr;
-  }
-
-  .overview-grid > :last-child,
-  .result-cards > :last-child,
-  .metric-system > :last-child {
-    grid-column: auto;
-  }
-
-  .scope-strip div,
-  .scope-strip div:nth-child(2n) {
-    border-right: 0;
-    border-bottom: 1px solid var(--line);
-  }
-
-  .scope-strip div:last-child {
-    border-bottom: 0;
-  }
-
-  .scope-strip div {
-    min-height: 0;
-    padding: 18px 22px;
-  }
-
-  .brand-name {
-    font-size: 1.08rem;
-  }
-
-  .brand-icon {
-    width: 40px;
-    height: 40px;
-  }
-
-  .case-tabs {
-    display: grid;
-    grid-template-columns: 1fr;
-    border-radius: var(--radius);
-  }
-
-  .case-tab {
-    border-radius: var(--radius-xs);
-    text-align: left;
-  }
-
-  .result-card strong {
-    font-size: 3rem;
-  }
-
-  .abstract-opening {
-    padding-left: 16px;
-  }
-
-  .footer-layout {
-    grid-template-columns: 1fr;
-    gap: 26px;
-  }
-
-  .footer-status {
-    text-align: left;
-  }
-
-  .figure-dialog {
-    padding: 52px 12px 14px;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  *,
-  *::before,
-  *::after {
-    scroll-behavior: auto !important;
-    transition-duration: 0.01ms !important;
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-  }
-
-  .js .reveal {
-    opacity: 1;
-    transform: none;
-  }
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; transition-delay: 0ms !important; }
+  .js .reveal { opacity: 1; transform: none; }
 }

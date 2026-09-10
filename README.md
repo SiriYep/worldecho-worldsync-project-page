@@ -15,18 +15,21 @@ Run `npm test` for the grouped-playback behavior tests; no dependency installati
 
 ## Rollout comparisons
 
-The hero and failure lab each have shared play/pause, restart, and timeline controls. Each group waits for its three clips and aligns their normalized playback progress, showing every clip in full. This is a viewing aid, not an assertion that the source timestamps are aligned. Switching tasks preserves the viewer's playback choice. Videos pause outside the viewport or while the tab is hidden, and reduced-motion viewers start with still frames and can choose to play. Without JavaScript, the clips retain native video controls.
+The nine-clip hero montage and three-clip failure lab each have shared play/pause, restart, and timeline controls. Each group waits for its clips and aligns their normalized playback progress over the complete duration. This is a viewing aid, not an assertion that the source timestamps are aligned. Switching tasks preserves the viewer's playback choice. Videos pause outside the viewport or while the tab is hidden, and reduced-motion viewers start with still frames and can choose to play. Without JavaScript, the evidence clips retain native video controls and the decorative hero remains a still montage. Hero tiles crop the footage for composition; the evidence section shows the complete source frames without color treatment.
 
 The five MPEG-4 Part 2 clips have been converted to H.264 for browser compatibility. Their frame counts, frame rates, dimensions, and durations are unchanged. The original encodings remain in Git history. `grab-mismatch.mp4` retains its original 22 fps / 1.5-second duration, while the other clips are 30 fps / 1.1 seconds.
 
 ## Design system
 
-`styles.css` holds the tokens, header, hero, and overview; `sections.css` holds everything from the WorldEcho section down; `responsive.css` holds only breakpoints. Keep new work inside the existing token set:
+The page uses a cinematic hero followed by an editorial research narrative: question, visual evidence, benchmark, method, results, and abstract. The user requested inspiration from [Code as Worlds](https://mirros-lab.github.io/code-as-world/) and [Track4World](https://jiah-cloud.github.io/Track4World.github.io/). No media or source code from those sites is used.
 
-- **Four semantic accents, no more.** `--echo` (blue) marks the benchmark and in-distribution material, `--sync` (crimson) marks the method and "ours", `--warn` (amber) marks failure, `--ref` (teal) marks simulator ground truth. Every rollout rail, tag, and legend swatch follows this mapping, so a new colour would break the reading. Use the `-deep` variants for anything under ~11px — the base hues do not clear 4.5:1 at that size.
-- **One card language.** White surface, 1px `--line` border, `--radius-lg`, `--shadow-1`, lifting to `--shadow-2` on hover. Section backgrounds alternate `--paper` and `--surface` to separate bands; cards stay white throughout.
-- **The query ladder is a ramp, not a palette.** `--q1`…`--q5` are a single blue darkening from in-distribution to off-expert, paired with the fill meter on each card. Do not give the five queries unrelated hues.
-- **Type.** Space Grotesk for display, Inter for prose, Space Mono for labels and data. Only 400/500/600/700 are bundled, so avoid intermediate weights — they synthesise.
+- `styles.css`: shared tokens, typography, navigation, hero, overview, and playback controls.
+- `sections.css`: research sections, figures, evidence stage, tables, dialog, and their responsive rules.
+- `responsive.css`: shared layout, hero, navigation, and reduced-motion rules.
+- **Palette:** deep forest backgrounds and ivory reading surfaces, with muted jade for WorldEcho and warm copper for WorldSync. Use fine rules instead of shadows or nested cards.
+- **Type:** Georgia for large editorial headings, locally bundled Inter for body copy, and Space Mono for restrained metadata. Use supported weights 400/500/600/700.
+- **Media:** the hero uses nine existing clips as an atmospheric montage. The scientific comparison stage retains three equal, uncropped video viewports with task selection and accessible controls. Keep the original results and provisional-data caveat intact.
+- **Rhythm:** a maximum 1180px content width, 110px desktop section spacing, generous figure sizes, short section introductions, and open numbered columns. Page figure numbers follow the order on this page.
 
 ## Review-status guardrails
 
