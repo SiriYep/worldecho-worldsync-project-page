@@ -2,9 +2,6 @@
 @media (max-width: 1050px) {
   .container { width: calc(100% - 64px); }
   .nav-links { gap: 20px; }
-  .hero { min-height: 740px; }
-  .hero h1 { font-size: 82px; }
-  .hero-media { left: 0; }
   .split-heading { gap: 50px; }
 }
 @media (max-width: 850px) {
@@ -15,12 +12,6 @@
   .nav-links.open { display: grid; grid-template-columns: repeat(3,1fr); gap: 0 20px; }
   .nav-links a { padding: 12px 0; }
   .nav-links a.active::after { bottom: 5px; }
-  .hero h1 { font-size: 76px; }
-  .hero-media { left: 0; opacity: .6; }
-  .hero-shade { background: linear-gradient(90deg,rgba(10,24,20,.95),rgba(10,24,20,.45)),linear-gradient(0deg,#0a1814,transparent 48%); }
-  .hero-scroll { display: none; }
-  .hero-bottom { justify-content: end; }
-  .hero-film figcaption { font-size: 9px; right: 12px; }
   .section-pad { padding: 80px 0; }
   .split-heading { grid-template-columns: 1fr; gap: 25px; }
   .lead { max-width: 60ch; }
@@ -33,23 +24,17 @@
   .container { width: calc(100% - 40px); }
   .nav-wordmark { font-size: 14px; }
   .nav-links { padding-inline: 20px; }
-  .hero { min-height: 810px; padding-top: 66px; padding-bottom: 174px; align-items: start; }
-  .hero h1 { font-size: clamp(51px,13.7vw,76px); }
-  .eyebrow { font-size: 9px; letter-spacing: .12em; margin-bottom: 25px; }
-  .hero-subtitle { margin-top: 25px; font-size: 22px; }
+  .hero { padding: 32px 0 22px; }
+  .hero h1 { font-size: clamp(36px,10.8vw,54px); }
+  .eyebrow { font-size: 9px; letter-spacing: .12em; margin-bottom: 16px; }
+  .hero-subtitle { margin-top: 16px; font-size: 22px; }
   .hero-lead { font-size: 13px; }
-  .hero-actions { flex-direction: column; align-items: start; gap: 10px; margin-top: 24px; }
-  .hero-actions .button { min-width: 211px; justify-content: space-between; }
-  .hero-review { font-size: 10px; max-width: 32ch; line-height: 1.8; }
-  .hero-review span { padding: 0 2px; }
-  .hero-media { left: -40%; right: -40%; opacity: .65; }
-  .hero-film-reference video { object-position: 60% center; }
-  .hero-film figcaption { display: none; }
+  .hero-actions { gap: 8px; margin-top: 20px; }
+  .hero-actions .button { gap: 8px; padding: 10px; }
   .hero .hero-playback { width: 100%; }
   .hero .playback-actions button { font-size: 12px; min-height: 38px; padding: 8px 12px; }
   .hero .playback-status { flex-basis: 100%; }
   .hero .playback-timeline input { min-height: 30px; }
-  .hero-bottom { bottom: 26px; }
   .section-pad { padding: 68px 0; }
   h2 { font-size: 38px; }
   .kicker { font-size: 10px; margin-bottom: 18px; }

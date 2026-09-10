@@ -1,6 +1,6 @@
 # Institution logos
 
-The research-team section displays the six affiliations in paper order. Assets are served locally and linked to the corresponding official institutional homepages. Verified 2026-09-10.
+The paper masthead lists the six full affiliations in paper order, followed by a compact band of linked institution marks. Assets are served locally and linked to the corresponding official institutional homepages. Verified 2026-09-10.
 
 - Use only the institutions’ original marks, with original proportions and approved colors on white.
 - Preserve the full mark: no stretching, cropping, filters, decorative shadows, or mixing in a different school/campus lockup.
