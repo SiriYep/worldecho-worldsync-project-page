@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="sections.css">
     <link rel="stylesheet" href="responsive.css">
     <script>document.documentElement.classList.add("js");</script>
-    <script src="script.js" defer></script>
+    <script src="script.js" type="module"></script>
   </head>
   <body>
     <div class="scroll-progress" aria-hidden="true"><span id="progress-bar"></span></div>
@@ -92,7 +92,7 @@
             </ul>
           </div>
 
-          <div class="hero-console" aria-label="Ground-truth and world-model rollout comparison">
+          <div class="hero-console" data-video-group aria-label="Ground-truth and world-model rollout comparison">
             <div class="console-bar">
               <span class="console-id">Action probe · 01</span>
               <span class="console-live"><i aria-hidden="true"></i> synchronized rollouts</span>
@@ -101,22 +101,34 @@
             <div class="console-videos">
               <figure class="rollout rollout-reference">
                 <figcaption class="rollout-tag"><span>Reference</span><b>Ground truth</b></figcaption>
-                <video autoplay muted loop playsinline preload="metadata" poster="assets/posters/grab-gt.png" aria-label="Ground-truth grab roller rollout">
+                <video controls muted playsinline preload="auto" poster="assets/posters/grab-gt.png" aria-label="Ground-truth grab roller rollout">
                   <source src="assets/videos/grab-gt.mp4" type="video/mp4">
                 </video>
               </figure>
               <figure class="rollout rollout-collapse">
                 <figcaption class="rollout-tag"><span>Failure 01</span><b>Visual collapse</b></figcaption>
-                <video autoplay muted loop playsinline preload="metadata" poster="assets/posters/grab-collapse.png" aria-label="World-model rollout with visual collapse">
+                <video controls muted playsinline preload="auto" poster="assets/posters/grab-collapse.png" aria-label="World-model rollout with visual collapse">
                   <source src="assets/videos/grab-collapse.mp4" type="video/mp4">
                 </video>
               </figure>
               <figure class="rollout rollout-mismatch">
                 <figcaption class="rollout-tag"><span>Failure 02</span><b>Action mismatch</b></figcaption>
-                <video autoplay muted loop playsinline preload="metadata" poster="assets/posters/grab-mismatch.png" aria-label="World-model rollout that does not follow the queried action">
+                <video controls muted playsinline preload="auto" poster="assets/posters/grab-mismatch.png" aria-label="World-model rollout that does not follow the queried action">
                   <source src="assets/videos/grab-mismatch.mp4" type="video/mp4">
                 </video>
               </figure>
+            </div>
+
+            <div class="playback-controls" role="group" aria-label="Hero comparison playback" hidden>
+              <div class="playback-actions">
+                <button type="button" data-playback-toggle>Play comparison</button>
+                <button type="button" data-playback-restart>Restart</button>
+                <span class="playback-status" data-playback-status role="status">Ready</span>
+              </div>
+              <div class="playback-timeline">
+                <input type="range" data-playback-seek min="0" max="100" value="0" step="0.1" aria-label="Hero comparison progress">
+                <span class="playback-time" data-playback-time>0:00 / 0:00</span>
+              </div>
             </div>
 
             <div class="console-trace">
@@ -303,34 +315,48 @@
             </p>
           </div>
 
+          <div class="failure-comparison" data-video-group aria-label="Failure case rollout comparison">
           <div class="case-tabs" role="tablist" aria-label="Failure case">
             <button id="case-grab" class="case-tab active" type="button" role="tab" aria-selected="true" aria-controls="failure-console" data-case="grab">Grab roller</button>
             <button id="case-handover" class="case-tab" type="button" role="tab" aria-selected="false" aria-controls="failure-console" tabindex="-1" data-case="handover">Handover block</button>
             <button id="case-bread" class="case-tab" type="button" role="tab" aria-selected="false" aria-controls="failure-console" tabindex="-1" data-case="bread">Place bread in basket</button>
           </div>
 
-          <div id="failure-console" class="failure-console" role="tabpanel" aria-live="polite" aria-labelledby="case-grab">
+          <div id="failure-console" class="failure-console" role="tabpanel" tabindex="0" aria-labelledby="case-grab">
             <article class="failure-video failure-good">
               <header><span>Reference</span><b>Simulator ground truth</b></header>
-              <video id="video-gt" autoplay muted loop playsinline preload="metadata" poster="assets/posters/grab-gt.png" aria-label="Simulator ground-truth rollout">
+              <video id="video-gt" controls muted playsinline preload="auto" poster="assets/posters/grab-gt.png" aria-label="Simulator ground-truth rollout">
                 <source src="assets/videos/grab-gt.mp4" type="video/mp4">
               </video>
               <p>The queried action is executed from the matched initial state.</p>
             </article>
             <article class="failure-video failure-collapse">
               <header><span>Failure 01</span><b>Visual collapse</b></header>
-              <video id="video-collapse" autoplay muted loop playsinline preload="metadata" poster="assets/posters/grab-collapse.png" aria-label="World-model rollout with visual collapse">
+              <video id="video-collapse" controls muted playsinline preload="auto" poster="assets/posters/grab-collapse.png" aria-label="World-model rollout with visual collapse">
                 <source src="assets/videos/grab-collapse.mp4" type="video/mp4">
               </video>
               <p>Robot geometry breaks, blurs, or disappears under the query.</p>
             </article>
             <article class="failure-video failure-mismatch">
               <header><span>Failure 02</span><b>Action mismatch</b></header>
-              <video id="video-mismatch" autoplay muted loop playsinline preload="metadata" poster="assets/posters/grab-mismatch.png" aria-label="Plausible world-model rollout with action mismatch">
+              <video id="video-mismatch" controls muted playsinline preload="auto" poster="assets/posters/grab-mismatch.png" aria-label="Plausible world-model rollout with action mismatch">
                 <source src="assets/videos/grab-mismatch.mp4" type="video/mp4">
               </video>
               <p>The video looks plausible, but its end-effector motion disagrees.</p>
             </article>
+          </div>
+
+          <div class="playback-controls" role="group" aria-label="Failure comparison playback" hidden>
+            <div class="playback-actions">
+              <button type="button" data-playback-toggle>Play comparison</button>
+              <button type="button" data-playback-restart>Restart</button>
+              <span class="playback-status" data-playback-status role="status">Ready</span>
+            </div>
+            <div class="playback-timeline">
+              <input type="range" data-playback-seek min="0" max="100" value="0" step="0.1" aria-label="Failure comparison progress">
+              <span class="playback-time" data-playback-time>0:00 / 0:00</span>
+            </div>
+          </div>
           </div>
 
           <div class="evidence-grid">

@@ -1,3 +1,5 @@
+import { setupVideoGroups } from "./video-playback.js";
+
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 /* Scroll progress and section-aware navigation */
@@ -121,39 +123,8 @@ if (!prefersReducedMotion) {
   requestAnimationFrame(revealPending);
 }
 
-/* Play short evidence clips only while visible */
-const pageVideos = Array.from(document.querySelectorAll("video[autoplay]"));
-
-function safePlay(video) {
-  video.muted = true;
-  video.defaultMuted = true;
-  const playAttempt = video.play();
-  if (playAttempt && typeof playAttempt.catch === "function") playAttempt.catch(() => {});
-}
-
-if ("IntersectionObserver" in window) {
-  const videoObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        const video = entry.target;
-        video.dataset.visible = entry.isIntersecting ? "true" : "false";
-        if (entry.isIntersecting && !document.hidden) safePlay(video);
-        else video.pause();
-      });
-    },
-    { rootMargin: "140px 0px", threshold: 0.1 }
-  );
-  pageVideos.forEach((video) => videoObserver.observe(video));
-} else {
-  pageVideos.forEach(safePlay);
-}
-
-document.addEventListener("visibilitychange", () => {
-  pageVideos.forEach((video) => {
-    if (document.hidden) video.pause();
-    else if (video.dataset.visible !== "false") safePlay(video);
-  });
-});
+/* Shared timelines for the hero and failure comparisons. */
+const videoGroups = setupVideoGroups();
 
 /* Failure-case switcher */
 const caseData = {
@@ -179,18 +150,16 @@ const caseData = {
 
 const caseTabs = Array.from(document.querySelectorAll(".case-tab"));
 const failurePanel = document.querySelector(".failure-console");
+const failurePlayback = videoGroups.get(failurePanel?.closest("[data-video-group]"));
 
 function replaceVideo(videoId, sourceData, description) {
   const video = document.getElementById(videoId);
   if (!video) return;
   const source = video.querySelector("source");
   if (!source) return;
-  video.pause();
   source.src = sourceData[0];
   video.poster = sourceData[1];
   video.setAttribute("aria-label", description);
-  video.load();
-  if (!document.hidden && video.dataset.visible !== "false") safePlay(video);
 }
 
 function selectCase(tab) {
@@ -206,9 +175,13 @@ function selectCase(tab) {
   });
 
   if (failurePanel) failurePanel.setAttribute("aria-labelledby", tab.id);
-  replaceVideo("video-gt", data.gt, `${data.label} simulator ground-truth rollout`);
-  replaceVideo("video-collapse", data.collapse, `${data.label} world-model rollout with visual collapse`);
-  replaceVideo("video-mismatch", data.mismatch, `${data.label} plausible world-model rollout with action mismatch`);
+  const updateSources = () => {
+    replaceVideo("video-gt", data.gt, `${data.label} simulator ground-truth rollout`);
+    replaceVideo("video-collapse", data.collapse, `${data.label} world-model rollout with visual collapse`);
+    replaceVideo("video-mismatch", data.mismatch, `${data.label} plausible world-model rollout with action mismatch`);
+  };
+  if (failurePlayback) failurePlayback.replaceSources(updateSources);
+  else updateSources();
 }
 
 caseTabs.forEach((tab, index) => {

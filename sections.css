@@ -432,6 +432,20 @@
   margin-top: 20px;
 }
 
+.failure-comparison .playback-controls {
+  --playback-text: #eef3ff;
+  --playback-muted: #a8b7d2;
+  --playback-border: #465571;
+  --playback-surface: #142039;
+  margin-top: 6px;
+}
+
+.failure-comparison [data-playback-toggle] {
+  border-color: #ffffff;
+  background: #ffffff;
+  color: var(--navy-deep);
+}
+
 .failure-video {
   --failure-accent: var(--ref);
   position: relative;

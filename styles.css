@@ -735,6 +735,82 @@ h3 {
   color: #ffb37a;
 }
 
+/* Shared rollout playback controls; native controls remain without JavaScript. */
+.playback-controls {
+  --playback-text: var(--ink);
+  --playback-muted: var(--ink-soft);
+  --playback-border: var(--line-strong);
+  --playback-surface: var(--paper);
+  padding: 14px 3px 2px;
+  color: var(--playback-text);
+}
+
+.playback-controls[hidden] {
+  display: none;
+}
+
+.playback-actions,
+.playback-timeline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.playback-actions {
+  flex-wrap: wrap;
+}
+
+.playback-actions button {
+  min-height: 40px;
+  padding: 8px 13px;
+  border: 1px solid var(--playback-border);
+  border-radius: var(--radius-xs);
+  background: var(--playback-surface);
+  color: var(--playback-text);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.playback-actions [data-playback-toggle] {
+  min-width: 148px;
+  border-color: var(--navy);
+  background: var(--navy);
+  color: #ffffff;
+}
+
+.playback-actions button:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+
+.playback-status {
+  flex: 1 1 130px;
+  color: var(--playback-muted);
+  font-size: 0.73rem;
+}
+
+.playback-timeline {
+  margin-top: 9px;
+}
+
+.playback-timeline input {
+  min-width: 0;
+  flex: 1;
+  min-height: 32px;
+  margin: 0;
+  accent-color: var(--echo);
+  cursor: pointer;
+}
+
+.playback-time {
+  flex: none;
+  color: var(--playback-muted);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-variant-numeric: tabular-nums;
+}
+
 .console-trace {
   margin: 11px 2px 2px;
 }

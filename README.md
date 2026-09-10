@@ -9,6 +9,16 @@ This is a static, build-free project page for the anonymous WorldEcho & WorldSyn
 
 Serve this directory with any static HTTP server, then open `index.html`. The page uses only local fonts, figures, posters, and videos.
 
+For example, run `python3 -m http.server 4186 --bind 127.0.0.1` and open `http://127.0.0.1:4186/`.
+Run `npm run build` to produce the deployable static page in `dist/client`.
+Run `npm test` for the grouped-playback behavior tests; no dependency installation is needed.
+
+## Rollout comparisons
+
+The hero and failure lab each have shared play/pause, restart, and timeline controls. Each group waits for its three clips and aligns their normalized playback progress, showing every clip in full. This is a viewing aid, not an assertion that the source timestamps are aligned. Switching tasks preserves the viewer's playback choice. Videos pause outside the viewport or while the tab is hidden, and reduced-motion viewers start with still frames and can choose to play. Without JavaScript, the clips retain native video controls.
+
+The five MPEG-4 Part 2 clips have been converted to H.264 for browser compatibility. Their frame counts, frame rates, dimensions, and durations are unchanged. The original encodings remain in Git history. `grab-mismatch.mp4` retains its original 22 fps / 1.5-second duration, while the other clips are 30 fps / 1.1 seconds.
+
 ## Design system
 
 `styles.css` holds the tokens, header, hero, and overview; `sections.css` holds everything from the WorldEcho section down; `responsive.css` holds only breakpoints. Keep new work inside the existing token set:

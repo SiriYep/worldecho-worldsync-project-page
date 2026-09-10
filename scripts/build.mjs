@@ -12,6 +12,7 @@ const publicEntries = [
   "responsive.css",
   "robots.txt",
   "script.js",
+  "video-playback.js",
   "sections.css",
   "styles.css"
 ];
