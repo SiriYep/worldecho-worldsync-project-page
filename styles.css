@@ -109,34 +109,6 @@ h3 { font-family: var(--font-body); font-size: 20px; font-weight: 500; line-heig
 .thesis-badge { display: block; margin-bottom: 26px; color: var(--echo); font-family: var(--font-mono); font-size: 11px; }
 .thesis-card p:not(.thesis-tag) { margin-top: 14px; max-width: 35ch; color: var(--ink-soft); font-size: 14px; line-height: 1.8; }
 .thesis-tag { margin-top: 25px; color: #738175; text-transform: uppercase; letter-spacing: .12em; font-family: var(--font-mono); font-size: 10px; }
-.research-scope { margin-top: 40px; border-block: 1px solid var(--line-strong); scroll-margin-top: 24px; }
-.scope-heading { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 24px; padding: 18px 0; border-bottom: 1px solid var(--line); }
-.scope-heading .kicker { margin: 0; font-size: 10px; }
-.scope-heading > p:last-child { color: var(--ink-soft); font-size: 12px; }
-.scope-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
-.scope-item { --scope-accent: var(--echo); display: flex; flex-direction: column; min-width: 0; padding: 24px 24px 8px; border-left: 1px solid var(--line); }
-.scope-item:first-child { padding-left: 0; border-left: 0; }
-.scope-item:last-child { padding-right: 0; }
-.scope-failures { --scope-accent: var(--sync); }
-.scope-category { color: var(--scope-accent); font: 9px/1.6 var(--font-mono); letter-spacing: .045em; text-transform: uppercase; }
-.scope-value { margin-top: 16px; color: var(--ink); font: 52px/1 var(--font-display); letter-spacing: -.045em; }
-.scope-item h3 { margin-top: 12px; font-size: 16px; letter-spacing: -.025em; }
-.scope-description { min-height: 112px; margin-top: 12px; color: var(--ink-soft); font-size: 12px; line-height: 1.8; }
-.scope-queries, .scope-facets { list-style: none; padding: 0; margin: 18px 0 20px; }
-.scope-queries { counter-reset: query; }
-.scope-queries li { display: flex; gap: 11px; padding-block: 5px; border-top: 1px solid var(--line); font-size: 11px; }
-.scope-queries li::before { counter-increment: query; content: counter(query, decimal-leading-zero); color: var(--scope-accent); font: 9px/2 var(--font-mono); }
-.scope-details { margin: 18px 0 20px; }
-.scope-details > div { padding-top: 9px; border-top: 1px solid var(--line); }
-.scope-details > div + div { margin-top: 10px; }
-.scope-details dt { display: flex; justify-content: space-between; gap: 8px; color: var(--scope-accent); font-size: 12px; font-weight: 500; }
-.scope-details dd { margin: 3px 0 0; color: var(--ink-soft); font-size: 11px; line-height: 1.65; }
-.scope-facets li { padding-top: 9px; border-top: 1px solid var(--line); color: var(--ink-soft); font-size: 11px; line-height: 1.65; }
-.scope-facets li + li { margin-top: 10px; }
-.scope-facets li > span { display: block; margin-bottom: 3px; color: var(--scope-accent); font-size: 12px; font-weight: 500; }
-.scope-link { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 44px; padding-block: 10px; margin-top: auto; color: var(--scope-accent); font-size: 11px; }
-.scope-link > span { font-size: 17px; }
-.scope-link:hover { text-decoration: underline; text-underline-offset: 4px; }
 
 /* Shared controls remain fully functional with keyboard and reduced motion. */
 .playback-controls { --playback-text: var(--ink); --playback-muted: var(--ink-soft); --playback-border: var(--line-strong); --playback-surface: transparent; padding: 20px 0 0; color: var(--playback-text); }

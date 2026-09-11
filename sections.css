@@ -63,7 +63,7 @@
 .failure-comparison .playback-actions button { min-height: 44px; }
 .evidence-note { max-width: 900px; margin: 18px auto 0; color: var(--ink-soft); font-size: 12px; line-height: 1.8; }
 .figure-jump { display: flex; align-items: center; gap: 14px; min-height: 44px; margin-top: 12px; color: var(--echo); font-size: 13px; text-decoration: underline; text-underline-offset: 4px; }
-#figure-3 { scroll-margin-top: 20px; }
+#figure-3, #figure-4 { scroll-margin-top: 20px; }
 
 /* Three complementary interventions, with consistent editorial numbering. */
 .sync-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 56px 0 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
@@ -75,7 +75,12 @@
 .step-type { margin: 0; color: var(--sync); font: 12px/1.5 var(--font-mono); }
 .sync-step h3 { max-width: 25ch; font-size: 20px; font-weight: 500; line-height: 1.4; }
 .sync-step > p:last-child { margin: 16px 0 0; color: var(--ink-soft); font-size: 15px; line-height: 1.75; }
-.figure-shell-sync { margin-top: 56px; }
+/* The original method figure replaces the former four-part research summary. */
+.method-overview { margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--line); }
+.method-overview-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 24px; }
+.method-overview-heading h2 { font-size: 28px; }
+.method-overview-heading .figure-jump { margin-top: 0; }
+.method-overview .figure-shell { margin-top: 20px; }
 
 /* Results: the values and the table, without an extra layer of cards. */
 .results-section { background: var(--paper); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
@@ -188,6 +193,8 @@
   .result-card { padding-right: 18px; padding-left: 18px; }
   .result-card strong { font-size: 40px; }
   .result-label { font-size: 12px; }
+  .method-overview { margin-top: 40px; padding-top: 20px; }
+  .method-overview-heading h2 { font-size: 24px; }
   .abstract-section { padding-top: 40px; }
   .abstract-heading { margin-bottom: 28px; }
   .abstract-heading h2 { font-size: 38px; }

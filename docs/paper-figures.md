@@ -13,6 +13,8 @@ All paper figure images displayed by the website are direct raster renders of th
 | 3 | `assets/figure3.pdf` | `fig:benchmark` | `assets/figures/paper-figure-3` | 3200 x 695 |
 | 4 | `assets/figure4.pdf` | `fig:method-overview` | `assets/figures/paper-figure-4` | 3200 x 1706 |
 
+Figure 4 is displayed once after the abstract, in place of the former research-summary cards. The later WorldSync training section links back to that figure; its paper numbering, caption, and source assets are unchanged.
+
 ## Reproduce the PNGs
 
 From the website repository root, after copying each source PDF to its matching destination:
