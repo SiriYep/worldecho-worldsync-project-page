@@ -39,11 +39,11 @@
           <a href="#team">Team</a>
           <a href="#overview">Overview</a>
           <a href="#abstract">Abstract</a>
-          <a href="#interactive">Playground</a>
-          <a href="#evidence">Films</a>
           <a href="#worldecho">Benchmark</a>
+          <a href="#evidence">Films</a>
           <a href="#worldsync">Method</a>
           <a href="#results">Results</a>
+          <a href="#interactive">Playground</a>
         </div>
         <button type="button" class="theme-toggle" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false" hidden><span class="theme-toggle-icon" aria-hidden="true"></span><span data-theme-label>Light</span></button>
       </nav>
@@ -148,7 +148,7 @@
         <div class="container container-wide">
           <div class="section-heading split-heading">
             <div>
-              <p class="kicker">01 / The question</p>
+              <p class="kicker">The research question</p>
               <h2>A plausible future.<br>A faithful simulator?</h2>
             </div>
             <p class="lead">
@@ -188,183 +188,24 @@
             </div>
           </section>
 
-          <section id="research-scope" class="method-overview" aria-labelledby="method-overview-heading">
-            <header class="method-overview-heading">
-              <h2 id="method-overview-heading">WorldSync method</h2>
-              <a class="figure-jump" href="#worldsync">Training details <span aria-hidden="true">↗</span></a>
-            </header>
-            <figure id="figure-4" class="figure-shell" data-zoom>
-              <button class="figure-button" type="button" aria-label="Open the WorldSync training figure">
-                <img src="assets/figures/paper-figure-4.png" alt="Paper Figure 4: WorldSync action coverage expansion, intervention-effect supervision, the action-conditioned world model, and Action-Forcing Expert with their joint training objective." width="3200" height="1706" loading="eager">
-                <span class="figure-zoom" aria-hidden="true">
-                  <svg viewBox="0 0 20 20" focusable="false">
-                    <circle cx="8.6" cy="8.6" r="5.6"></circle>
-                    <path d="M12.8 12.8 17 17M8.6 6.2v4.8M6.2 8.6h4.8"></path>
-                  </svg>
-                </span>
-              </button>
-              <figcaption><b>Paper Figure 4</b> WorldSync jointly optimizes expanded action coverage, the Action-Forcing Expert, and intervention-effect supervision for faithful action following. <a href="assets/figures/paper-figure-4.pdf" target="_blank" rel="noopener" aria-label="View paper Figure 4 as the original PDF">Figure PDF ↗</a></figcaption>
-            </figure>
-          </section>
         </div>
       </section>
 
-      <section id="interactive" class="section-pad wm-section" aria-labelledby="wm-heading">
-        <div class="container">
-          <div class="section-heading split-heading">
-            <div><p class="kicker">Interactive preview</p><h2 id="wm-heading">Build an action sequence.</h2></div>
-            <p class="lead">Choose a scene and draft commands for either arm. Explore the controls here before live world-model inference is connected.</p>
-          </div>
-          <div class="wm-workbench" data-wm-preview>
-            <div class="wm-toolbar">
-              <label class="wm-scene-label" for="wm-scene">Scene <select id="wm-scene" data-wm-scene><option value="grab">Grab roller</option><option value="handover">Handover block</option><option value="bread">Place bread in basket</option></select></label>
-              <span class="wm-mode"><span aria-hidden="true"></span> Interface preview</span>
-              <button type="button" class="wm-text-button" data-wm-reset>Reset draft</button>
-            </div>
-            <div class="wm-layout">
-              <div class="wm-visuals">
-                <div class="wm-viewports">
-                  <figure class="wm-view">
-                    <figcaption><strong>Reference image</strong><span>Recorded simulator frame</span></figcaption>
-                    <div class="wm-image-frame"><img data-wm-reference src="assets/posters/grab-gt.png" alt="Recorded simulator reference frame for Grab roller" width="320" height="240" loading="lazy"></div>
-                    <p class="wm-media-note">A frame from the existing experiment recording.</p>
-                  </figure>
-                  <figure class="wm-view">
-                    <figcaption><strong data-wm-output-title>Model rollout</strong><span data-wm-output-badge>Not connected</span></figcaption>
-                    <div class="wm-output-frame">
-                      <div class="wm-output-empty" data-wm-empty><span class="wm-empty-mark" aria-hidden="true">↗</span><strong>Your generated future</strong><p>A live model will generate a rollout from your action sequence here.</p></div>
-                      <video data-wm-example hidden controls playsinline muted preload="none" aria-label="Recorded simulator example for Grab roller"></video>
-                    </div>
-                    <p class="wm-media-note" data-wm-output-note>No inference is running in this preview.</p>
-                  </figure>
-                </div>
-                <div class="wm-stage-actions"><button type="button" class="wm-outline-button" data-wm-show-example>Play recorded example</button><span>Recorded examples do not respond to your draft.</span></div>
-                <div class="wm-draft-header"><h3>Action sequence <span data-wm-count>0 / 48</span></h3><button type="button" class="wm-text-button" data-wm-undo disabled>Undo last</button></div>
-                <p class="wm-history-empty" data-wm-history-empty>No commands yet. Choose an arm and use the controls to start.</p>
-                <ol class="wm-history" data-wm-history aria-label="Drafted commands" tabindex="0" hidden></ol>
-                <div class="wm-draft-actions"><button type="button" class="wm-generate" disabled aria-describedby="wm-generation-note">Generate rollout</button><button type="button" class="wm-outline-button" data-wm-download disabled>Download actions</button><span id="wm-generation-note">Live model not connected</span></div>
-              </div>
-              <div class="wm-action-controls" data-wm-controls tabindex="0" role="group" aria-label="Action controls" aria-describedby="wm-key-help">
-                <div class="wm-controls-heading"><h3>Action draft</h3><span data-wm-active-arm>Left arm</span></div>
-                <div class="wm-arm-toggle" role="group" aria-label="Active arm"><button type="button" data-wm-arm="left" aria-pressed="true">Left arm</button><button type="button" data-wm-arm="right" aria-pressed="false">Right arm</button></div>
-                <div class="wm-step-settings"><label>Move step<select data-wm-move-step aria-label="Translation step"><option value="0.01">1 cm</option><option value="0.02" selected>2 cm</option><option value="0.05">5 cm</option></select></label><label>Rotate step<select data-wm-rotate-step aria-label="Rotation step"><option value="5" selected>5°</option><option value="10">10°</option><option value="15">15°</option></select></label></div>
-                  <fieldset class="wm-key-group"><legend>Translation</legend><div class="wm-key-grid">
-                    <button type="button" class="wm-key" data-wm-key="q" data-kind="translate" data-axis="z" data-sign="1" aria-keyshortcuts="Q"><kbd>Q</kbd><span>Lift</span></button>
-                    <button type="button" class="wm-key" data-wm-key="w" data-kind="translate" data-axis="y" data-sign="1" aria-keyshortcuts="W"><kbd>W</kbd><span>Forward</span></button>
-                    <button type="button" class="wm-key" data-wm-key="e" data-kind="translate" data-axis="z" data-sign="-1" aria-keyshortcuts="E"><kbd>E</kbd><span>Lower</span></button>
-                    <button type="button" class="wm-key" data-wm-key="a" data-kind="translate" data-axis="x" data-sign="-1" aria-keyshortcuts="A"><kbd>A</kbd><span>Left</span></button>
-                    <button type="button" class="wm-key" data-wm-key="s" data-kind="translate" data-axis="y" data-sign="-1" aria-keyshortcuts="S"><kbd>S</kbd><span>Back</span></button>
-                    <button type="button" class="wm-key" data-wm-key="d" data-kind="translate" data-axis="x" data-sign="1" aria-keyshortcuts="D"><kbd>D</kbd><span>Right</span></button>
-                  </div></fieldset>
-                  <fieldset class="wm-key-group"><legend>Rotation</legend><div class="wm-key-grid">
-                    <button type="button" class="wm-key" data-wm-key="u" data-kind="rotate" data-axis="x" data-sign="-1" aria-keyshortcuts="U"><kbd>U</kbd><span>Roll −</span></button>
-                    <button type="button" class="wm-key" data-wm-key="i" data-kind="rotate" data-axis="y" data-sign="1" aria-keyshortcuts="I"><kbd>I</kbd><span>Pitch +</span></button>
-                    <button type="button" class="wm-key" data-wm-key="o" data-kind="rotate" data-axis="x" data-sign="1" aria-keyshortcuts="O"><kbd>O</kbd><span>Roll +</span></button>
-                    <button type="button" class="wm-key" data-wm-key="j" data-kind="rotate" data-axis="z" data-sign="-1" aria-keyshortcuts="J"><kbd>J</kbd><span>Yaw −</span></button>
-                    <button type="button" class="wm-key" data-wm-key="k" data-kind="rotate" data-axis="y" data-sign="-1" aria-keyshortcuts="K"><kbd>K</kbd><span>Pitch −</span></button>
-                    <button type="button" class="wm-key" data-wm-key="l" data-kind="rotate" data-axis="z" data-sign="1" aria-keyshortcuts="L"><kbd>L</kbd><span>Yaw +</span></button>
-                  </div></fieldset>
-                <fieldset class="wm-key-group"><legend>Gripper</legend><div class="wm-key-grid wm-gripper-grid"><button type="button" class="wm-key" data-wm-key="z" data-kind="gripper" data-value="close" aria-keyshortcuts="Z"><kbd>Z</kbd><span>Close</span></button><button type="button" class="wm-key" data-wm-key="x" data-kind="gripper" data-value="open" aria-keyshortcuts="X"><kbd>X</kbd><span>Open</span></button></div></fieldset>
-                <div class="wm-deltas"><p>Drafted change <span>UI axes</span></p><div><span>Position · cm</span><output data-wm-position>0.0 / 0.0 / 0.0</output></div><div><span>Rotation · °</span><output data-wm-rotation>0 / 0 / 0</output></div><div><span>Gripper</span><output data-wm-gripper>Unchanged</output></div></div>
-                <p id="wm-key-help" class="wm-key-help">Focus these controls to use the keys. Each press adds one command. X / Y / Z are preview axes; no robot motion is executed.</p>
-              </div>
-            </div>
-            <p class="wm-status" data-wm-status role="status" aria-live="polite">Ready to draft. No model is connected.</p>
-          </div>
-          <noscript><p class="wm-noscript">Enable JavaScript to edit an action draft. This page does not connect to a live model.</p></noscript>
-        </div>
-      </section>
-
-      <section id="evidence" class="section-pad evidence-section">
-        <div class="evidence-bg" aria-hidden="true"></div>
-        <div class="container container-wide">
-          <div class="section-heading split-heading">
-            <div>
-              <p class="kicker kicker-warn">02 / The evidence</p>
-              <h2>One action.<br>Three different futures.</h2>
-            </div>
-            <p class="lead">
-              Looking right is only half the story. Compare the simulator with two failure modes: a broken visual
-              world, and a convincing world that moves the wrong way.
-            </p>
-          </div>
-
-          <div class="failure-comparison" data-video-group aria-label="Failure case rollout comparison">
-          <div class="case-tabs" role="tablist" aria-label="Failure case">
-            <button id="case-grab" class="case-tab active" type="button" role="tab" aria-selected="true" aria-controls="failure-console" data-case="grab">Grab roller</button>
-            <button id="case-handover" class="case-tab" type="button" role="tab" aria-selected="false" aria-controls="failure-console" tabindex="-1" data-case="handover">Handover block</button>
-            <button id="case-bread" class="case-tab" type="button" role="tab" aria-selected="false" aria-controls="failure-console" tabindex="-1" data-case="bread">Place bread in basket</button>
-          </div>
-
-          <div class="playback-controls" role="group" aria-label="Failure comparison playback" hidden>
-            <div class="playback-actions">
-              <button type="button" data-playback-toggle>Play comparison</button>
-              <button type="button" data-playback-restart>Restart</button>
-              <span class="playback-status" data-playback-status role="status">Ready</span>
-            </div>
-            <div class="playback-timeline">
-              <input type="range" data-playback-seek min="0" max="100" value="0" step="0.1" aria-label="Failure comparison progress">
-              <span class="playback-time" data-playback-time>0:00 / 0:00</span>
-            </div>
-          </div>
-
-          <div id="failure-console" class="failure-console" role="tabpanel" tabindex="0" aria-labelledby="case-grab">
-            <article class="failure-video failure-input">
-              <div class="failure-copy">
-                <header><span>Input</span><h3>Reference frame</h3></header>
-                <p id="input-task">Grab roller</p>
-                <p>First recorded simulator frame.</p>
-              </div>
-              <img id="failure-input" src="assets/inputs/grab-start.png" alt="First recorded simulator frame for Grab roller" width="320" height="240">
-            </article>
-            <article class="failure-video failure-good">
-              <div class="failure-copy">
-                <header><span>GT</span><h3>Simulator ground truth</h3></header>
-                <p>The simulator reference for the recorded action query.</p>
-              </div>
-              <video id="video-gt" controls muted playsinline preload="auto" poster="assets/posters/grab-gt.png" aria-label="Simulator ground-truth rollout">
-                <source src="assets/videos/grab-gt.mp4" type="video/mp4">
-              </video>
-            </article>
-            <article class="failure-video failure-collapse">
-              <div class="failure-copy">
-                <header><span>Model output 1</span><h3>Visual collapse</h3></header>
-                <p>Robot geometry breaks, blurs, or disappears under the query.</p>
-              </div>
-              <video id="video-collapse" controls muted playsinline preload="auto" poster="assets/posters/grab-collapse.png" aria-label="World-model rollout with visual collapse">
-                <source src="assets/videos/grab-collapse.mp4" type="video/mp4">
-              </video>
-            </article>
-            <article class="failure-video failure-mismatch">
-              <div class="failure-copy">
-                <header><span>Model output 2</span><h3>Action mismatch</h3></header>
-                <p>The video looks plausible, but its end-effector motion disagrees.</p>
-              </div>
-              <video id="video-mismatch" controls muted playsinline preload="auto" poster="assets/posters/grab-mismatch.png" aria-label="Plausible world-model rollout with action mismatch">
-                <source src="assets/videos/grab-mismatch.mp4" type="video/mp4">
-              </video>
-            </article>
-          </div>
-          <p class="evidence-note">Input shows the first recorded simulator frame; the clips do not include numerical action inputs. Model outputs 1 and 2 identify the two examples, not separate model identities.</p>
-          </div>
-        </div>
-      </section>
-
-      <section id="worldecho" class="section-pad section-light">
-        <div class="container container-wide">
-          <div class="section-heading split-heading">
+      <section id="worldecho" class="section-pad section-light" aria-labelledby="worldecho-heading">
+        <div id="research-scope" class="container container-wide">
+          <div class="section-heading split-heading benchmark-heading">
             <div>
               <div class="brand-lockup">
                 <span class="brand-name">World<em class="brand-echo">Echo</em></span>
-                <span class="brand-role">03 / Benchmark</span>
+                <span class="brand-role">Part I / Problem &amp; benchmark</span>
               </div>
-              <h2>Beyond the<br>demonstrated action.</h2>
+              <h2 id="worldecho-heading">Define the problem.<br>Introduce the benchmark.</h2>
             </div>
-            <p class="lead">
-              WorldEcho broadens the query distribution from demonstrated actions toward the feasible action space,
-              always replaying the same query in the simulator to obtain an action-specific future.
-              <a class="figure-jump" href="#figure-3">Figure 3 · Evaluation framework <span aria-hidden="true">↓</span></a>
-            </p>
+            <div class="lead benchmark-intro">
+              <p>Given an initial observation and a valid action sequence, a world model should generate a visually valid future whose robot motion agrees with the consequences of executing those actions. Visual plausibility alone does not establish action following.</p>
+              <p>WorldEcho evaluates demonstrated and off-expert action queries against simulator futures produced from the same initial state and action sequence, jointly assessing visual integrity and SE(3) end-effector alignment.</p>
+              <a class="figure-jump" href="#figure-3">Figure 3 · WorldEcho benchmark <span aria-hidden="true">↓</span></a>
+            </div>
           </div>
 
           <figure id="figure-3" class="figure-shell" data-zoom>
@@ -461,23 +302,109 @@
         </div>
       </section>
 
-      <section id="worldsync" class="section-pad section-light">
+      <section id="evidence" class="section-pad evidence-section">
+        <div class="evidence-bg" aria-hidden="true"></div>
+        <div class="container container-wide">
+          <div class="section-heading split-heading">
+            <div>
+              <p class="kicker kicker-warn">WorldEcho / What the benchmark reveals</p>
+              <h2>One action.<br>Three different futures.</h2>
+            </div>
+            <p class="lead">
+              Looking right is only half the story. Compare the simulator with two failure modes: a broken visual
+              world, and a convincing world that moves the wrong way.
+            </p>
+          </div>
+
+          <div class="failure-comparison" data-video-group aria-label="Failure case rollout comparison">
+          <div class="case-tabs" role="tablist" aria-label="Failure case">
+            <button id="case-grab" class="case-tab active" type="button" role="tab" aria-selected="true" aria-controls="failure-console" data-case="grab">Grab roller</button>
+            <button id="case-handover" class="case-tab" type="button" role="tab" aria-selected="false" aria-controls="failure-console" tabindex="-1" data-case="handover">Handover block</button>
+            <button id="case-bread" class="case-tab" type="button" role="tab" aria-selected="false" aria-controls="failure-console" tabindex="-1" data-case="bread">Place bread in basket</button>
+          </div>
+
+          <div class="playback-controls" role="group" aria-label="Failure comparison playback" hidden>
+            <div class="playback-actions">
+              <button type="button" data-playback-toggle>Play comparison</button>
+              <button type="button" data-playback-restart>Restart</button>
+              <span class="playback-status" data-playback-status role="status">Ready</span>
+            </div>
+            <div class="playback-timeline">
+              <input type="range" data-playback-seek min="0" max="100" value="0" step="0.1" aria-label="Failure comparison progress">
+              <span class="playback-time" data-playback-time>0:00 / 0:00</span>
+            </div>
+          </div>
+
+          <div id="failure-console" class="failure-console" role="tabpanel" tabindex="0" aria-labelledby="case-grab">
+            <article class="failure-video failure-input">
+              <div class="failure-copy">
+                <header><span>Input</span><h3>Reference frame</h3></header>
+                <p id="input-task">Grab roller</p>
+                <p>First recorded simulator frame.</p>
+              </div>
+              <img id="failure-input" src="assets/inputs/grab-start.png" alt="First recorded simulator frame for Grab roller" width="320" height="240">
+            </article>
+            <article class="failure-video failure-good">
+              <div class="failure-copy">
+                <header><span>GT</span><h3>Simulator ground truth</h3></header>
+                <p>The simulator reference for the recorded action query.</p>
+              </div>
+              <video id="video-gt" controls muted playsinline preload="auto" poster="assets/posters/grab-gt.png" aria-label="Simulator ground-truth rollout">
+                <source src="assets/videos/grab-gt.mp4" type="video/mp4">
+              </video>
+            </article>
+            <article class="failure-video failure-collapse">
+              <div class="failure-copy">
+                <header><span>Model output 1</span><h3>Visual collapse</h3></header>
+                <p>Robot geometry breaks, blurs, or disappears under the query.</p>
+              </div>
+              <video id="video-collapse" controls muted playsinline preload="auto" poster="assets/posters/grab-collapse.png" aria-label="World-model rollout with visual collapse">
+                <source src="assets/videos/grab-collapse.mp4" type="video/mp4">
+              </video>
+            </article>
+            <article class="failure-video failure-mismatch">
+              <div class="failure-copy">
+                <header><span>Model output 2</span><h3>Action mismatch</h3></header>
+                <p>The video looks plausible, but its end-effector motion disagrees.</p>
+              </div>
+              <video id="video-mismatch" controls muted playsinline preload="auto" poster="assets/posters/grab-mismatch.png" aria-label="Plausible world-model rollout with action mismatch">
+                <source src="assets/videos/grab-mismatch.mp4" type="video/mp4">
+              </video>
+            </article>
+          </div>
+          <p class="evidence-note">Input shows the first recorded simulator frame; the clips do not include numerical action inputs. Model outputs 1 and 2 identify the two examples, not separate model identities.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="worldsync" class="section-pad section-light" aria-labelledby="worldsync-heading">
         <div class="container container-wide">
           <div class="section-heading split-heading">
             <div>
               <div class="brand-lockup">
                 <span class="brand-name">World<em class="brand-sync">Sync</em></span>
-                <span class="brand-role brand-role-sync">04 / Training recipe</span>
+                <span class="brand-role brand-role-sync">Part II / World model training</span>
               </div>
-              <h2>Make the future<br>follow the action.</h2>
+              <h2 id="worldsync-heading">Train a world model<br>that follows actions.</h2>
             </div>
             <p class="lead">
-              WorldSync strengthens action following at three complementary levels: the action distribution, the video
-              representation, and the response to controlled action interventions.
+              Guided by the WorldEcho diagnosis, WorldSync trains the world model to improve action following through
+              expanded action coverage, auxiliary Action-Forcing Expert supervision, and intervention-effect alignment.
             </p>
           </div>
 
-          <a class="figure-jump" href="#figure-4">Figure 4 · WorldSync method overview <span aria-hidden="true">↗</span></a>
+          <figure id="figure-4" class="figure-shell" data-zoom>
+            <button class="figure-button" type="button" aria-label="Open the WorldSync training figure">
+              <img src="assets/figures/paper-figure-4.png" alt="Paper Figure 4: WorldSync action coverage expansion, intervention-effect supervision, the action-conditioned world model, and Action-Forcing Expert with their joint training objective." width="3200" height="1706" loading="eager">
+              <span class="figure-zoom" aria-hidden="true">
+                <svg viewBox="0 0 20 20" focusable="false">
+                  <circle cx="8.6" cy="8.6" r="5.6"></circle>
+                  <path d="M12.8 12.8 17 17M8.6 6.2v4.8M6.2 8.6h4.8"></path>
+                </svg>
+              </span>
+            </button>
+            <figcaption><b>Paper Figure 4</b> WorldSync jointly optimizes expanded action coverage, the Action-Forcing Expert, and intervention-effect supervision for faithful action following. <a href="assets/figures/paper-figure-4.pdf" target="_blank" rel="noopener" aria-label="View paper Figure 4 as the original PDF">Figure PDF ↗</a></figcaption>
+          </figure>
 
           <ol class="sync-steps">
             <li class="sync-step">
@@ -513,7 +440,7 @@
         <div class="container">
           <div class="section-heading split-heading">
             <div>
-              <p class="kicker kicker-result">05 / Results</p>
+              <p class="kicker kicker-result">WorldSync / Evaluation results</p>
               <h2>Measure fidelity.<br>Count every failure.</h2>
             </div>
             <p class="lead">
@@ -581,6 +508,72 @@
               </table>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section id="interactive" class="section-pad wm-section" aria-labelledby="wm-heading">
+        <div class="container">
+          <div class="section-heading split-heading">
+            <div><p class="kicker">WorldSync / Interactive preview</p><h2 id="wm-heading">Build an action sequence.</h2></div>
+            <p class="lead">Choose a scene and draft commands for either arm. Explore the controls here before live world-model inference is connected.</p>
+          </div>
+          <div class="wm-workbench" data-wm-preview>
+            <div class="wm-toolbar">
+              <label class="wm-scene-label" for="wm-scene">Scene <select id="wm-scene" data-wm-scene><option value="grab">Grab roller</option><option value="handover">Handover block</option><option value="bread">Place bread in basket</option></select></label>
+              <span class="wm-mode"><span aria-hidden="true"></span> Interface preview</span>
+              <button type="button" class="wm-text-button" data-wm-reset>Reset draft</button>
+            </div>
+            <div class="wm-layout">
+              <div class="wm-visuals">
+                <div class="wm-viewports">
+                  <figure class="wm-view">
+                    <figcaption><strong>Reference image</strong><span>Recorded simulator frame</span></figcaption>
+                    <div class="wm-image-frame"><img data-wm-reference src="assets/posters/grab-gt.png" alt="Recorded simulator reference frame for Grab roller" width="320" height="240" loading="lazy"></div>
+                    <p class="wm-media-note">A frame from the existing experiment recording.</p>
+                  </figure>
+                  <figure class="wm-view">
+                    <figcaption><strong data-wm-output-title>Model rollout</strong><span data-wm-output-badge>Not connected</span></figcaption>
+                    <div class="wm-output-frame">
+                      <div class="wm-output-empty" data-wm-empty><span class="wm-empty-mark" aria-hidden="true">↗</span><strong>Your generated future</strong><p>A live model will generate a rollout from your action sequence here.</p></div>
+                      <video data-wm-example hidden controls playsinline muted preload="none" aria-label="Recorded simulator example for Grab roller"></video>
+                    </div>
+                    <p class="wm-media-note" data-wm-output-note>No inference is running in this preview.</p>
+                  </figure>
+                </div>
+                <div class="wm-stage-actions"><button type="button" class="wm-outline-button" data-wm-show-example>Play recorded example</button><span>Recorded examples do not respond to your draft.</span></div>
+                <div class="wm-draft-header"><h3>Action sequence <span data-wm-count>0 / 48</span></h3><button type="button" class="wm-text-button" data-wm-undo disabled>Undo last</button></div>
+                <p class="wm-history-empty" data-wm-history-empty>No commands yet. Choose an arm and use the controls to start.</p>
+                <ol class="wm-history" data-wm-history aria-label="Drafted commands" tabindex="0" hidden></ol>
+                <div class="wm-draft-actions"><button type="button" class="wm-generate" disabled aria-describedby="wm-generation-note">Generate rollout</button><button type="button" class="wm-outline-button" data-wm-download disabled>Download actions</button><span id="wm-generation-note">Live model not connected</span></div>
+              </div>
+              <div class="wm-action-controls" data-wm-controls tabindex="0" role="group" aria-label="Action controls" aria-describedby="wm-key-help">
+                <div class="wm-controls-heading"><h3>Action draft</h3><span data-wm-active-arm>Left arm</span></div>
+                <div class="wm-arm-toggle" role="group" aria-label="Active arm"><button type="button" data-wm-arm="left" aria-pressed="true">Left arm</button><button type="button" data-wm-arm="right" aria-pressed="false">Right arm</button></div>
+                <div class="wm-step-settings"><label>Move step<select data-wm-move-step aria-label="Translation step"><option value="0.01">1 cm</option><option value="0.02" selected>2 cm</option><option value="0.05">5 cm</option></select></label><label>Rotate step<select data-wm-rotate-step aria-label="Rotation step"><option value="5" selected>5°</option><option value="10">10°</option><option value="15">15°</option></select></label></div>
+                  <fieldset class="wm-key-group"><legend>Translation</legend><div class="wm-key-grid">
+                    <button type="button" class="wm-key" data-wm-key="q" data-kind="translate" data-axis="z" data-sign="1" aria-keyshortcuts="Q"><kbd>Q</kbd><span>Lift</span></button>
+                    <button type="button" class="wm-key" data-wm-key="w" data-kind="translate" data-axis="y" data-sign="1" aria-keyshortcuts="W"><kbd>W</kbd><span>Forward</span></button>
+                    <button type="button" class="wm-key" data-wm-key="e" data-kind="translate" data-axis="z" data-sign="-1" aria-keyshortcuts="E"><kbd>E</kbd><span>Lower</span></button>
+                    <button type="button" class="wm-key" data-wm-key="a" data-kind="translate" data-axis="x" data-sign="-1" aria-keyshortcuts="A"><kbd>A</kbd><span>Left</span></button>
+                    <button type="button" class="wm-key" data-wm-key="s" data-kind="translate" data-axis="y" data-sign="-1" aria-keyshortcuts="S"><kbd>S</kbd><span>Back</span></button>
+                    <button type="button" class="wm-key" data-wm-key="d" data-kind="translate" data-axis="x" data-sign="1" aria-keyshortcuts="D"><kbd>D</kbd><span>Right</span></button>
+                  </div></fieldset>
+                  <fieldset class="wm-key-group"><legend>Rotation</legend><div class="wm-key-grid">
+                    <button type="button" class="wm-key" data-wm-key="u" data-kind="rotate" data-axis="x" data-sign="-1" aria-keyshortcuts="U"><kbd>U</kbd><span>Roll −</span></button>
+                    <button type="button" class="wm-key" data-wm-key="i" data-kind="rotate" data-axis="y" data-sign="1" aria-keyshortcuts="I"><kbd>I</kbd><span>Pitch +</span></button>
+                    <button type="button" class="wm-key" data-wm-key="o" data-kind="rotate" data-axis="x" data-sign="1" aria-keyshortcuts="O"><kbd>O</kbd><span>Roll +</span></button>
+                    <button type="button" class="wm-key" data-wm-key="j" data-kind="rotate" data-axis="z" data-sign="-1" aria-keyshortcuts="J"><kbd>J</kbd><span>Yaw −</span></button>
+                    <button type="button" class="wm-key" data-wm-key="k" data-kind="rotate" data-axis="y" data-sign="-1" aria-keyshortcuts="K"><kbd>K</kbd><span>Pitch −</span></button>
+                    <button type="button" class="wm-key" data-wm-key="l" data-kind="rotate" data-axis="z" data-sign="1" aria-keyshortcuts="L"><kbd>L</kbd><span>Yaw +</span></button>
+                  </div></fieldset>
+                <fieldset class="wm-key-group"><legend>Gripper</legend><div class="wm-key-grid wm-gripper-grid"><button type="button" class="wm-key" data-wm-key="z" data-kind="gripper" data-value="close" aria-keyshortcuts="Z"><kbd>Z</kbd><span>Close</span></button><button type="button" class="wm-key" data-wm-key="x" data-kind="gripper" data-value="open" aria-keyshortcuts="X"><kbd>X</kbd><span>Open</span></button></div></fieldset>
+                <div class="wm-deltas"><p>Drafted change <span>UI axes</span></p><div><span>Position · cm</span><output data-wm-position>0.0 / 0.0 / 0.0</output></div><div><span>Rotation · °</span><output data-wm-rotation>0 / 0 / 0</output></div><div><span>Gripper</span><output data-wm-gripper>Unchanged</output></div></div>
+                <p id="wm-key-help" class="wm-key-help">Focus these controls to use the keys. Each press adds one command. X / Y / Z are preview axes; no robot motion is executed.</p>
+              </div>
+            </div>
+            <p class="wm-status" data-wm-status role="status" aria-live="polite">Ready to draft. No model is connected.</p>
+          </div>
+          <noscript><p class="wm-noscript">Enable JavaScript to edit an action draft. This page does not connect to a live model.</p></noscript>
         </div>
       </section>
     </main>
