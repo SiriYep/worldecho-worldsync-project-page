@@ -95,7 +95,7 @@ html, body, main,
 }
 .figure-button:hover .figure-zoom { background: var(--theme-solid); color: var(--theme-on-solid); }
 .figure-dialog::backdrop { background: rgb(0 0 0 / .78); }
-.table-scroll .ours th, .table-scroll .ours td { background: var(--surface); color: var(--ink); }
+.table-scroll .ours th, .table-scroll .ours td { background: var(--theme-hover); color: var(--ink); }
 
 /* Evidence captions, tabs, and shared video controls. */
 .evidence-section h2, .evidence-section h3, .failure-video header b,

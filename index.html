@@ -425,28 +425,43 @@
                 <h3 id="table-1-heading">Table 1 · Main comparison</h3>
                 <a href="https://arxiv.org/html/2608.24885v1#S4.T1" target="_blank" rel="noopener">View in the paper ↗</a>
               </header>
-              <p id="table-1-context" class="result-note">All 13 configurations from the paper. Results are task-macro averages across 50 RoboTwin tasks. Expert baselines use 20k updates, expanded baselines 40k, and WorldSync 60k.</p>
+              <p id="table-1-context" class="result-note">All 13 configurations, averaged across 50 RoboTwin tasks. Expert denotes expert demonstrations (20k updates); Expanded denotes expanded action coverage (40k for baselines, 60k for WorldSync).</p>
               <p class="table-scroll-hint">Scroll horizontally to view all columns.</p>
               <div class="table-scroll" role="region" aria-label="Table 1: WorldEcho main comparison" aria-describedby="table-1-context" tabindex="0">
                 <table>
                   <caption class="sr-only">Complete Table 1: main WorldEcho comparison across 50 RoboTwin tasks</caption>
+                  <colgroup>
+                    <col class="table-label-col"><col class="table-coverage-col"><col span="3" class="table-metric-col">
+                  </colgroup>
                   <thead>
-                    <tr><th scope="col">Model</th><th scope="col">Training regime</th><th scope="col">Gated error ↓</th><th scope="col">Raw NDTW ↓</th><th scope="col">Visual pass (%) ↑</th></tr>
+                    <tr><th scope="col">Model</th><th scope="col">Training data</th><th scope="col">Gated error ↓</th><th scope="col">Raw NDTW ↓</th><th scope="col">Visual pass (%) ↑</th></tr>
                   </thead>
-                  <tbody>
-                    <tr><th scope="row">CtrlWorld</th><td>Expert Demonstrations</td><td>0.0716</td><td>0.0266</td><td>83.89</td></tr>
-                    <tr><th scope="row">CtrlWorld</th><td>Expanded Action Coverage</td><td>0.0670</td><td>0.0210</td><td>83.71</td></tr>
-                    <tr><th scope="row">Cosmos-Predict2.5</th><td>Expert Demonstrations</td><td>0.0894</td><td>0.0190</td><td>75.09</td></tr>
-                    <tr><th scope="row">Cosmos-Predict2.5</th><td>Expanded Action Coverage</td><td>0.0842</td><td><strong>0.0127</strong></td><td>75.03</td></tr>
-                    <tr><th scope="row">Cosmos3</th><td>Expert Demonstrations</td><td>0.1432</td><td>0.0572</td><td>63.94</td></tr>
-                    <tr><th scope="row">Cosmos3</th><td>Expanded Action Coverage</td><td>0.1218</td><td>0.0419</td><td>68.97</td></tr>
-                    <tr><th scope="row">DreamDojo</th><td>Expert Demonstrations</td><td>0.0805</td><td>0.0210</td><td>78.97</td></tr>
-                    <tr><th scope="row">DreamDojo</th><td>Expanded Action Coverage</td><td>0.0801</td><td>0.0151</td><td>77.20</td></tr>
-                    <tr><th scope="row">Motus</th><td>Expert Demonstrations</td><td>0.1116</td><td>0.0548</td><td>75.09</td></tr>
-                    <tr><th scope="row">Motus</th><td>Expanded Action Coverage</td><td>0.0731</td><td>0.0292</td><td>84.34</td></tr>
-                    <tr><th scope="row">LingBotVA</th><td>Expert Demonstrations</td><td>0.1148</td><td>0.0473</td><td>71.83</td></tr>
-                    <tr><th scope="row">LingBotVA</th><td>Expanded Action Coverage</td><td>0.0897</td><td>0.0340</td><td>79.71</td></tr>
-                    <tr class="ours"><th scope="row">WorldSync</th><td>Expanded Action Coverage</td><td><strong>0.0661</strong></td><td>0.0223</td><td><strong>84.51</strong></td></tr>
+                  <tbody class="model-group">
+                    <tr><th scope="rowgroup" rowspan="2" class="table-model">CtrlWorld</th><th scope="row" class="table-coverage">Expert</th><td>0.0716</td><td>0.0266</td><td>83.89</td></tr>
+                    <tr><th scope="row" class="table-coverage">Expanded</th><td>0.0670</td><td>0.0210</td><td>83.71</td></tr>
+                  </tbody>
+                  <tbody class="model-group">
+                    <tr><th scope="rowgroup" rowspan="2" class="table-model">Cosmos-Predict2.5</th><th scope="row" class="table-coverage">Expert</th><td>0.0894</td><td>0.0190</td><td>75.09</td></tr>
+                    <tr><th scope="row" class="table-coverage">Expanded</th><td>0.0842</td><td><strong>0.0127</strong></td><td>75.03</td></tr>
+                  </tbody>
+                  <tbody class="model-group">
+                    <tr><th scope="rowgroup" rowspan="2" class="table-model">Cosmos3</th><th scope="row" class="table-coverage">Expert</th><td>0.1432</td><td>0.0572</td><td>63.94</td></tr>
+                    <tr><th scope="row" class="table-coverage">Expanded</th><td>0.1218</td><td>0.0419</td><td>68.97</td></tr>
+                  </tbody>
+                  <tbody class="model-group">
+                    <tr><th scope="rowgroup" rowspan="2" class="table-model">DreamDojo</th><th scope="row" class="table-coverage">Expert</th><td>0.0805</td><td>0.0210</td><td>78.97</td></tr>
+                    <tr><th scope="row" class="table-coverage">Expanded</th><td>0.0801</td><td>0.0151</td><td>77.20</td></tr>
+                  </tbody>
+                  <tbody class="model-group">
+                    <tr><th scope="rowgroup" rowspan="2" class="table-model">Motus</th><th scope="row" class="table-coverage">Expert</th><td>0.1116</td><td>0.0548</td><td>75.09</td></tr>
+                    <tr><th scope="row" class="table-coverage">Expanded</th><td>0.0731</td><td>0.0292</td><td>84.34</td></tr>
+                  </tbody>
+                  <tbody class="model-group">
+                    <tr><th scope="rowgroup" rowspan="2" class="table-model">LingBotVA</th><th scope="row" class="table-coverage">Expert</th><td>0.1148</td><td>0.0473</td><td>71.83</td></tr>
+                    <tr><th scope="row" class="table-coverage">Expanded</th><td>0.0897</td><td>0.0340</td><td>79.71</td></tr>
+                  </tbody>
+                  <tbody class="model-group">
+                    <tr class="ours"><th scope="row">WorldSync</th><th scope="row" class="table-coverage">Expanded</th><td><strong>0.0661</strong></td><td>0.0223</td><td><strong>84.51</strong></td></tr>
                   </tbody>
                 </table>
               </div>
@@ -463,15 +478,18 @@
               <div class="table-scroll" role="region" aria-label="Table 2: WorldSync component ablation" aria-describedby="table-2-context" tabindex="0">
                 <table>
                   <caption class="sr-only">Complete Table 2: WorldSync component ablation on four RoboTwin tasks, averaged over eight common checkpoints</caption>
+                  <colgroup>
+                    <col class="table-label-col"><col class="table-coverage-col"><col span="3" class="table-metric-col">
+                  </colgroup>
                   <thead>
                     <tr><th scope="col">Variant</th><th scope="col">Coverage</th><th scope="col">Gated error ↓</th><th scope="col">Raw NDTW ↓</th><th scope="col">Visual pass (%) ↑</th></tr>
                   </thead>
                   <tbody>
-                    <tr><th scope="row">Base</th><td>Expert</td><td>0.0781</td><td>0.0306</td><td>82.41</td></tr>
-                    <tr><th scope="row">Base</th><td>Expanded</td><td>0.0738</td><td>0.0258</td><td>82.68</td></tr>
-                    <tr><th scope="row">+ IE</th><td>Expanded</td><td>0.0700</td><td><strong>0.0170</strong></td><td>81.25</td></tr>
-                    <tr><th scope="row">+ AFE</th><td>Expanded</td><td>0.0753</td><td>0.0284</td><td><strong>83.04</strong></td></tr>
-                    <tr class="ours"><th scope="row">Full</th><td>Expanded</td><td><strong>0.0695</strong></td><td>0.0189</td><td>81.96</td></tr>
+                    <tr><th scope="row">Base</th><td class="table-coverage">Expert</td><td>0.0781</td><td>0.0306</td><td>82.41</td></tr>
+                    <tr><th scope="row">Base</th><td class="table-coverage">Expanded</td><td>0.0738</td><td>0.0258</td><td>82.68</td></tr>
+                    <tr><th scope="row">+ IE</th><td class="table-coverage">Expanded</td><td>0.0700</td><td><strong>0.0170</strong></td><td>81.25</td></tr>
+                    <tr><th scope="row">+ AFE</th><td class="table-coverage">Expanded</td><td>0.0753</td><td>0.0284</td><td><strong>83.04</strong></td></tr>
+                    <tr class="ours"><th scope="row">Full</th><td class="table-coverage">Expanded</td><td><strong>0.0695</strong></td><td>0.0189</td><td>81.96</td></tr>
                   </tbody>
                 </table>
               </div>
