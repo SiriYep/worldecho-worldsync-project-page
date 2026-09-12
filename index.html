@@ -23,7 +23,7 @@
     <script src="script.js" type="module"></script>
   </head>
   <body>
-    <a class="skip-link" href="#overview">Skip to content</a>
+    <a class="skip-link" href="#abstract">Skip to content</a>
     <div class="scroll-progress" aria-hidden="true"><span id="progress-bar"></span></div>
 
     <header class="site-header">
@@ -37,7 +37,6 @@
         </button>
         <div id="nav-links" class="nav-links">
           <a href="#team">Team</a>
-          <a href="#overview">Overview</a>
           <a href="#abstract">Abstract</a>
           <a href="#worldecho">Benchmark</a>
           <a href="#evidence">Films</a>
@@ -146,27 +145,6 @@
 
       <section id="overview" class="section-pad overview-section">
         <div class="container container-wide">
-          <div class="section-heading split-heading">
-            <div>
-              <p class="kicker">The research question</p>
-              <h2>A plausible future.<br>A faithful simulator?</h2>
-            </div>
-            <p class="lead">
-              A world model can look convincing and still ignore the action it was given. WorldEcho tests this gap
-              beyond expert replay. WorldSync trains the model to respond to the commanded future.
-            </p>
-          </div>
-
-          <figure class="figure-shell" data-zoom>
-            <button class="figure-button" type="button" aria-label="Open the paper overview figure">
-              <img src="assets/figures/paper-figure-1.png" alt="Paper Figure 1: WorldEcho diagnoses action-following failures, WorldSync improves action-conditioned generation, and policy-improvement experiments validate the learned simulator." width="3200" height="1673" loading="lazy">
-              <span class="figure-zoom" aria-hidden="true">
-                <svg viewBox="0 0 20 20" focusable="false"><circle cx="8.6" cy="8.6" r="5.6"></circle><path d="M12.8 12.8 17 17M8.6 6.2v4.8M6.2 8.6h4.8"></path></svg>
-              </span>
-            </button>
-            <figcaption><b>Paper Figure 1</b> The diagnose–improve–validate pipeline: evaluate action following with WorldEcho, align the model with WorldSync, and evaluate policy improvement. <a href="assets/figures/paper-figure-1.pdf" target="_blank" rel="noopener" aria-label="View paper Figure 1 as the original PDF">Figure PDF ↗</a></figcaption>
-          </figure>
-
           <section id="abstract" class="abstract-section" aria-labelledby="abstract-heading">
             <div class="abstract-layout">
               <header class="abstract-heading">
@@ -199,10 +177,10 @@
                 <span class="brand-name">World<em class="brand-echo">Echo</em></span>
                 <span class="brand-role">Part I / Problem &amp; benchmark</span>
               </div>
-              <h2 id="worldecho-heading">Define the problem.<br>Introduce the benchmark.</h2>
+              <h2 id="worldecho-heading">A plausible future.<br>A faithful simulator?</h2>
             </div>
             <div class="lead benchmark-intro">
-              <p>Given an initial observation and a valid action sequence, a world model should generate a visually valid future whose robot motion agrees with the consequences of executing those actions. Visual plausibility alone does not establish action following.</p>
+              <p>A world model can look convincing and still ignore the action it was given. Given an initial observation and a valid action sequence, its generated future should be visually valid, and the robot motion should agree with the consequences of executing those actions.</p>
               <p>WorldEcho evaluates demonstrated and off-expert action queries against simulator futures produced from the same initial state and action sequence, jointly assessing visual integrity and SE(3) end-effector alignment.</p>
               <a class="figure-jump" href="#figure-3">Figure 3 · WorldEcho benchmark <span aria-hidden="true">↓</span></a>
             </div>

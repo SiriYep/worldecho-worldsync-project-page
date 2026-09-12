@@ -118,7 +118,7 @@
 .table-scroll .ours th { color: var(--echo); }
 .table-scroll .best-raw { color: var(--sync); text-decoration: underline; text-underline-offset: 4px; }
 
-.abstract-section { padding-top: 64px; }
+.abstract-section { padding-top: 0; }
 .abstract-layout { width: min(100%, 880px); margin-inline: auto; }
 .abstract-heading { margin-bottom: 36px; text-align: center; }
 .abstract-heading h2 { font-size: 44px; }
@@ -189,7 +189,6 @@
   .result-card { padding-right: 18px; padding-left: 18px; }
   .result-card strong { font-size: 40px; }
   .result-label { font-size: 12px; }
-  .abstract-section { padding-top: 40px; }
   .abstract-heading { margin-bottom: 28px; }
   .abstract-heading h2 { font-size: 38px; }
   .abstract-copy { font-size: 16px; }
