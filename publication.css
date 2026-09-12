@@ -19,7 +19,6 @@
 
 .container-wide { width: min(calc(100% - 80px), 1600px); }
 .container-wide > .section-heading,
-.container-wide > .ladder,
 .container-wide > .metric-system,
 .container-wide > .sync-steps { max-width: var(--container); margin-inline: auto; }
 .container-wide figcaption { max-width: var(--container); margin-inline: auto; }

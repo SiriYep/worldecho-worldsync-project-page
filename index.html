@@ -260,7 +260,7 @@
             </div>
             <div class="lead benchmark-intro">
               <p>To quantify these failures, we introduce WorldEcho, a benchmark for action following beyond expert replay. It checks both whether a generated future is visually valid and whether the robot motion agrees with the consequences of the commanded actions.</p>
-              <p>WorldEcho evaluates demonstrated and off-expert action queries against simulator futures produced from the same initial state and action sequence, jointly assessing visual integrity and SE(3) end-effector alignment.</p>
+              <p>Its five query types span demonstrated actions, cross-state replay, local perturbations, policy rollouts, and feasible-space sampling. For each query, WorldEcho compares model and simulator futures from the same initial state and action sequence, jointly assessing visual integrity and SE(3) end-effector alignment.</p>
               <a class="figure-jump" href="#figure-3">Figure 3 · WorldEcho benchmark <span aria-hidden="true">↓</span></a>
             </div>
           </div>
@@ -277,46 +277,6 @@
             </button>
             <figcaption><b>Paper Figure 3</b> WorldEcho jointly evaluates visual integrity and SE(3) end-effector alignment. Valid rollouts use NDTW; invalid rollouts receive the fixed penalty κ. <a href="assets/figures/paper-figure-3.pdf" target="_blank" rel="noopener" aria-label="View paper Figure 3 as the original PDF">Figure PDF ↗</a></figcaption>
           </figure>
-
-          <div class="ladder">
-            <p class="ladder-scale" aria-hidden="true">
-              <span>in-distribution</span>
-              <i></i>
-              <span>off-expert</span>
-            </p>
-            <ol class="query-ladder">
-              <li class="query-card" style="--step: 0">
-                <span class="query-number">01</span>
-                <h3>Demonstrated action</h3>
-                <p>The in-distribution expert replay baseline.</p>
-                <small>expert prior</small>
-              </li>
-              <li class="query-card" style="--step: 1">
-                <span class="query-number">02</span>
-                <h3>Cross-state replay</h3>
-                <p>Apply an expert action sequence from another state.</p>
-                <small>state dependence</small>
-              </li>
-              <li class="query-card" style="--step: 2">
-                <span class="query-number">03</span>
-                <h3>Local perturbation</h3>
-                <p>Probe sensitivity near the expert action manifold.</p>
-                <small>local response</small>
-              </li>
-              <li class="query-card" style="--step: 3">
-                <span class="query-number">04</span>
-                <h3>Policy rollout</h3>
-                <p>Use actions produced by a learned policy.</p>
-                <small>deployment shift</small>
-              </li>
-              <li class="query-card" style="--step: 4">
-                <span class="query-number">05</span>
-                <h3>Feasible-space sampling</h3>
-                <p>Sample valid actions with minimal expert reliance.</p>
-                <small>broad control</small>
-              </li>
-            </ol>
-          </div>
 
           <div id="alignment" class="metric-system">
             <article class="metric-card metric-gate">

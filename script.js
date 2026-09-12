@@ -82,8 +82,6 @@ if (menuToggle && navPanel) {
 const revealSelectors = [
   ".section-heading",
   ".thesis-card",
-  ".ladder-scale",
-  ".query-card",
   ".metric-card",
   ".case-tabs",
   ".compact-figure",
