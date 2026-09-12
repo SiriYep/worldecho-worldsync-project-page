@@ -13,7 +13,7 @@ All paper figure images displayed by the website are direct raster renders of th
 | 3 | `assets/figure3.pdf` | `fig:benchmark` | `assets/figures/paper-figure-3` | 3200 x 695 |
 | 4 | `assets/figure4.pdf` | `fig:method-overview` | `assets/figures/paper-figure-4` | 3200 x 1706 |
 
-After the abstract, Part I introduces the action-following problem and WorldEcho with Figure 3, followed by diagnostic videos. Part II introduces WorldSync training with Figure 4. Both figures are displayed once; their paper numbering, captions, and source assets are unchanged.
+After the abstract, Part I first demonstrates action-following failures through diagnostic videos, then introduces WorldEcho with Figure 3 to quantify these failures. Part II introduces WorldSync training with Figure 4. Both figures are displayed once; their paper numbering, captions, and source assets are unchanged.
 
 ## Reproduce the PNGs
 

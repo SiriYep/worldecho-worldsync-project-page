@@ -38,8 +38,8 @@
         <div id="nav-links" class="nav-links">
           <a href="#team">Team</a>
           <a href="#abstract">Abstract</a>
+          <a href="#evidence">Failure cases</a>
           <a href="#worldecho">Benchmark</a>
-          <a href="#evidence">Films</a>
           <a href="#worldsync">Method</a>
           <a href="#results">Results</a>
           <a href="#interactive">Playground</a>
@@ -169,18 +169,94 @@
         </div>
       </section>
 
+      <section id="evidence" class="section-pad evidence-section">
+        <div class="evidence-bg" aria-hidden="true"></div>
+        <div class="container container-wide">
+          <div class="section-heading split-heading">
+            <div>
+              <p class="kicker kicker-warn">Part I / The action-following problem</p>
+              <h2>When world models<br>fail to follow actions.</h2>
+            </div>
+            <p class="lead">
+              An action-conditioned world model should follow the commanded motion. Compare the simulator with
+              two observed failure modes: visual collapse, where robot geometry breaks down, and action mismatch,
+              where a plausible video moves the wrong way.
+            </p>
+          </div>
+
+          <div class="failure-comparison" data-video-group aria-label="Failure case rollout comparison">
+          <div class="case-tabs" role="tablist" aria-label="Failure case">
+            <button id="case-grab" class="case-tab active" type="button" role="tab" aria-selected="true" aria-controls="failure-console" data-case="grab">Grab roller</button>
+            <button id="case-handover" class="case-tab" type="button" role="tab" aria-selected="false" aria-controls="failure-console" tabindex="-1" data-case="handover">Handover block</button>
+            <button id="case-bread" class="case-tab" type="button" role="tab" aria-selected="false" aria-controls="failure-console" tabindex="-1" data-case="bread">Place bread in basket</button>
+          </div>
+
+          <div class="playback-controls" role="group" aria-label="Failure comparison playback" hidden>
+            <div class="playback-actions">
+              <button type="button" data-playback-toggle>Play comparison</button>
+              <button type="button" data-playback-restart>Restart</button>
+              <span class="playback-status" data-playback-status role="status">Ready</span>
+            </div>
+            <div class="playback-timeline">
+              <input type="range" data-playback-seek min="0" max="100" value="0" step="0.1" aria-label="Failure comparison progress">
+              <span class="playback-time" data-playback-time>0:00 / 0:00</span>
+            </div>
+          </div>
+
+          <div id="failure-console" class="failure-console" role="tabpanel" tabindex="0" aria-labelledby="case-grab">
+            <article class="failure-video failure-input">
+              <div class="failure-copy">
+                <header><span>Input</span><h3>Reference frame</h3></header>
+                <p id="input-task">Grab roller</p>
+                <p>First recorded simulator frame.</p>
+              </div>
+              <img id="failure-input" src="assets/inputs/grab-start.png" alt="First recorded simulator frame for Grab roller" width="320" height="240">
+            </article>
+            <article class="failure-video failure-good">
+              <div class="failure-copy">
+                <header><span>GT</span><h3>Simulator ground truth</h3></header>
+                <p>The simulator reference for the recorded action query.</p>
+              </div>
+              <video id="video-gt" controls muted playsinline preload="auto" poster="assets/posters/grab-gt.png" aria-label="Simulator ground-truth rollout">
+                <source src="assets/videos/grab-gt.mp4" type="video/mp4">
+              </video>
+            </article>
+            <article class="failure-video failure-collapse">
+              <div class="failure-copy">
+                <header><span>Model output 1</span><h3>Visual collapse</h3></header>
+                <p>Robot geometry breaks, blurs, or disappears under the query.</p>
+              </div>
+              <video id="video-collapse" controls muted playsinline preload="auto" poster="assets/posters/grab-collapse.png" aria-label="World-model rollout with visual collapse">
+                <source src="assets/videos/grab-collapse.mp4" type="video/mp4">
+              </video>
+            </article>
+            <article class="failure-video failure-mismatch">
+              <div class="failure-copy">
+                <header><span>Model output 2</span><h3>Action mismatch</h3></header>
+                <p>The video looks plausible, but its end-effector motion disagrees.</p>
+              </div>
+              <video id="video-mismatch" controls muted playsinline preload="auto" poster="assets/posters/grab-mismatch.png" aria-label="Plausible world-model rollout with action mismatch">
+                <source src="assets/videos/grab-mismatch.mp4" type="video/mp4">
+              </video>
+            </article>
+          </div>
+          <p class="evidence-note">Input shows the first recorded simulator frame; the clips do not include numerical action inputs. Model outputs 1 and 2 identify the two examples, not separate model identities.</p>
+          </div>
+        </div>
+      </section>
+
       <section id="worldecho" class="section-pad section-light" aria-labelledby="worldecho-heading">
         <div id="research-scope" class="container container-wide">
           <div class="section-heading split-heading benchmark-heading">
             <div>
               <div class="brand-lockup">
                 <span class="brand-name">World<em class="brand-echo">Echo</em></span>
-                <span class="brand-role">Part I / Problem &amp; benchmark</span>
+                <span class="brand-role">Part I / Action-following benchmark</span>
               </div>
-              <h2 id="worldecho-heading">A plausible future.<br>A faithful simulator?</h2>
+              <h2 id="worldecho-heading">From observed failures<br>to measurable errors.</h2>
             </div>
             <div class="lead benchmark-intro">
-              <p>A world model can look convincing and still ignore the action it was given. Given an initial observation and a valid action sequence, its generated future should be visually valid, and the robot motion should agree with the consequences of executing those actions.</p>
+              <p>To quantify these failures, we introduce WorldEcho, a benchmark for action following beyond expert replay. It checks both whether a generated future is visually valid and whether the robot motion agrees with the consequences of the commanded actions.</p>
               <p>WorldEcho evaluates demonstrated and off-expert action queries against simulator futures produced from the same initial state and action sequence, jointly assessing visual integrity and SE(3) end-effector alignment.</p>
               <a class="figure-jump" href="#figure-3">Figure 3 · WorldEcho benchmark <span aria-hidden="true">↓</span></a>
             </div>
@@ -277,81 +353,6 @@
             </article>
           </div>
 
-        </div>
-      </section>
-
-      <section id="evidence" class="section-pad evidence-section">
-        <div class="evidence-bg" aria-hidden="true"></div>
-        <div class="container container-wide">
-          <div class="section-heading split-heading">
-            <div>
-              <p class="kicker kicker-warn">WorldEcho / What the benchmark reveals</p>
-              <h2>One action.<br>Three different futures.</h2>
-            </div>
-            <p class="lead">
-              Looking right is only half the story. Compare the simulator with two failure modes: a broken visual
-              world, and a convincing world that moves the wrong way.
-            </p>
-          </div>
-
-          <div class="failure-comparison" data-video-group aria-label="Failure case rollout comparison">
-          <div class="case-tabs" role="tablist" aria-label="Failure case">
-            <button id="case-grab" class="case-tab active" type="button" role="tab" aria-selected="true" aria-controls="failure-console" data-case="grab">Grab roller</button>
-            <button id="case-handover" class="case-tab" type="button" role="tab" aria-selected="false" aria-controls="failure-console" tabindex="-1" data-case="handover">Handover block</button>
-            <button id="case-bread" class="case-tab" type="button" role="tab" aria-selected="false" aria-controls="failure-console" tabindex="-1" data-case="bread">Place bread in basket</button>
-          </div>
-
-          <div class="playback-controls" role="group" aria-label="Failure comparison playback" hidden>
-            <div class="playback-actions">
-              <button type="button" data-playback-toggle>Play comparison</button>
-              <button type="button" data-playback-restart>Restart</button>
-              <span class="playback-status" data-playback-status role="status">Ready</span>
-            </div>
-            <div class="playback-timeline">
-              <input type="range" data-playback-seek min="0" max="100" value="0" step="0.1" aria-label="Failure comparison progress">
-              <span class="playback-time" data-playback-time>0:00 / 0:00</span>
-            </div>
-          </div>
-
-          <div id="failure-console" class="failure-console" role="tabpanel" tabindex="0" aria-labelledby="case-grab">
-            <article class="failure-video failure-input">
-              <div class="failure-copy">
-                <header><span>Input</span><h3>Reference frame</h3></header>
-                <p id="input-task">Grab roller</p>
-                <p>First recorded simulator frame.</p>
-              </div>
-              <img id="failure-input" src="assets/inputs/grab-start.png" alt="First recorded simulator frame for Grab roller" width="320" height="240">
-            </article>
-            <article class="failure-video failure-good">
-              <div class="failure-copy">
-                <header><span>GT</span><h3>Simulator ground truth</h3></header>
-                <p>The simulator reference for the recorded action query.</p>
-              </div>
-              <video id="video-gt" controls muted playsinline preload="auto" poster="assets/posters/grab-gt.png" aria-label="Simulator ground-truth rollout">
-                <source src="assets/videos/grab-gt.mp4" type="video/mp4">
-              </video>
-            </article>
-            <article class="failure-video failure-collapse">
-              <div class="failure-copy">
-                <header><span>Model output 1</span><h3>Visual collapse</h3></header>
-                <p>Robot geometry breaks, blurs, or disappears under the query.</p>
-              </div>
-              <video id="video-collapse" controls muted playsinline preload="auto" poster="assets/posters/grab-collapse.png" aria-label="World-model rollout with visual collapse">
-                <source src="assets/videos/grab-collapse.mp4" type="video/mp4">
-              </video>
-            </article>
-            <article class="failure-video failure-mismatch">
-              <div class="failure-copy">
-                <header><span>Model output 2</span><h3>Action mismatch</h3></header>
-                <p>The video looks plausible, but its end-effector motion disagrees.</p>
-              </div>
-              <video id="video-mismatch" controls muted playsinline preload="auto" poster="assets/posters/grab-mismatch.png" aria-label="Plausible world-model rollout with action mismatch">
-                <source src="assets/videos/grab-mismatch.mp4" type="video/mp4">
-              </video>
-            </article>
-          </div>
-          <p class="evidence-note">Input shows the first recorded simulator frame; the clips do not include numerical action inputs. Model outputs 1 and 2 identify the two examples, not separate model identities.</p>
-          </div>
         </div>
       </section>
 
