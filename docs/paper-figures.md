@@ -4,7 +4,7 @@ All paper figure images displayed by the website are direct raster renders of th
 
 - Source: the WorldEcho / WorldSync Overleaf paper checkout (`overleaf-6a4e16c53ee74fbcfe34c4d1`).
 - Verified paper revision: `12fa131ed7c2a954260e8025b4f60e103f2f8b27` (2026-09-06); remote checked 2026-09-10.
-- Figure numbering and labels follow the paper. Figures 3 and 4 are displayed. Figure 1 is retained as an original asset but omitted from the page so the abstract and research question lead into the two parts. The static Figure 2 is also retained as an original asset but its on-page panel is replaced by the vertical experiment-video comparison. See `evidence-media.md` for that separate media provenance.
+- Figure numbering and labels follow the paper. Figures 3 and 4 are displayed. Figure 1 is retained as an original asset but omitted from the page so the abstract and research question lead into the two parts. The static Figure 2 is also retained as an original asset but its on-page panel is replaced by the horizontal experiment-video comparison. See `evidence-media.md` for that separate media provenance.
 
 | Paper figure | Source asset | LaTeX label | Website PDF / PNG stem | PNG dimensions |
 | --- | --- | --- | --- | --- |

@@ -212,33 +212,36 @@
               </div>
               <img id="failure-input" src="assets/inputs/grab-start.png" alt="First recorded simulator frame for Grab roller" width="320" height="240">
             </article>
-            <article class="failure-video failure-good">
-              <div class="failure-copy">
-                <header><span>GT</span><h3>Simulator ground truth</h3></header>
-                <p>The simulator reference for the recorded action query.</p>
-              </div>
-              <video id="video-gt" controls muted playsinline preload="auto" poster="assets/posters/grab-gt.png" aria-label="Simulator ground-truth rollout">
-                <source src="assets/videos/grab-gt.mp4" type="video/mp4">
-              </video>
-            </article>
-            <article class="failure-video failure-collapse">
-              <div class="failure-copy">
-                <header><span>Model output 1</span><h3>Visual collapse</h3></header>
-                <p>Robot geometry breaks, blurs, or disappears under the query.</p>
-              </div>
-              <video id="video-collapse" controls muted playsinline preload="auto" poster="assets/posters/grab-collapse.png" aria-label="World-model rollout with visual collapse">
-                <source src="assets/videos/grab-collapse.mp4" type="video/mp4">
-              </video>
-            </article>
-            <article class="failure-video failure-mismatch">
-              <div class="failure-copy">
-                <header><span>Model output 2</span><h3>Action mismatch</h3></header>
-                <p>The video looks plausible, but its end-effector motion disagrees.</p>
-              </div>
-              <video id="video-mismatch" controls muted playsinline preload="auto" poster="assets/posters/grab-mismatch.png" aria-label="Plausible world-model rollout with action mismatch">
-                <source src="assets/videos/grab-mismatch.mp4" type="video/mp4">
-              </video>
-            </article>
+            <p class="comparison-scroll-hint" id="comparison-scroll-hint">Scroll horizontally to compare all three videos.</p>
+            <div class="failure-outputs" role="group" aria-label="Rollout outputs: simulator, visual collapse, and action mismatch" aria-describedby="comparison-scroll-hint" tabindex="0">
+              <article class="failure-video failure-good">
+                <div class="failure-copy">
+                  <header><span>GT</span><h3>Simulator ground truth</h3></header>
+                  <p>The simulator reference for the recorded action query.</p>
+                </div>
+                <video id="video-gt" controls muted playsinline preload="auto" poster="assets/posters/grab-gt.png" aria-label="Simulator ground-truth rollout">
+                  <source src="assets/videos/grab-gt.mp4" type="video/mp4">
+                </video>
+              </article>
+              <article class="failure-video failure-collapse">
+                <div class="failure-copy">
+                  <header><span>Model output 1</span><h3>Visual collapse</h3></header>
+                  <p>Robot geometry breaks, blurs, or disappears under the query.</p>
+                </div>
+                <video id="video-collapse" controls muted playsinline preload="auto" poster="assets/posters/grab-collapse.png" aria-label="World-model rollout with visual collapse">
+                  <source src="assets/videos/grab-collapse.mp4" type="video/mp4">
+                </video>
+              </article>
+              <article class="failure-video failure-mismatch">
+                <div class="failure-copy">
+                  <header><span>Model output 2</span><h3>Action mismatch</h3></header>
+                  <p>The video looks plausible, but its end-effector motion disagrees.</p>
+                </div>
+                <video id="video-mismatch" controls muted playsinline preload="auto" poster="assets/posters/grab-mismatch.png" aria-label="Plausible world-model rollout with action mismatch">
+                  <source src="assets/videos/grab-mismatch.mp4" type="video/mp4">
+                </video>
+              </article>
+            </div>
           </div>
           <p class="evidence-note">Input shows the first recorded simulator frame; the clips do not include numerical action inputs. Model outputs 1 and 2 identify the two examples, not separate model identities.</p>
           </div>
