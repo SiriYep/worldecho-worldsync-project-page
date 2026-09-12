@@ -71,7 +71,7 @@
 .section-heading.benchmark-heading { align-items: start; }
 .benchmark-intro p + p { margin-top: 18px; }
 
-/* Results: the values and the table, without an extra layer of cards. */
+/* Results: summary metrics and the complete paper tables. */
 .results-section { background: var(--paper); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .draft-callout { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 12px; margin: 44px 0 0; padding-left: 0; color: var(--ink-soft); }
 .callout-glyph { margin-top: 3px; color: var(--sync); }
@@ -90,14 +90,16 @@
 .dir::before { content: "↓"; }
 .dir-up::before { content: "↑"; }
 .dir-flat::before { content: "—"; }
-.results-layout { display: grid; grid-template-columns: .68fr 1.32fr; align-items: start; gap: 52px; margin-top: 44px; }
-.results-copy { padding: 0; }
+.results-layout { margin-top: 44px; }
+.result-table-block + .result-table-block { margin-top: 56px; }
+.result-table-heading { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 10px 24px; margin-bottom: 14px; }
+.result-table-heading h3 { font-size: 26px; font-weight: 500; line-height: 1.4; }
+.result-table-heading a { display: inline-flex; align-items: center; min-height: 44px; color: var(--ink); font-size: 13px; text-decoration: underline; text-underline-offset: 4px; }
+.result-table-block > .result-note { max-width: 920px; margin-bottom: 20px; }
+.result-table-note { max-width: 920px; margin: 16px 0 0; color: var(--ink-soft); font-size: 13px; line-height: 1.8; }
+.result-table-block { scroll-margin-top: 20px; }
 .result-note { margin: 0; color: var(--ink-soft); font-size: 15px; line-height: 1.8; }
-.result-legend { display: flex; flex-wrap: wrap; gap: 12px 18px; margin-top: 24px; color: var(--muted); font: 12px/1.6 var(--font-mono); }
-.result-legend span { display: inline-flex; align-items: center; gap: 7px; }
-.result-legend i { display: inline-block; width: 12px; height: 2px; background: var(--echo); }
-.result-legend .legend-raw { background: var(--sync); }
-.result-legend .legend-pass { background: var(--muted); }
+.table-scroll-hint { display: none; margin: 0 0 12px; color: var(--muted); font-size: 12px; line-height: 1.6; }
 .table-scroll { overflow-x: auto; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--line); }
 .table-scroll table { width: 100%; min-width: 560px; border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; }
 .table-scroll th, .table-scroll td { padding: 18px 14px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
@@ -107,9 +109,9 @@
 .table-scroll tbody td { color: var(--ink-soft); }
 .table-scroll th:first-child { padding-left: 12px; }
 .table-scroll tbody tr:last-child th, .table-scroll tbody tr:last-child td { border-bottom: 0; }
-.table-scroll .ours th, .table-scroll .ours td { background: #e8eee6; color: var(--ink); font-weight: 600; }
-.table-scroll .ours th { color: var(--echo); }
-.table-scroll .best-raw { color: var(--sync); text-decoration: underline; text-underline-offset: 4px; }
+.table-scroll .ours th, .table-scroll .ours td { background: #e8eee6; color: var(--ink); font-weight: 400; }
+.table-scroll .ours th { color: var(--echo); font-weight: 600; }
+.table-scroll td strong { font-weight: 700; color: var(--ink); }
 
 .abstract-section { padding-top: 0; }
 .abstract-layout { width: min(100%, 880px); margin-inline: auto; }
@@ -142,10 +144,9 @@
 .figure-button:focus-visible, .dialog-close:focus-visible { outline: 2px solid var(--echo); outline-offset: 4px; }
 
 @media (max-width: 1040px) {
+  .table-scroll-hint { display: block; }
   .metric-system { gap: 26px; }
   .sync-step { padding-right: 24px; padding-left: 24px; }
-  .results-layout { grid-template-columns: 1fr; gap: 28px; }
-  .results-copy { max-width: 780px; }
   .table-scroll table { min-width: 560px; }
 }
 
@@ -205,6 +206,8 @@
   .result-note-line { font-size: 12px; }
   .draft-callout { margin-top: 30px; }
   .results-layout { margin-top: 32px; }
+  .result-table-block + .result-table-block { margin-top: 40px; }
+  .result-table-heading h3 { font-size: 23px; }
   .table-scroll th, .table-scroll td { padding: 16px 12px; }
   .figure-dialog { width: 96vw; padding: 12px; }
   .footer-brand { font-size: 23px; }

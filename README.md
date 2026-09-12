@@ -55,7 +55,7 @@ The ten authors, their order, six affiliations, core-contributor markers, and co
 
 All six affiliation marks are sourced from the institutions themselves and stored locally in `assets/institutions/`. Their original colors and proportions are preserved on a compact white band (six columns on wide screens, three on tablets, and two on phones). Full affiliation names remain visible beside the authors and provide accessible names for each institutional link. See [institution logo provenance](docs/institution-logos.md).
 
-The displayed Table 1 values match the public preprint. Preserve the different training budgets: expert baselines use 20k updates, expanded baselines 40k, and WorldSync 60k. The website shows selected rows; the complete comparison is in the paper.
+The results section displays all 13 configurations from public Table 1 and all five variants from Table 2, with the original numeric precision and per-column best values in bold. Table 1 covers 50 RoboTwin tasks: expert baselines use 20k updates, expanded baselines 40k, and WorldSync 60k. Table 2 is a separate four-task component study averaged over eight common checkpoints. Its values must not be presented as the main 50-task comparison. Both tables link to their exact public paper anchors. See [table provenance](docs/results-tables.md).
 
 Site changes remain local until an explicit publishing request. No deployment is implied by updating the local preview.
 
