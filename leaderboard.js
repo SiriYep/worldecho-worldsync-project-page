@@ -19,7 +19,7 @@ export function setupLeaderboard(root) {
   const body = root.querySelector("[data-lb-rows]");
   const rows = Array.from(body.rows);
   const models = rows.map((row) => {
-    const name = row.querySelector("th").firstChild.textContent.trim();
+    const name = row.querySelector("[data-lb-name]").textContent.trim();
     return {
       id: name,
       name,
