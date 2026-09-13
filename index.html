@@ -517,17 +517,17 @@
       <section id="state-control" class="section-pad state-control-section" aria-labelledby="state-control-heading">
         <div class="container">
           <div class="section-heading split-heading">
-            <div><p class="kicker">Part IV / State control in action</p><h2 id="state-control-heading">See the control.<br>Follow the motion.</h2></div>
-            <p class="lead">Single-task rollouts from WorldSync trained on 50 tasks. This gallery will compare its response to a given action sequence with a baseline and the reference rollout.</p>
+            <div><p class="kicker">Part IV / Rollout comparisons</p><h2 id="state-control-heading">Same actions.<br>Different rollouts.</h2></div>
+            <p class="lead">Compare recorded rollouts from WorldSync and other world models with ground truth for the same scene and action sequence.</p>
           </div>
           <div class="demo-gallery" aria-describedby="demo-status">
-            <div class="demo-gallery-heading"><h3>State-control comparisons</h3><span class="demo-pending">Videos coming soon</span></div>
+            <div class="demo-gallery-heading"><h3>Ground truth and model rollouts</h3><span class="demo-pending">Videos coming soon</span></div>
             <div class="demo-comparison">
-              <figure class="demo-slot"><figcaption><span class="demo-step">01 / Reference</span><h4>Target motion</h4></figcaption><div class="demo-placeholder"><span class="demo-placeholder-mark" aria-hidden="true">↗</span><p>Reference rollout</p><small>Video pending</small></div></figure>
-              <figure class="demo-slot"><figcaption><span class="demo-step">02 / Baseline</span><h4>Comparison model</h4></figcaption><div class="demo-placeholder"><span class="demo-placeholder-mark" aria-hidden="true">↗</span><p>Baseline rollout</p><small>Video pending</small></div></figure>
-              <figure class="demo-slot demo-slot-ours"><figcaption><span class="demo-step">03 / WorldSync</span><h4>State-controlled rollout</h4></figcaption><div class="demo-placeholder"><span class="demo-placeholder-mark" aria-hidden="true">↗</span><p>50-task checkpoint</p><small>Inference video pending</small></div></figure>
+              <figure class="demo-slot"><figcaption><span class="demo-step">01 / Ground truth</span><h4>Reference rollout</h4></figcaption><div class="demo-placeholder"><span class="demo-placeholder-mark" aria-hidden="true">↗</span><p>Ground-truth video</p><small>Video pending</small></div></figure>
+              <figure class="demo-slot"><figcaption><span class="demo-step">02 / Other models</span><h4>Model rollouts</h4></figcaption><div class="demo-placeholder"><span class="demo-placeholder-mark" aria-hidden="true">↗</span><p>Comparison videos</p><small>Videos pending</small></div></figure>
+              <figure class="demo-slot demo-slot-ours"><figcaption><span class="demo-step">03 / WorldSync</span><h4>WorldSync rollout</h4></figcaption><div class="demo-placeholder"><span class="demo-placeholder-mark" aria-hidden="true">↗</span><p>Recorded model rollout</p><small>Video pending</small></div></figure>
             </div>
-            <p id="demo-status" class="demo-status">Comparison videos are being prepared. Each case will use the same initial observation and action sequence, with the task and model checkpoint identified alongside the recordings.</p>
+            <p id="demo-status" class="demo-status">Comparison videos are being prepared. Each case will show ground truth alongside the corresponding model rollouts, labeled with the scene and model names.</p>
           </div>
         </div>
       </section>

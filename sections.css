@@ -162,7 +162,7 @@
 .lb-scroll tbody tr:hover > * { background: var(--theme-hover); }
 .lb-footer { margin-top: 14px; font-size: 11px; color: var(--muted); }
 
-/* Offline rollout gallery, populated once checkpoint-bound videos arrive. */
+/* Recorded rollout gallery, populated with matched GT and model videos. */
 .state-control-section { background: var(--paper); border-top: 1px solid var(--line); }
 .demo-gallery { margin-top: 48px; }
 .demo-gallery-heading { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; padding-bottom: 22px; border-bottom: 1px solid var(--line-strong); }
