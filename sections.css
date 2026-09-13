@@ -122,6 +122,63 @@
 .table-scroll .ours .table-coverage { font-weight: 400; }
 .table-scroll td strong { font-weight: 700; color: var(--ink); }
 
+/* A compact ranking of the seven selected main-comparison models. */
+.leaderboard { margin-top: 48px; }
+.lb-overview, .lb-toolbar, .lb-footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+.lb-overview { padding-bottom: 22px; border-bottom: 1px solid var(--line); font-size: 13px; color: var(--ink-soft); }
+.lb-overview strong { color: var(--ink); font-size: 20px; font-weight: 500; }
+.lb-overview p > span { margin-inline: 14px; color: var(--line-strong); }
+.lb-overview a { text-decoration: underline; text-underline-offset: 4px; }
+.lb-toolbar { padding: 16px 0; }
+.lb-scope { color: var(--muted); font-size: 12px; }
+.lb-rank-mark { display: inline-block; width: 28px; text-align: center; }
+.lb-scroll tr:nth-child(-n+3) .lb-rank-mark { font-size: 22px; line-height: 1; vertical-align: middle; }
+.lb-toolbar[hidden], .lb-scroll tr[hidden] { display: none; }
+.lb-sort { display: flex; align-items: center; gap: 10px; color: var(--ink-soft); font-size: 12px; }
+.lb-sort select { min-height: 44px; padding: 9px 28px 9px 12px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); color: var(--ink); font: inherit; }
+.lb-scroll table { min-width: 680px; }
+.lb-rank-col { width: 8%; }
+.lb-model-col { width: 25%; }
+.lb-training-col { width: 19%; }
+.lb-metric-col { width: 16%; }
+.lb-scroll .lb-rank { text-align: left; font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+.lb-scroll th:nth-child(3), .lb-scroll .lb-training { text-align: left; }
+.lb-scroll tbody th { font-size: 14px; }
+.lb-scroll td.lb-primary, .lb-scroll th[aria-sort] { color: var(--ink); }
+.lb-scroll th[aria-sort] { font-weight: 600; }
+.lb-training span { display: block; color: var(--ink); font-size: 12px; }
+.lb-training small { display: block; margin-top: 2px; color: var(--muted); font-size: 11px; }
+.lb-ours { display: inline-block; margin-left: 8px; padding: 2px 7px; border: 1px solid var(--line-strong); border-radius: 3px; font-size: 10px; font-weight: 500; vertical-align: middle; }
+.lb-scroll tbody tr:hover > * { background: var(--theme-hover); }
+.lb-footer { margin-top: 14px; font-size: 11px; color: var(--muted); }
+
+/* Offline rollout gallery, populated once checkpoint-bound videos arrive. */
+.state-control-section { background: var(--paper); border-top: 1px solid var(--line); }
+.demo-gallery { margin-top: 48px; }
+.demo-gallery-heading { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; padding-bottom: 22px; border-bottom: 1px solid var(--line-strong); }
+.demo-gallery-heading h3 { font-size: 18px; }
+.demo-pending { padding: 5px 10px; border: 1px solid var(--line); border-radius: 4px; color: var(--muted); font-size: 11px; }
+.demo-comparison { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 24px; padding-top: 24px; }
+.demo-slot { min-width: 0; }
+.demo-step { color: var(--muted); font: 10px/1.6 var(--font-mono); text-transform: uppercase; letter-spacing: .07em; }
+.demo-slot h4 { margin: 7px 0 16px; color: var(--ink); font-size: 15px; font-weight: 500; }
+.demo-placeholder { aspect-ratio: 4 / 3; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; border: 1px dashed var(--line-strong); border-radius: 4px; background: var(--theme-hover); color: var(--ink-soft); }
+.demo-placeholder-mark { margin-bottom: 12px; color: var(--muted); font: 32px/1 var(--font-display); }
+.demo-placeholder p { font-size: 13px; }
+.demo-placeholder small { font-size: 11px; color: var(--muted); }
+.demo-slot-ours .demo-placeholder { border-style: solid; }
+.demo-status { max-width: 850px; margin-top: 22px; color: var(--ink-soft); font-size: 13px; line-height: 1.8; }
+@media (max-width: 700px) {
+  .leaderboard, .demo-gallery { margin-top: 32px; }
+  .lb-overview p > span { margin-inline: 7px; }
+  .lb-overview strong { font-size: 18px; }
+  .lb-toolbar { align-items: stretch; }
+  .lb-sort { width: 100%; justify-content: space-between; }
+  .lb-sort select { flex: 1; max-width: 230px; }
+  .demo-comparison { grid-template-columns: 1fr; gap: 28px; }
+  .demo-placeholder { aspect-ratio: 16 / 9; }
+}
+
 .abstract-section { padding-top: 0; }
 .abstract-layout { width: min(100%, 880px); margin-inline: auto; }
 .abstract-heading { margin-bottom: 36px; text-align: center; }

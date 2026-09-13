@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="responsive.css">
     <link rel="stylesheet" href="publication.css">
     <link rel="stylesheet" href="wm-preview.css">
+    <link rel="stylesheet" href="results-explorer.css">
     <link rel="stylesheet" href="theme.css">
     <script>document.documentElement.classList.add("js");</script>
     <script src="script.js" type="module"></script>
@@ -41,8 +42,9 @@
           <a href="#evidence">Failure cases</a>
           <a href="#worldecho">Benchmark</a>
           <a href="#worldsync">Method</a>
-          <a href="#results">Results</a>
+          <a href="#results">Leaderboard</a>
           <a href="#interactive">Playground</a>
+          <a href="#state-control">Demos</a>
         </div>
         <button type="button" class="theme-toggle" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false" hidden><span class="theme-toggle-icon" aria-hidden="true"></span><span data-theme-label>Light</span></button>
       </nav>
@@ -375,127 +377,67 @@
         </div>
       </section>
 
-      <section id="results" class="section-pad results-section">
+      <section id="results" class="section-pad results-section" aria-labelledby="leaderboard-heading">
         <div class="container">
           <div class="section-heading split-heading">
-            <div>
-              <p class="kicker kicker-result">WorldSync / Evaluation results</p>
-              <h2>Measure fidelity.<br>Count every failure.</h2>
+            <div><p class="kicker kicker-result">WorldEcho / Leaderboard</p><h2 id="leaderboard-heading">How well do models<br>follow actions?</h2></div>
+            <p class="lead">Compare action following and visual integrity across 50 RoboTwin tasks. Ranked by integrity-gated error, with raw trajectory error and visual pass rate alongside.</p>
+          </div>
+          <section id="table-1" class="leaderboard" data-leaderboard aria-label="WorldEcho model rankings">
+            <div class="lb-overview"><p><strong>50</strong> tasks <span aria-hidden="true">/</span> <strong>7</strong> models</p><a href="https://arxiv.org/html/2608.24885v1#S4.T1" target="_blank" rel="noopener">Protocol &amp; results ↗</a></div>
+            <div class="lb-toolbar" data-lb-controls hidden>
+              <p class="lb-scope">One entry per model</p>
+              <label class="lb-sort" for="leaderboard-sort">Rank by <select id="leaderboard-sort" aria-label="Ranking metric" data-lb-sort><option value="gated">Gated error ↓</option><option value="raw">Raw NDTW ↓</option><option value="visual">Visual pass ↑</option></select></label>
             </div>
-            <p class="lead">
-              WorldEcho reports task-macro averages across 50 RoboTwin tasks. WorldSync achieves the lowest
-              integrity-gated error and highest visual pass rate in the paper's main comparison.
-            </p>
-          </div>
-
-          <div class="draft-callout">
-            <span class="callout-glyph" aria-hidden="true">
-              <svg viewBox="0 0 20 20" focusable="false">
-                <path d="M10 2.6 18.4 17H1.6z"></path>
-                <path d="M10 7.9v4.2M10 14.4h.01"></path>
-              </svg>
-            </span>
-            <p>
-              <strong>Evaluation protocol.</strong>
-              Training uses 20k updates for expert baselines, 40k for expanded baselines, and 60k for WorldSync. The comparison uses different training budgets.
-            </p>
-          </div>
-
-          <div class="result-cards">
-            <article class="result-card result-card-primary">
-              <p class="result-label">Integrity-gated error</p>
-              <strong>0.0661</strong>
-              <span class="result-note-line"><i class="dir dir-down" aria-hidden="true"></i>lower is better · best in Table 1</span>
-            </article>
-            <article class="result-card result-card-pass">
-              <p class="result-label">Visual pass rate</p>
-              <strong>84.51%</strong>
-              <span class="result-note-line"><i class="dir dir-up" aria-hidden="true"></i>higher is better · best in Table 1</span>
-            </article>
-            <article class="result-card result-card-scope">
-              <p class="result-label">Benchmark breadth</p>
-              <strong>50 tasks</strong>
-              <span class="result-note-line"><i class="dir dir-flat" aria-hidden="true"></i>RoboTwin task-macro evaluation</span>
-            </article>
-          </div>
-
-          <div class="results-layout">
-            <section id="table-1" class="result-table-block" aria-labelledby="table-1-heading">
-              <header class="result-table-heading">
-                <h3 id="table-1-heading">Table 1 · Main comparison</h3>
-                <a href="https://arxiv.org/html/2608.24885v1#S4.T1" target="_blank" rel="noopener">View in the paper ↗</a>
-              </header>
-              <p id="table-1-context" class="result-note">All 13 configurations, averaged across 50 RoboTwin tasks. Expert denotes expert demonstrations (20k updates); Expanded denotes expanded action coverage (40k for baselines, 60k for WorldSync).</p>
-              <p class="table-scroll-hint">Scroll horizontally to view all columns.</p>
-              <div class="table-scroll" role="region" aria-label="Table 1: WorldEcho main comparison" aria-describedby="table-1-context" tabindex="0">
-                <table>
-                  <caption class="sr-only">Complete Table 1: main WorldEcho comparison across 50 RoboTwin tasks</caption>
-                  <colgroup>
-                    <col class="table-label-col"><col class="table-coverage-col"><col span="3" class="table-metric-col">
-                  </colgroup>
-                  <thead>
-                    <tr><th scope="col">Model</th><th scope="col">Training data</th><th scope="col">Gated error ↓</th><th scope="col">Raw NDTW ↓</th><th scope="col">Visual pass (%) ↑</th></tr>
-                  </thead>
-                  <tbody class="model-group">
-                    <tr><th scope="rowgroup" rowspan="2" class="table-model">CtrlWorld</th><th scope="row" class="table-coverage">Expert</th><td>0.0716</td><td>0.0266</td><td>83.89</td></tr>
-                    <tr><th scope="row" class="table-coverage">Expanded</th><td>0.0670</td><td>0.0210</td><td>83.71</td></tr>
-                  </tbody>
-                  <tbody class="model-group">
-                    <tr><th scope="rowgroup" rowspan="2" class="table-model">Cosmos-Predict2.5</th><th scope="row" class="table-coverage">Expert</th><td>0.0894</td><td>0.0190</td><td>75.09</td></tr>
-                    <tr><th scope="row" class="table-coverage">Expanded</th><td>0.0842</td><td><strong>0.0127</strong></td><td>75.03</td></tr>
-                  </tbody>
-                  <tbody class="model-group">
-                    <tr><th scope="rowgroup" rowspan="2" class="table-model">Cosmos3</th><th scope="row" class="table-coverage">Expert</th><td>0.1432</td><td>0.0572</td><td>63.94</td></tr>
-                    <tr><th scope="row" class="table-coverage">Expanded</th><td>0.1218</td><td>0.0419</td><td>68.97</td></tr>
-                  </tbody>
-                  <tbody class="model-group">
-                    <tr><th scope="rowgroup" rowspan="2" class="table-model">DreamDojo</th><th scope="row" class="table-coverage">Expert</th><td>0.0805</td><td>0.0210</td><td>78.97</td></tr>
-                    <tr><th scope="row" class="table-coverage">Expanded</th><td>0.0801</td><td>0.0151</td><td>77.20</td></tr>
-                  </tbody>
-                  <tbody class="model-group">
-                    <tr><th scope="rowgroup" rowspan="2" class="table-model">Motus</th><th scope="row" class="table-coverage">Expert</th><td>0.1116</td><td>0.0548</td><td>75.09</td></tr>
-                    <tr><th scope="row" class="table-coverage">Expanded</th><td>0.0731</td><td>0.0292</td><td>84.34</td></tr>
-                  </tbody>
-                  <tbody class="model-group">
-                    <tr><th scope="rowgroup" rowspan="2" class="table-model">LingBotVA</th><th scope="row" class="table-coverage">Expert</th><td>0.1148</td><td>0.0473</td><td>71.83</td></tr>
-                    <tr><th scope="row" class="table-coverage">Expanded</th><td>0.0897</td><td>0.0340</td><td>79.71</td></tr>
-                  </tbody>
-                  <tbody class="model-group">
-                    <tr class="ours"><th scope="row">WorldSync</th><th scope="row" class="table-coverage">Expanded</th><td><strong>0.0661</strong></td><td>0.0223</td><td><strong>84.51</strong></td></tr>
-                  </tbody>
-                </table>
-              </div>
-              <p class="result-table-note">Bold marks the best value in each column. WorldSync has the lowest gated error and highest visual pass rate; expanded Cosmos-Predict2.5 has the lowest raw NDTW.</p>
-            </section>
-
-            <section id="table-2" class="result-table-block" aria-labelledby="table-2-heading">
-              <header class="result-table-heading">
-                <h3 id="table-2-heading">Table 2 · Component ablation</h3>
-                <a href="https://arxiv.org/html/2608.24885v1#S4.T2" target="_blank" rel="noopener">View in the paper ↗</a>
-              </header>
-              <p id="table-2-context" class="result-note">Four RoboTwin tasks, averaged over eight common checkpoints. This is a separate component study from the 50-task main comparison. IE denotes intervention-effect supervision; AFE denotes the Action-Forcing Expert; Full combines both with expanded action coverage.</p>
-              <p class="table-scroll-hint">Scroll horizontally to view all columns.</p>
-              <div class="table-scroll" role="region" aria-label="Table 2: WorldSync component ablation" aria-describedby="table-2-context" tabindex="0">
-                <table>
-                  <caption class="sr-only">Complete Table 2: WorldSync component ablation on four RoboTwin tasks, averaged over eight common checkpoints</caption>
-                  <colgroup>
-                    <col class="table-label-col"><col class="table-coverage-col"><col span="3" class="table-metric-col">
-                  </colgroup>
-                  <thead>
-                    <tr><th scope="col">Variant</th><th scope="col">Coverage</th><th scope="col">Gated error ↓</th><th scope="col">Raw NDTW ↓</th><th scope="col">Visual pass (%) ↑</th></tr>
-                  </thead>
-                  <tbody>
-                    <tr><th scope="row">Base</th><td class="table-coverage">Expert</td><td>0.0781</td><td>0.0306</td><td>82.41</td></tr>
-                    <tr><th scope="row">Base</th><td class="table-coverage">Expanded</td><td>0.0738</td><td>0.0258</td><td>82.68</td></tr>
-                    <tr><th scope="row">+ IE</th><td class="table-coverage">Expanded</td><td>0.0700</td><td><strong>0.0170</strong></td><td>81.25</td></tr>
-                    <tr><th scope="row">+ AFE</th><td class="table-coverage">Expanded</td><td>0.0753</td><td>0.0284</td><td><strong>83.04</strong></td></tr>
-                    <tr class="ours"><th scope="row">Full</th><td class="table-coverage">Expanded</td><td><strong>0.0695</strong></td><td>0.0189</td><td>81.96</td></tr>
-                  </tbody>
-                </table>
-              </div>
-              <p class="result-table-note">Bold marks the best value in each column. The full combination has the lowest gated error, IE alone has the lowest raw NDTW, and AFE alone has the highest visual pass rate.</p>
-            </section>
-          </div>
+            <p class="table-scroll-hint">Scroll horizontally to compare all metrics.</p>
+            <div class="table-scroll lb-scroll" role="region" aria-label="WorldEcho leaderboard" aria-describedby="leaderboard-context" tabindex="0">
+              <table>
+                <caption class="sr-only">Published WorldEcho main comparison: 7 models across 50 RoboTwin tasks, ranked by integrity-gated error.</caption>
+                <colgroup><col class="lb-rank-col"><col class="lb-model-col"><col class="lb-training-col"><col span="3" class="lb-metric-col"></colgroup>
+                <thead><tr><th scope="col">Rank</th><th scope="col">Model</th><th scope="col">Training data</th><th scope="col" data-lb-column="gated" aria-sort="ascending">Gated error ↓</th><th scope="col" data-lb-column="raw">Raw NDTW ↓</th><th scope="col" data-lb-column="visual">Visual pass (%) ↑</th></tr></thead>
+                <tbody data-lb-rows>
+                  <tr class="ours" data-coverage="expanded" data-gated="0.0661" data-raw="0.0223" data-visual="84.51">
+                    <td class="lb-rank" data-lb-rank><span class="sr-only">Rank 1</span><span class="lb-rank-mark" aria-hidden="true">🥇</span></td><th scope="row">WorldSync <span class="lb-ours">Ours</span></th>
+                    <td class="lb-training"><span>Expanded</span><small>60k updates</small></td>
+                    <td class="lb-primary"><strong>0.0661</strong></td><td>0.0223</td><td><strong>84.51</strong></td>
+                  </tr>
+                  <tr data-coverage="expert" data-gated="0.0716" data-raw="0.0266" data-visual="83.89">
+                    <td class="lb-rank" data-lb-rank><span class="sr-only">Rank 2</span><span class="lb-rank-mark" aria-hidden="true">🥈</span></td><th scope="row">CtrlWorld</th>
+                    <td class="lb-training"><span>Expert</span><small>20k updates</small></td>
+                    <td class="lb-primary">0.0716</td><td>0.0266</td><td>83.89</td>
+                  </tr>
+                  <tr data-coverage="expert" data-gated="0.0805" data-raw="0.0210" data-visual="78.97">
+                    <td class="lb-rank" data-lb-rank><span class="sr-only">Rank 3</span><span class="lb-rank-mark" aria-hidden="true">🥉</span></td><th scope="row">DreamDojo</th>
+                    <td class="lb-training"><span>Expert</span><small>20k updates</small></td>
+                    <td class="lb-primary">0.0805</td><td>0.0210</td><td>78.97</td>
+                  </tr>
+                  <tr data-coverage="expert" data-gated="0.0894" data-raw="0.0190" data-visual="75.09">
+                    <td class="lb-rank" data-lb-rank><span class="sr-only">Rank 4</span><span class="lb-rank-mark" aria-hidden="true">04</span></td><th scope="row">Cosmos-Predict2.5</th>
+                    <td class="lb-training"><span>Expert</span><small>20k updates</small></td>
+                    <td class="lb-primary">0.0894</td><td><strong>0.0190</strong></td><td>75.09</td>
+                  </tr>
+                  <tr data-coverage="expert" data-gated="0.1116" data-raw="0.0548" data-visual="75.09">
+                    <td class="lb-rank" data-lb-rank><span class="sr-only">Rank 5</span><span class="lb-rank-mark" aria-hidden="true">05</span></td><th scope="row">Motus</th>
+                    <td class="lb-training"><span>Expert</span><small>20k updates</small></td>
+                    <td class="lb-primary">0.1116</td><td>0.0548</td><td>75.09</td>
+                  </tr>
+                  <tr data-coverage="expert" data-gated="0.1148" data-raw="0.0473" data-visual="71.83">
+                    <td class="lb-rank" data-lb-rank><span class="sr-only">Rank 6</span><span class="lb-rank-mark" aria-hidden="true">06</span></td><th scope="row">LingBotVA</th>
+                    <td class="lb-training"><span>Expert</span><small>20k updates</small></td>
+                    <td class="lb-primary">0.1148</td><td>0.0473</td><td>71.83</td>
+                  </tr>
+                  <tr data-coverage="expert" data-gated="0.1432" data-raw="0.0572" data-visual="63.94">
+                    <td class="lb-rank" data-lb-rank><span class="sr-only">Rank 7</span><span class="lb-rank-mark" aria-hidden="true">07</span></td><th scope="row">Cosmos3</th>
+                    <td class="lb-training"><span>Expert</span><small>20k updates</small></td>
+                    <td class="lb-primary">0.1432</td><td>0.0572</td><td>63.94</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="lb-footer"><p data-lb-status aria-live="polite" aria-atomic="true">7 models · ranked by gated error</p><span>Bold = best among displayed models</span></div>
+            <p id="leaderboard-context" class="result-table-note">Published task-macro averages over 50 RoboTwin tasks. Baselines use expert demonstrations (20k updates); WorldSync uses expanded action coverage (60k updates). Training data and budgets differ. Expanded baseline results remain in the full paper.</p>
+          </section>
+          <section id="results-explorer" data-results-explorer hidden aria-label="Explore published WorldEcho results"></section>
         </div>
       </section>
 
@@ -562,6 +504,24 @@
             <p class="wm-status" data-wm-status role="status" aria-live="polite">Ready to draft. No model is connected.</p>
           </div>
           <noscript><p class="wm-noscript">Enable JavaScript to edit an action draft. This page does not connect to a live model.</p></noscript>
+        </div>
+      </section>
+
+      <section id="state-control" class="section-pad state-control-section" aria-labelledby="state-control-heading">
+        <div class="container">
+          <div class="section-heading split-heading">
+            <div><p class="kicker">Part IV / State control in action</p><h2 id="state-control-heading">See the control.<br>Follow the motion.</h2></div>
+            <p class="lead">Single-task rollouts from WorldSync trained on 50 tasks. This gallery will compare its response to a given action sequence with a baseline and the reference rollout.</p>
+          </div>
+          <div class="demo-gallery" aria-describedby="demo-status">
+            <div class="demo-gallery-heading"><h3>State-control comparisons</h3><span class="demo-pending">Videos coming soon</span></div>
+            <div class="demo-comparison">
+              <figure class="demo-slot"><figcaption><span class="demo-step">01 / Reference</span><h4>Target motion</h4></figcaption><div class="demo-placeholder"><span class="demo-placeholder-mark" aria-hidden="true">↗</span><p>Reference rollout</p><small>Video pending</small></div></figure>
+              <figure class="demo-slot"><figcaption><span class="demo-step">02 / Baseline</span><h4>Comparison model</h4></figcaption><div class="demo-placeholder"><span class="demo-placeholder-mark" aria-hidden="true">↗</span><p>Baseline rollout</p><small>Video pending</small></div></figure>
+              <figure class="demo-slot demo-slot-ours"><figcaption><span class="demo-step">03 / WorldSync</span><h4>State-controlled rollout</h4></figcaption><div class="demo-placeholder"><span class="demo-placeholder-mark" aria-hidden="true">↗</span><p>50-task checkpoint</p><small>Inference video pending</small></div></figure>
+            </div>
+            <p id="demo-status" class="demo-status">Comparison videos are being prepared. Each case will use the same initial observation and action sequence, with the task and model checkpoint identified alongside the recordings.</p>
+          </div>
         </div>
       </section>
     </main>
