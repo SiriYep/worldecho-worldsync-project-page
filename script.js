@@ -2,10 +2,8 @@ import { setupWorldModelPreview } from "./wm-preview.js";
 import { setupVideoGroups } from "./video-playback.js";
 
 import { setupLeaderboard } from "./leaderboard.js";
-import { setupResultsExplorer } from "./results-explorer.js";
 
-const models = setupLeaderboard(document.querySelector("[data-leaderboard]"));
-setupResultsExplorer(document.querySelector("[data-results-explorer]"), models);
+setupLeaderboard(document.querySelector("[data-leaderboard]"));
 
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 

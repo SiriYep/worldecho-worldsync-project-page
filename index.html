@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="responsive.css">
     <link rel="stylesheet" href="publication.css">
     <link rel="stylesheet" href="wm-preview.css">
-    <link rel="stylesheet" href="results-explorer.css">
+    <link rel="stylesheet" href="action-coverage.css">
     <link rel="stylesheet" href="theme.css">
     <script>document.documentElement.classList.add("js");</script>
     <script src="script.js" type="module"></script>
@@ -438,7 +438,13 @@
             <p class="lb-logo-note">Logos identify the lead institution, developer, or parent organization. Model links open the full project credits.</p>
             <p id="leaderboard-context" class="result-table-note">Published task-macro averages over 50 RoboTwin tasks. Baselines use expert demonstrations (20k updates); WorldSync uses expanded action coverage (60k updates). Training data and budgets differ. Expanded baseline results remain in the full paper.</p>
           </section>
-          <section id="results-explorer" data-results-explorer hidden aria-label="Explore published WorldEcho results"></section>
+          <section id="results-explorer" class="action-coverage" aria-labelledby="action-coverage-heading">
+            <div class="ac-heading"><div><p class="kicker">WorldEcho / Action coverage</p><h3 id="action-coverage-heading">Beyond expert actions.</h3></div><p>Expert actions occupy a compact region. Four off-expert query categories extend evaluation across a broader projected action space.</p></div>
+            <figure class="ac-figure">
+              <img src="assets/figures/paper-figure-5c.png" alt="Paper Figure 5c: PCA action coverage for Expert, Cross-state replay, Local perturbation, Policy rollout, and Feasible-space sampling. PC1 explains 22.9% and PC2 18.0% of variance. Dashed contours show expert and off-expert 95% highest-density regions." width="751" height="634" loading="lazy" decoding="async">
+              <figcaption><span>Paper Figure 5c · Expanded evaluation coverage</span><a href="assets/figures/paper-figure-5.pdf" target="_blank" rel="noopener">View original figure ↗</a></figcaption>
+            </figure>
+          </section>
         </div>
       </section>
 

@@ -20,12 +20,8 @@ Each value is a macro average over 50 RoboTwin tasks. Training data and budgets 
 
 The default rank uses gated error ascending. Raw NDTW also sorts ascending; visual pass sorts descending. Ties use competition ranks (1, 2, 2, 4); medals track the selected metric. Bold marks the best value among these seven displayed models, preserving four decimal places for errors and two for percentages. The static HTML remains readable without JavaScript.
 
-## Interactive plots
+## Action coverage
 
-The explorer reads the same seven HTML leaderboard rows. It does not keep an independent score copy. Each scatter logo represents one model mean: x is selectable gated error or raw NDTW (lower is better), y is visual pass in percent (higher is better). Selection exposes all three scores and the training budget. Logos and model names replace the earlier color-dot encoding. Where neighboring logos would overlap, a thin line connects the displaced mark to its exact data position; the input measurements do not change.
-
-The metric-distribution view shows only the seven displayed model means. Its median is a descriptive statistic across those models, not an aggregate task score or an uncertainty estimate. No per-task distribution, confidence interval, synthetic density, generated samples, or implied experiment time series is shown. Metric-switch motion is a UI transition, not a training trajectory.
-
-The paper’s Figure 5c contains an action-space PCA visualization, but no underlying point coordinates were found locally. An interactive action-space distribution must wait for the actual coordinates. The available four-task AFE supplementary CSVs do not match the 50-task Table 1 population and must not be substituted.
+The requested scatter/distribution feature concerns action-query coverage in Figure 5c, not the seven model-average metrics. The earlier model-mean explorer was removed on 13 September after the user clarified the scope. The page now displays the original paper panel. Interactive highlighting by action category remains pending source data; see [action-coverage provenance](action-coverage.md).
 
 These are published experiment results, not a new evaluation run for the website.
