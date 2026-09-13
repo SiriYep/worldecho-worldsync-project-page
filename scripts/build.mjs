@@ -15,6 +15,7 @@ const publicEntries = [
   "script.js",
   "leaderboard.js",
   "results-explorer.js",
+  "results-marker-layout.js",
   "results-explorer.css",
   "theme.js",
   "theme.css",

@@ -22,7 +22,7 @@ The default rank uses gated error ascending. Raw NDTW also sorts ascending; visu
 
 ## Interactive plots
 
-The explorer reads the same seven HTML leaderboard rows. It does not keep an independent score copy. Each scatter point represents one model mean: x is selectable gated error or raw NDTW (lower is better), y is visual pass in percent (higher is better). Selection exposes all three scores and the training budget.
+The explorer reads the same seven HTML leaderboard rows. It does not keep an independent score copy. Each scatter logo represents one model mean: x is selectable gated error or raw NDTW (lower is better), y is visual pass in percent (higher is better). Selection exposes all three scores and the training budget. Logos and model names replace the earlier color-dot encoding. Where neighboring logos would overlap, a thin line connects the displaced mark to its exact data position; the input measurements do not change.
 
 The metric-distribution view shows only the seven displayed model means. Its median is a descriptive statistic across those models, not an aggregate task score or an uncertainty estimate. No per-task distribution, confidence interval, synthetic density, generated samples, or implied experiment time series is shown. Metric-switch motion is a UI transition, not a training trajectory.
 

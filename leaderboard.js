@@ -28,6 +28,7 @@ export function setupLeaderboard(root) {
       visual: Number(row.dataset.visual),
       training: Array.from(row.querySelector(".lb-training").children, (item) => item.textContent).join(" · "),
       ours: row.classList.contains("ours"),
+      logo: row.querySelector(".lb-model-credit img, .lb-model-credit svg"),
     };
   });
   const rowById = new Map(models.map((model, index) => [model.id, rows[index]]));
