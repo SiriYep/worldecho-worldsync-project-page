@@ -40,6 +40,7 @@
 }
 .ac-category:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 .ac-plot { display: block; width: 100%; height: auto; overflow: visible; }
+.ac-plot.has-highlight { cursor: pointer; }
 .ac-axes { color: var(--ink-soft); }
 .ac-axis-label { font-size: 13px; }
 .ac-axis-tick { font-family: var(--font-mono, monospace); }

@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { createHash } from "node:crypto";
-import { validateActionCoverage, nextActionCoverageSelection, setupActionCoverage } from "../action-coverage.js";
+import { validateActionCoverage, nextActionCoverageSelection, pickActionCoverageGroup, setupActionCoverage } from "../action-coverage.js";
 
 // Fixed fixtures for validation tests only. They are not scientific data and
 // are never imported by the site or copied into its build output.
@@ -70,6 +70,62 @@ test("category selection switches whole groups and same-category or All restores
   assert.throws(() => nextActionCoverageSelection("missing", null, ids), /unknown category/);
 });
 
+function rectangle(left, top, right, bottom) {
+  return [[left, top], [right, top], [right, bottom], [left, bottom], [left, top]];
+}
+
+test("hover picking selects the nearest displayed point within the requested radius", () => {
+  const groups = [
+    { id: "a", points: [[0, 0]] },
+    { id: "b", points: [[100, 0]] },
+  ];
+  assert.equal(pickActionCoverageGroup(groups, { x: 11, y: 0 }), "a");
+  assert.equal(pickActionCoverageGroup(groups, { x: 12, y: 0 }), "a");
+  assert.equal(pickActionCoverageGroup(groups, { x: 13, y: 0 }), null);
+  assert.equal(pickActionCoverageGroup(groups, { x: 11, y: 11 }), null);
+  assert.equal(pickActionCoverageGroup(groups, { x: 7, y: 0 }, { pointRadius: 6 }), null);
+  assert.equal(pickActionCoverageGroup(groups, { x: 5, y: 0 }, { pointRadius: 6 }), "a");
+  assert.equal(pickActionCoverageGroup(groups, { x: 100, y: 0 }, { includePoints: false }), null);
+  assert.equal(pickActionCoverageGroup([
+    { id: "a", points: [[0, 0]] },
+    { id: "b", points: [[10, 0]] },
+  ], { x: 8, y: 0 }), "b");
+});
+
+test("HDR picking preserves holes, nested islands, and disconnected components with evenodd parity", () => {
+  const groups = [{
+    id: "a", points: [[10, 10]],
+    hdrPaths: [
+      rectangle(0, 0, 100, 100),
+      rectangle(30, 30, 70, 70),
+      rectangle(40, 40, 60, 60),
+      rectangle(200, 200, 240, 240),
+    ],
+  }];
+  const pick = (x, y) => pickActionCoverageGroup(groups, { x, y }, { includePoints: false });
+  assert.equal(pick(20, 20), "a");
+  assert.equal(pick(35, 35), null, "an inner ring is a hole even with the same winding order");
+  assert.equal(pick(50, 50), "a", "a third nested ring restores an island");
+  assert.equal(pick(220, 220), "a");
+  assert.equal(pick(150, 150), null, "disconnected components do not create a filled bridge");
+  assert.equal(pick(-10, 50), null);
+});
+
+test("overlapping HDRs use the nearest candidate category and retain source-order ties", () => {
+  const groups = [
+    { id: "a", points: [[20, 50]], hdrPaths: [rectangle(0, 0, 100, 100)] },
+    { id: "b", points: [[80, 50]], hdrPaths: [rectangle(0, 0, 100, 100)] },
+    { id: "outside", points: [[30, 50]], hdrPaths: [rectangle(200, 200, 300, 300)] },
+  ];
+  const density = { includePoints: false };
+  assert.equal(pickActionCoverageGroup(groups, { x: 30, y: 50 }, density), "a");
+  assert.equal(pickActionCoverageGroup(groups, { x: 70, y: 50 }, density), "b");
+  assert.equal(pickActionCoverageGroup(groups, { x: 50, y: 50 }, density), "a");
+  assert.equal(pickActionCoverageGroup([groups[1], groups[0], groups[2]], { x: 50, y: 50 }, density), "b");
+  assert.equal(pickActionCoverageGroup(groups, { x: 30, y: 50 }), "outside", "near-point picking takes priority only in scatter mode");
+  assert.equal(pickActionCoverageGroup(groups, { x: 150, y: 50 }, density), null);
+});
+
 // Small controlled DOM boundary, as in theme/video tests: execute the actual
 // component and its native click listeners without a browser dependency.
 function domFixture() {
@@ -82,6 +138,7 @@ function domFixture() {
       this.children = [];
       this.attributes = new Map();
       this.dataset = {};
+      this.textContentWrites = 0;
       this.classes = new Set();
       this.classList = {
         contains: (name) => this.classes.has(name),
@@ -90,6 +147,8 @@ function domFixture() {
     }
     set className(value) { this.classes = new Set(value.split(/\s+/)); }
     get className() { return [...this.classes].join(" "); }
+    set textContent(value) { this._textContent = value; this.textContentWrites += 1; }
+    get textContent() { return this._textContent ?? ""; }
     setAttribute(name, value) {
       this.attributes.set(name, String(value));
       if (name === "class") this.className = value;
@@ -122,6 +181,105 @@ function domFixture() {
 function descendants(element) {
   return element.children.flatMap((child) => [child, ...descendants(child)]);
 }
+
+// Only the browser geometry boundary is mocked. Real component listeners use
+// this screen matrix and its inverse, including CSS scaling and page offsets.
+function mockSvgScreen(chart, { scale = 1, left = 0, top = 0 } = {}) {
+  const matrix = {
+    a: scale, b: 0, c: 0, d: scale, e: left, f: top,
+    inverse: () => ({ a: 1 / scale, b: 0, c: 0, d: 1 / scale, e: -left / scale, f: -top / scale }),
+  };
+  chart.getScreenCTM = () => matrix;
+  chart.createSVGPoint = () => ({
+    x: 0, y: 0,
+    matrixTransform(transform) {
+      return {
+        x: transform.a * this.x + transform.c * this.y + transform.e,
+        y: transform.b * this.x + transform.d * this.y + transform.f,
+      };
+    },
+  });
+  return (x, y) => ({ clientX: x * scale + left, clientY: y * scale + top });
+}
+
+function pointerEvent(type, properties = {}) {
+  return Object.assign(new Event(type), { pointerType: "mouse", clientX: 0, clientY: 0, ...properties });
+}
+
+test("chart pointer moves highlight whole groups idempotently, then blank space or leave restores All", () => {
+  const root = domFixture();
+  const controller = setupActionCoverage(root, fixture());
+  const children = descendants(root);
+  const chart = children.find((element) => element.classList.contains("ac-plot"));
+  const screen = mockSvgScreen(chart);
+  const status = root.querySelector("[data-ac-status]");
+  const clouds = children.filter((element) => element.classList.contains("ac-cloud"));
+  const buttons = children.filter((element) => element.classList.contains("ac-category"));
+  const originalPositions = clouds.map((cloud) => cloud.children.map((point) => [...point.attributes]));
+  // Fixture endpoints project to (104, 36) for A and (724, 430) for B.
+  chart.dispatchEvent(pointerEvent("pointermove", screen(104, 36)));
+  assert.equal(controller.getSelection(), "a");
+  assert.equal(buttons[1].getAttribute("aria-pressed"), "true");
+  assert.equal(clouds.find((cloud) => cloud.getAttribute("data-ac-group") === "b").getAttribute("opacity"), ".12");
+  const writes = status.textContentWrites;
+  for (const x of [105, 106, 107, 104]) chart.dispatchEvent(pointerEvent("pointermove", screen(x, 36)));
+  assert.equal(controller.getSelection(), "a");
+  assert.equal(status.textContentWrites, writes, "staying in one category does not repeatedly announce the same live status");
+  chart.dispatchEvent(pointerEvent("pointermove", screen(724, 430)));
+  assert.equal(controller.getSelection(), "b", "a dimmed group remains hoverable");
+  chart.dispatchEvent(pointerEvent("pointermove", screen(500, 100)));
+  assert.equal(controller.getSelection(), null);
+  assert.equal(buttons[0].getAttribute("aria-pressed"), "true");
+  chart.dispatchEvent(pointerEvent("pointermove", screen(104, 36)));
+  chart.dispatchEvent(pointerEvent("pointerleave"));
+  assert.equal(controller.getSelection(), null);
+  chart.dispatchEvent(pointerEvent("pointermove", screen(724, 430)));
+  chart.dispatchEvent(pointerEvent("pointercancel"));
+  assert.equal(controller.getSelection(), null);
+  assert.deepEqual(clouds.map((cloud) => cloud.children.map((point) => [...point.attributes])), originalPositions);
+});
+
+test("chart picking keeps a 12 CSS-pixel radius through screen scaling and offsets", () => {
+  for (const scale of [.5, 2]) {
+    const root = domFixture();
+    const controller = setupActionCoverage(root, fixture());
+    const chart = descendants(root).find((element) => element.classList.contains("ac-plot"));
+    const screen = mockSvgScreen(chart, { scale, left: 37, top: 91 });
+    const point = screen(104, 36);
+    chart.dispatchEvent(pointerEvent("pointermove", { ...point, clientX: point.clientX + 11 }));
+    assert.equal(controller.getSelection(), "a", `11 CSS px must hit at scale ${scale}`);
+    chart.dispatchEvent(pointerEvent("pointermove", { ...point, clientX: point.clientX + 13 }));
+    assert.equal(controller.getSelection(), null, `13 CSS px must miss at scale ${scale}`);
+  }
+});
+
+test("touch movement does not override selection and hovering before a mouse click remains highlighted", () => {
+  const root = domFixture();
+  const controller = setupActionCoverage(root, fixture());
+  const children = descendants(root);
+  const chart = children.find((element) => element.classList.contains("ac-plot"));
+  const screen = mockSvgScreen(chart);
+  const cloud = children.find((element) => element.classList.contains("ac-cloud") && element.getAttribute("data-ac-group") === "a");
+  chart.dispatchEvent(pointerEvent("pointermove", { ...screen(104, 36), pointerType: "touch" }));
+  assert.equal(controller.getSelection(), null);
+  chart.dispatchEvent(pointerEvent("pointermove", screen(104, 36)));
+  assert.equal(controller.getSelection(), "a");
+  cloud.dispatchEvent(pointerEvent("click"));
+  assert.equal(controller.getSelection(), "a", "the first mouse click after hover must not toggle the category off");
+  cloud.dispatchEvent(pointerEvent("click"));
+  assert.equal(controller.getSelection(), "a");
+  chart.dispatchEvent(pointerEvent("pointermove", { ...screen(724, 430), pointerType: "touch" }));
+  chart.dispatchEvent(pointerEvent("pointerleave", { pointerType: "touch" }));
+  chart.dispatchEvent(pointerEvent("pointercancel", { pointerType: "touch" }));
+  assert.equal(controller.getSelection(), "a");
+  cloud.dispatchEvent(pointerEvent("click", { pointerType: "touch" }));
+  assert.equal(controller.getSelection(), null);
+  cloud.dispatchEvent(pointerEvent("click", { pointerType: "touch" }));
+  assert.equal(controller.getSelection(), "a");
+  const button = children.find((element) => element.classList.contains("ac-category") && element.dataset.acGroup === "a");
+  button.dispatchEvent(new Event("click"));
+  assert.equal(controller.getSelection(), null, "native keyboard/category click retains same-category reset");
+});
 
 test("component clicks highlight complete groups without moving points and restore every group", () => {
   const root = domFixture();
@@ -187,6 +345,32 @@ function densityFixture() {
     color: group.color, groupIds: [group.id], paths: group.hdrPaths }));
   return input;
 }
+
+test("chart hover reaches sparse HDR interiors and density mode never selects an out-of-region point", () => {
+  const root = domFixture();
+  const input = densityFixture();
+  input.groups[0].hdrPaths = [rectangle(-6, -6, -4, -4)];
+  input.groups[1].hdrPaths = [rectangle(2, -2, 4, 0)];
+  input.regions.forEach((region, index) => { region.paths = input.groups[index].hdrPaths; });
+  const controller = setupActionCoverage(root, input);
+  const chart = descendants(root).find((element) => element.classList.contains("ac-plot"));
+  const screen = mockSvgScreen(chart);
+  const move = (x, y) => chart.dispatchEvent(pointerEvent("pointermove", screen(x, y)));
+  // Fixed [-10, 10] x [-8, 8] source domain projects A's (-5, -5) HDR
+  // interior to (259, 356.125), far from either of A's displayed samples.
+  move(259, 356.125);
+  assert.equal(controller.getSelection(), "a", "scatter mode can select the region between sparse points");
+  controller.setView("density");
+  move(259, 356.125);
+  assert.equal(controller.getSelection(), "a");
+  move(414, 233); // A's displayed (0, 0) sample, outside both HDRs.
+  assert.equal(controller.getSelection(), null, "density mode requires actual HDR containment");
+  move(507, 257.625); // B's (3, -1) point lies in B's HDR.
+  assert.equal(controller.getSelection(), "b");
+  controller.setView("points");
+  move(414, 233);
+  assert.equal(controller.getSelection(), "a", "scatter mode still admits displayed points outside the 95% region");
+});
 
 test("density selection uses exported category regions and keeps coordinates fixed across views", () => {
   const root = domFixture();

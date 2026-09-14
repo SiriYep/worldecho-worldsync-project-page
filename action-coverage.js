@@ -131,6 +131,42 @@ function extent(groups, dimension) {
   return { min, span };
 }
 
+function insideContours({ x, y }, paths) {
+  let inside = false;
+  // Parity over all rings matches the SVG evenodd fill, including holes.
+  for (const ring of paths ?? []) {
+    for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+      const [xi, yi] = ring[i];
+      const [xj, yj] = ring[j];
+      if ((yi > y) !== (yj > y) && x < (xj - xi) * (y - yi) / (yj - yi) + xi) inside = !inside;
+    }
+  }
+  return inside;
+}
+
+// The same geometry drives both views; picking never depends on SVG draw order.
+export function pickActionCoverageGroup(groups, location, { pointRadius = 12, includePoints = true } = {}) {
+  let nearby = null;
+  let nearbyDistance = Infinity;
+  let containing = null;
+  let containingDistance = Infinity;
+  for (const group of groups) {
+    let distance = Infinity;
+    for (const [x, y] of group.points) {
+      distance = Math.min(distance, (x - location.x) ** 2 + (y - location.y) ** 2);
+    }
+    if (includePoints && distance <= pointRadius ** 2 && distance < nearbyDistance) {
+      nearby = group.id;
+      nearbyDistance = distance;
+    }
+    if (distance < containingDistance && insideContours(location, group.hdrPaths)) {
+      containing = group.id;
+      containingDistance = distance;
+    }
+  }
+  return nearby ?? containing;
+}
+
 export function setupActionCoverage(root, payload) {
   if (!root) throw new TypeError("Action coverage: a root element is required.");
   const data = validateActionCoverage(payload);
@@ -165,6 +201,7 @@ export function setupActionCoverage(root, payload) {
   const xLabel = axisLabel(data.projection.xLabel, 0);
   const yLabel = axisLabel(data.projection.yLabel, 1);
   const chart = svg("svg", { class: "ac-plot", viewBox: "0 0 760 500", role: "img" });
+  chart.append(svg("rect", { x: 0, y: 0, width: 760, height: 500, fill: "transparent", "pointer-events": "all", "aria-hidden": "true" }));
   const axes = svg("g", { class: "ac-axes", fill: "currentColor" });
   if (!data.projection.domain) axes.append(svg("path", { d: "M 88 20 V 446 H 740", fill: "none", stroke: "currentColor", "stroke-width": 1 }));
   text(axes, xLabel, { x: 414, y: 487, "text-anchor": "middle", class: "ac-axis-label" });
@@ -175,6 +212,12 @@ export function setupActionCoverage(root, payload) {
   const scale = (value, domain, start, end) => domain.span === 0
     ? (start + end) / 2
     : start + (value - domain.min) / domain.span * (end - start);
+  const toPlot = ([x, y]) => [scale(x, xExtent, 104, 724), scale(y, yExtent, 430, 36)];
+  const hitGroups = data.groups.map((group) => ({
+    id: group.id,
+    points: group.points.map(toPlot),
+    hdrPaths: group.hdrPaths?.map((ring) => ring.map(toPlot)),
+  }));
   const ticks = (domain) => domain.span === 0
     ? [domain.min]
     : Array.from({ length: 5 }, (_, index) => domain.min + domain.span * index / 4);
@@ -340,6 +383,7 @@ export function setupActionCoverage(root, payload) {
     }
     for (const [id, button] of viewButtons) button.setAttribute("aria-pressed", String(id === view));
     root.dataset.acCurrentView = view;
+    chart.classList.toggle("has-highlight", selected !== null);
     for (const [id, button] of buttons) {
       button.setAttribute("aria-pressed", String(id === selected));
       button.classList.toggle("is-selected", id === selected);
@@ -357,8 +401,34 @@ export function setupActionCoverage(root, payload) {
     renderSelection();
     return selected;
   }
+  function highlight(category) {
+    if (category === selected) return;
+    selected = category;
+    renderSelection();
+  }
   for (const [id, button] of buttons) button.addEventListener("click", () => select(id));
-  for (const [id, cloud] of clouds) cloud.addEventListener("click", () => select(id));
+  for (const [id, cloud] of clouds) cloud.addEventListener("click", (event) => {
+    if (event.pointerType === "touch") select(id);
+    else highlight(id);
+  });
+  chart.addEventListener("pointermove", (event) => {
+    if (event.pointerType === "touch" || event.buttons > 0) return;
+    const matrix = chart.getScreenCTM();
+    if (!matrix) return;
+    const point = chart.createSVGPoint();
+    point.x = event.clientX;
+    point.y = event.clientY;
+    const position = point.matrixTransform(matrix.inverse());
+    highlight(pickActionCoverageGroup(hitGroups, position, {
+      pointRadius: 12 / Math.hypot(matrix.a, matrix.b),
+      includePoints: view === "points",
+    }));
+  });
+  for (const eventName of ["pointerleave", "pointercancel"]) {
+    chart.addEventListener(eventName, (event) => {
+      if (event.pointerType !== "touch") highlight(null);
+    });
+  }
   function setView(next) {
     if (next !== "points" && (next !== "density" || !hasDensity)) throw new RangeError("Action coverage: unavailable view.");
     view = next;

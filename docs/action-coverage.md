@@ -31,8 +31,9 @@ The plot uses the original domain derived from all 250 points, including the pap
 
 ## Interaction and failure handling
 
-- Click a category or a displayed point to highlight its complete category. Other point clouds and the aggregate context contours fade.
-- Click the same category again or All to restore the paper's complete view.
+- Move the pointer over a point cloud or density region to highlight its complete category. Other point clouds and the aggregate context contours fade. Moving into empty space or leaving the plot restores all.
+- Scatter picking first considers displayed points within 12 CSS pixels, then the actual family HDR interiors. Density picking uses only HDR interiors. Overlapping regions resolve to the containing category with the nearest displayed point, with stable category order for ties. Holes follow the original SVG evenodd geometry. These rules select a highlight; they do not change scientific coordinates or densities.
+- Category buttons still support keyboard and touch selection. Clicking the same category button again or All restores the paper's complete view. Touch movement does not trigger hover.
 - Switch between Action queries and Density coverage without losing the selected category.
 - All uses the original expert/off-expert outlines. A selected category uses its own exported HDR while retaining dim aggregate outlines as context.
 - Native buttons support keyboard activation, pressed state, visible focus, and an accessible live selection summary. Reduced-motion settings disable fades.
