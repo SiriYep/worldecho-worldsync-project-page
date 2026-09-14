@@ -45,8 +45,6 @@ CATEGORIES = (
     ("Feasible-Space Sampling", "feasible-space-sampling", "Feasible-space sampling", "#D49A3A", "diamond"),
 )
 MASS = .95
-DISPLAY_COUNT = 20
-SEED = 20260801
 GRID_SIZE = 320
 
 
@@ -73,15 +71,8 @@ def stage_sources(source_dir: Path | None, assets: Path) -> dict[str, str]:
 
 
 def display_rows(labels: np.ndarray, category: str) -> list[int]:
-    candidates = np.flatnonzero(labels == category)
-    ranked = sorted(
-        candidates,
-        key=lambda index: hashlib.sha256(
-            f"{SEED}|{category}|{int(index)}".encode("utf-8")
-        ).hexdigest(),
-    )
-    # The original boolean mask is consumed in CSV order, not hash rank order.
-    return sorted(int(index) for index in ranked[:DISPLAY_COUNT])
+    # Show every source sample so disconnected HDR regions retain their points.
+    return [int(index) for index in np.flatnonzero(labels == category)]
 
 
 def density_score(points: np.ndarray, xx: np.ndarray, yy: np.ndarray, bandwidth: float):
@@ -202,10 +193,8 @@ def export(assets: Path, source_hashes: dict[str, str]) -> dict:
             "totalCount": len(points),
             "displayedCount": sum(len(group["points"]) for group in groups),
             "sampling": {
-                "method": "SHA256 hex rank per category; selected rows rendered in original CSV order",
-                "hashInput": "20260801|{original category label}|{zero-based CSV data row}",
-                "seed": SEED,
-                "displayedPerCategory": DISPLAY_COUNT,
+                "method": "All source rows per category, rendered in original CSV order; no subsampling",
+                "displayedPerCategory": 50,
                 "totalPerCategory": 50,
                 "pointRows": "Zero-based CSV data rows, excluding its header",
             },

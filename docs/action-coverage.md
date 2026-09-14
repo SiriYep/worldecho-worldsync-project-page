@@ -13,7 +13,7 @@ The website uses the figure owner's source data from `figure5.zip`, received fro
 
 The population is **250 event-aligned state-conditioned action samples from `adjust_bottle`, one task**. Each of five categories contains 50 samples. This is a PCA feature projection, not robot workspace coordinates or a time trajectory. PC1 explains 22.9% and PC2 18.0% of variance. It must not be described as the distribution over all 50 benchmark tasks.
 
-The paper displays a deterministic subset of 20 samples per category. The exporter reproduces its SHA256 ordering with seed `20260801`, preserving the selected CSV row order and the fitted coordinates. It does not fit PCA, synthesize points, or infer missing raw actions.
+The paper displays a deterministic subset of 20 samples per category. The website shows all 50 samples per category (250 points total), preserving CSV row order and the fitted coordinates. This keeps the scatter population consistent with the density estimates and shows the samples in small disconnected HDR regions. The exporter does not fit PCA, synthesize points, or infer missing raw actions.
 
 | Category | Color | Marker |
 | --- | --- | --- |
@@ -33,7 +33,7 @@ The plot uses the original domain derived from all 250 points, including the pap
 
 - Move the pointer over a point cloud or density region to highlight its complete category. Other point clouds and the aggregate context contours fade. Moving into empty space or leaving the plot restores all.
 - Scatter picking first considers displayed points within 12 CSS pixels, then the actual family HDR interiors. Density picking uses only HDR interiors. Overlapping regions resolve to the containing category with the nearest displayed point, with stable category order for ties. Holes follow the original SVG evenodd geometry. These rules select a highlight; they do not change scientific coordinates or densities.
-- Category buttons still support keyboard and touch selection. Clicking the same category button again or All restores the paper's complete view. Touch movement does not trigger hover.
+- Category buttons still support keyboard and touch selection. Clicking the same category button again or All restores all 250 points. Touch movement does not trigger hover.
 - Switch between Action queries and Density coverage without losing the selected category.
 - All uses the original expert/off-expert outlines. A selected category uses its own exported HDR while retaining dim aggregate outlines as context.
 - Native buttons support keyboard activation, pressed state, visible focus, and an accessible live selection summary. Reduced-motion settings disable fades.

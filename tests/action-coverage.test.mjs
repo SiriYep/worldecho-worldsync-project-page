@@ -419,7 +419,7 @@ test("invalid density geometry and source domains cannot replace the fallback", 
   }
 });
 
-test("the shipped Figure 5c matches source hashes, category counts, coordinates, and the paper subset", () => {
+test("the shipped Figure 5c displays every source row with original coordinates and verified source hashes", () => {
   const asset = (name) => readFileSync(new URL(`../assets/figures/action-coverage/${name}`, import.meta.url), "utf8");
   const original = JSON.parse(asset("figure5c.json"));
   const data = validateActionCoverage(original);
@@ -428,19 +428,19 @@ test("the shipped Figure 5c matches source hashes, category counts, coordinates,
   const rows = lines.map((line) => Object.fromEntries(line.split(",").map((value, index) => [columns[index], value])));
   assert.equal(rows.length, 250);
   assert.equal(original.provenance.task, "adjust_bottle");
+  assert.equal(original.provenance.displayedCount, 250);
+  assert.equal(original.provenance.sampling.displayedPerCategory, 50);
   for (const [name, expected] of Object.entries(original.provenance.sourceSha256)) {
     assert.equal(createHash("sha256").update(asset(name)).digest("hex"), expected, name);
   }
   for (const [i, group] of data.groups.entries()) {
     assert.equal(group.totalCount, 50);
-    assert.equal(group.points.length, 20);
+    assert.equal(group.points.length, 50);
     const plottedRows = original.groups[i].pointRows;
     const category = rows[plottedRows[0]].category;
     const candidates = rows.flatMap((row, index) => row.category === category ? [index] : []);
     assert.equal(candidates.length, 50);
-    const hash = (row) => createHash("sha256").update(`20260801|${category}|${row}`).digest("hex");
-    const expectedRows = candidates.sort((a, b) => hash(a).localeCompare(hash(b))).slice(0, 20).sort((a, b) => a - b);
-    assert.deepEqual(plottedRows, expectedRows);
+    assert.deepEqual(plottedRows, candidates);
     for (const [pointIndex, row] of plottedRows.entries()) {
       // pandas (the paper's parser) and JS can differ at the last double bit.
       for (const [axis, column] of ["pca_1", "pca_2"].entries()) {
@@ -451,12 +451,13 @@ test("the shipped Figure 5c matches source hashes, category counts, coordinates,
   assert.deepEqual(data.regions.map((region) => region.paths.length), [2, 3]);
   const root = domFixture();
   const controller = setupActionCoverage(root, original);
+  assert.equal(descendants(root).filter((element) => element.classList.contains("ac-point")).length, 250);
   for (const group of data.groups) {
     controller.select(group.id);
     controller.setView("density");
     assert.match(root.querySelector("[data-ac-status]").textContent, /all 50 samples/);
     controller.setView("points");
-    assert.match(root.querySelector("[data-ac-status]").textContent, /20 points highlighted from 50 samples/);
+    assert.match(root.querySelector("[data-ac-status]").textContent, /50 points highlighted from 50 samples/);
   }
   controller.select(null);
   assert.equal(root.hidden, false);

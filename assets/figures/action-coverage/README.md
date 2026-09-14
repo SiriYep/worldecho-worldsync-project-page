@@ -20,8 +20,10 @@ The paper displays exactly 20 of the 50 rows in each category, 100 points total.
 For each category, it sorts global zero-based CSV data-row indices by
 `SHA256("20260801|{original category label}|{row index}").hexdigest()`, takes
 the first 20, and renders those selected rows in original CSV order. The header
-is not a data row. `group.pointRows` records these exact source indices;
-`group.totalCount` remains 50. The complete unchanged 250-row CSV is retained.
+is not a data row. The website instead displays all 50 rows per category,
+250 points total, so samples in small disconnected HDR regions are visible.
+`group.pointRows` records every source index in CSV order; `group.totalCount`
+is 50. The complete unchanged 250-row CSV is retained.
 
 | Source category | Website ID | Label | Color | Shape |
 | --- | --- | --- | --- | --- |
@@ -33,7 +35,7 @@ is not a data row. `group.pointRows` records these exact source indices;
 
 ## Density coverage
 
-Density estimation uses **all 50 rows of each category**, including rows not
+Density estimation uses **all 50 rows of each category**, the same samples
 shown as scatter markers. The algorithm reproduces the supplied v4 script:
 
 1. Expand the full 250-point x range on both sides by
@@ -96,11 +98,11 @@ produce identical bytes; no timestamp or machine-specific path is embedded.
 
 ## JSON interface
 
-- `groups`: `id`, `label`, `color`, `shape`, `points` (20 coordinate pairs),
+- `groups`: `id`, `label`, `color`, `shape`, `points` (50 coordinate pairs),
   `pointRows`, `totalCount` (50), and `hdrPaths` (closed PCA-coordinate paths).
 - `projection`: `xLabel`, `yLabel`, `explainedVariance`, `domain: {x, y}`.
 - `regions`: `id`, `label`, `color`, `groupIds`, and closed `paths`.
 - `source`: visible `label` and the original figure `url`.
 - `provenance`: task, population, descriptor, PCA description, sample counts,
-  deterministic sampling rule, HDR recipe/thresholds, display settings, hashes,
+  full-population display rule, HDR recipe/thresholds, display settings, hashes,
   and dependency versions.
