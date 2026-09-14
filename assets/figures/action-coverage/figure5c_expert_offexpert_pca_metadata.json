@@ -1,0 +1,22 @@
+{
+  "task": "adjust_bottle",
+  "comparison": "Expert Demonstrations versus the union of four off-expert action families.",
+  "sampling": "Event-aligned action chunks with equal counts per action family.",
+  "descriptor": "Current dual-arm state plus eight time-normalized knots of relative translation, relative rotation, and gripper state for both arms.",
+  "embedding": "Training-only PCA fitted once to all expert and off-expert samples.",
+  "explained_variance_ratio": [
+    0.22912324965000153,
+    0.180138498544693
+  ],
+  "explained_variance_ratio_sum": 0.4092617630958557,
+  "display_region": "Expert: 95% highest-density KDE region. Off-expert: union of the four family-wise 95% highest-density KDE regions.",
+  "display_sampling": "Scatter display only: 20 of 50 samples per category are selected by deterministic stratified hash sampling with salt 20260801. All 50 samples per category are retained for KDE support estimation.",
+  "category_counts": {
+    "Cross-State Replay": 50,
+    "Demonstrated Action": 50,
+    "Feasible-Space Sampling": 50,
+    "Local Perturbation": 50,
+    "Policy Rollout": 50
+  },
+  "random_seed": 20260801
+}

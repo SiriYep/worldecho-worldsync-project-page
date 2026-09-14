@@ -2,8 +2,24 @@ import { setupWorldModelPreview } from "./wm-preview.js";
 import { setupVideoGroups } from "./video-playback.js";
 
 import { setupLeaderboard } from "./leaderboard.js";
+import { setupActionCoverage } from "./action-coverage.js";
 
 setupLeaderboard(document.querySelector("[data-leaderboard]"));
+
+// Enable only when a verified Figure 5 point export is attached to the section.
+async function loadActionCoverage() {
+  const section = document.querySelector("[data-action-coverage]");
+  const source = section?.dataset.acSource;
+  if (!source) return;
+  const response = await fetch(source);
+  if (!response.ok) throw new Error(`Action coverage returned ${response.status}`);
+  setupActionCoverage(section.querySelector("[data-ac-interactive]"), await response.json());
+  section.querySelector("[data-ac-fallback]").hidden = true;
+}
+
+loadActionCoverage().catch((error) => {
+  console.warn("Action coverage is showing the original paper figure.", error);
+});
 
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 

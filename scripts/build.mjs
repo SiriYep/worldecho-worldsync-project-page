@@ -14,6 +14,7 @@ const publicEntries = [
   "robots.txt",
   "script.js",
   "leaderboard.js",
+  "action-coverage.js",
   "action-coverage.css",
   "theme.js",
   "theme.css",
