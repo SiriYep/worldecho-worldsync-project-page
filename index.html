@@ -439,7 +439,7 @@
             <p id="leaderboard-context" class="result-table-note">Published task-macro averages over 50 RoboTwin tasks. Baselines use expert demonstrations (20k updates); WorldSync uses expanded action coverage (60k updates). Training data and budgets differ. Expanded baseline results remain in the full paper.</p>
           </section>
           <section id="results-explorer" class="action-coverage" aria-labelledby="action-coverage-heading" data-action-coverage data-ac-source="assets/figures/action-coverage/figure5c.json">
-            <div class="ac-heading"><div><p class="kicker">WorldEcho / Action coverage</p><h3 id="action-coverage-heading">Beyond expert actions.</h3></div><p>Explore how four off-expert action categories extend beyond expert support in the paper’s state-conditioned action projection.</p></div>
+            <div class="ac-heading"><div><p class="kicker">WorldEcho / Evaluation coverage</p><h3 id="action-coverage-heading">Evaluating beyond expert demonstrations.</h3></div><p>WorldEcho broadens evaluation with four complementary off-expert query types, covering state–action combinations beyond expert demonstrations.</p></div>
             <div class="ac-interactive" data-ac-interactive hidden>
               <div class="ac-toolbar"><div class="ac-views" data-ac-views></div><span class="ac-task-label">Figure 5c · Adjust bottle</span></div>
               <p class="ac-help">Move over a point cloud or density region to highlight its category. Move away to restore all. You can also select a category below.</p>
@@ -447,12 +447,12 @@
               <div class="ac-plot-host" data-ac-plot></div>
               <div class="ac-support-key" data-ac-support-key></div>
               <p class="ac-status" data-ac-status aria-live="polite" aria-atomic="true"></p>
-              <p class="ac-method">One task, five categories, 50 samples each. All 250 points are shown; density regions use the same full set of samples. Dashed outlines mark 95% highest-density regions (HDR). Off-expert coverage is the union of the four category regions.</p>
+              <p class="ac-method">Single-task example: Adjust bottle · 50 samples per category · 250 points. Each point combines the current robot state and an action sequence, projected into two dimensions with PCA. Dashed outlines mark 95% highest-density regions (HDR); off-expert coverage is the union of the four category regions.</p>
               <p class="ac-source-label" data-ac-source-label></p>
               <p class="ac-source"><a href="assets/figures/action-coverage/figure5c.json" download>Download plot data</a></p>
             </div>
             <figure class="ac-figure" data-ac-fallback>
-              <img src="assets/figures/paper-figure-5c.png" alt="Paper Figure 5c: PCA action coverage for Expert, Cross-state replay, Local perturbation, Policy rollout, and Feasible-space sampling. PC1 explains 22.9% and PC2 18.0% of variance. Dashed contours show expert and off-expert 95% highest-density regions." width="751" height="634" loading="lazy" decoding="async">
+              <img src="assets/figures/paper-figure-5c.png" alt="Paper Figure 5c: Expanded evaluation coverage beyond expert demonstrations, illustrated by a PCA projection of robot states and action sequences for the Adjust bottle task. Four off-expert query categories extend beyond the expert distribution; dashed contours show 95% highest-density regions." width="751" height="634" loading="lazy" decoding="async">
               <figcaption><span>Paper Figure 5c · Expanded evaluation coverage</span><a href="assets/figures/paper-figure-5.pdf" target="_blank" rel="noopener">View original figure ↗</a></figcaption>
             </figure>
           </section>

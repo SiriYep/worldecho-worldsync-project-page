@@ -13,6 +13,8 @@ The website uses the figure owner's source data from `figure5.zip`, received fro
 
 The population is **250 event-aligned state-conditioned action samples from `adjust_bottle`, one task**. Each of five categories contains 50 samples. This is a PCA feature projection, not robot workspace coordinates or a time trajectory. PC1 explains 22.9% and PC2 18.0% of variance. It must not be described as the distribution over all 50 benchmark tasks.
 
+The section presents **broader evaluation coverage**, as described in the paper's Section 4.2 and Figure 5c: WorldEcho extends expert-only evaluation with four complementary off-expert query categories. Each plotted descriptor combines the current robot state and an action sequence, so coverage concerns state–action combinations rather than only larger action magnitudes. This visualization does not measure WorldSync's performance or establish an AFE/IE improvement; those claims require the corresponding evaluation results.
+
 The paper displays a deterministic subset of 20 samples per category. The website shows all 50 samples per category (250 points total), preserving CSV row order and the fitted coordinates. This keeps the scatter population consistent with the density estimates and shows the samples in small disconnected HDR regions. The exporter does not fit PCA, synthesize points, or infer missing raw actions.
 
 | Category | Color | Marker |
