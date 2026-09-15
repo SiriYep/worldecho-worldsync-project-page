@@ -3,8 +3,9 @@
 The local preview at `#state-control` shows **six recommended tasks**, with GT
 and WorldSync fixed beside one selectable comparison model. The three choices
 are Cosmos-Predict2.5, CtrlWorld and DreamDojo, all from Expanded configurations.
-The interface shows task/model names, each gate's recorded score and minimum
-requirement, and three trajectory differences relative to GT. Play/Pause,
+The interface shows task/model names and each model's four gate scores and
+minimum requirements above its video. Above the GT video, a table compares the current
+Baseline and WorldSync in three rows: NDTW, Pos. (cm) and Rot. (°). Play/Pause,
 Restart and seek control the videos. These are existing recordings, separate
 from the action-draft playground.
 
@@ -216,23 +217,27 @@ synthetic experiment image, video, result or success claim is provided.
 
 The gallery now displays **24 model/reference comparisons**: six cases ×
 WorldSync and the three Expanded baselines. Each model is compared with that
-case's same displayed AnyPos GT-reference track. The GT column says
-**Reference trajectory** and does not display an artificial self-error of zero.
+case's same displayed AnyPos GT-reference track. A three-row table sits below
+the **GT reference** label and above the GT video. Its header is **SE(3) ↓ / Baseline /
+WorldSync**; the accessible caption and Baseline header's tooltip identify the
+currently selected model. The table shows those two
+models' errors against GT, without an artificial GT self-error of zero.
 These are differences between estimated tracks, not errors against simulator
 robot-pose ground truth.
 
 The labels and units are:
 
-- **Pose DTW vs GT ↓:** weighted pose distance, printed to five decimals. For
-  each arm, FastDTW uses the per-pair cost
+- **NDTW:** path-normalized pose DTW, printed to five decimals. The label follows
+  the paper's pose-metric definition; the computation uses FastDTW's approximate
+  alignment. For each arm, FastDTW uses the per-pair cost
   `sqrt(||p_pred(i) - p_ref(j)||² + (0.05 × geodesic_rad(R_pred(i), R_ref(j)))²)`.
   Positions are in metres; the fixed rotation scale is 0.05 m/rad. Divide each
   arm's accumulated cost by its alignment-path length, then average the arms
   equally. This is not pure position error, a probability, or navigation-style
   nDTW similarity.
-- **Position:** centimetres, averaged along each arm's **same pose-DTW path**,
+- **Pos. (cm):** centimetres, averaged along each arm's **same pose-DTW path**,
   then averaged equally across arms and printed to two decimals.
-- **Rotation:** degrees, using the geodesic rotation error along those same
+- **Rot. (°):** degrees, using the geodesic rotation error along those same
   paths and the same arm averaging, printed to two decimals.
 
 Lower values indicate closer estimated trajectories. Position and rotation
@@ -255,8 +260,8 @@ array hashes bind each displayed comparison to its tracks. Missing or
 mismatched data displays a dash; null is never treated as zero.
 Changing task/model replaces the numbers with the corresponding pair. Values
 are shown unchanged when a baseline is closer than WorldSync; for example,
-Cosmos-Predict2.5 has lower Pose DTW on the microphone-handover case, and
-DreamDojo has lower Pose DTW on the move-stapler case.
+Cosmos-Predict2.5 has lower NDTW on the microphone-handover case, and
+DreamDojo has lower NDTW on the move-stapler case.
 
 The private `demo-scores/trajectory-metrics.md` and `trajectory-metrics.json`
 record all 24 pairs, same-path component errors, source/array/checkpoint/video

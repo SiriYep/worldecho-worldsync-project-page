@@ -546,21 +546,21 @@
               <div class="demo-comparison">
                 <figure class="demo-slot" data-rollout-slot="gt">
                   <figcaption><h4>GT</h4></figcaption>
-                  <ul class="rollout-gates" data-rollout-gates aria-label="GT visual gates"></ul>
+                  <div class="rollout-reference-summary">
+                    <ul class="rollout-gates" data-rollout-gates aria-label="GT visual gates"></ul>
+                    <div data-rollout-comparison></div>
+                  </div>
                   <div class="rollout-media"><video muted playsinline preload="auto" aria-label="Ground-truth rollout"></video><canvas data-rollout-trajectory aria-hidden="true"></canvas><p class="rollout-media-error" hidden></p></div>
-                  <div class="rollout-comparison-score" data-rollout-comparison></div>
                 </figure>
                 <figure class="demo-slot" data-rollout-slot="baseline">
                   <figcaption><h4 data-rollout-model-name></h4></figcaption>
                   <ul class="rollout-gates" data-rollout-gates aria-label="Comparison model visual gates"></ul>
                   <div class="rollout-media"><video muted playsinline preload="auto" aria-label="Comparison model rollout"></video><canvas data-rollout-trajectory aria-hidden="true"></canvas><p class="rollout-media-error" hidden></p></div>
-                  <div class="rollout-comparison-score" data-rollout-comparison></div>
                 </figure>
                 <figure class="demo-slot demo-slot-ours" data-rollout-slot="worldsync">
                   <figcaption><h4>WorldSync</h4></figcaption>
                   <ul class="rollout-gates" data-rollout-gates aria-label="WorldSync visual gates"></ul>
                   <div class="rollout-media"><video muted playsinline preload="auto" aria-label="WorldSync rollout"></video><canvas data-rollout-trajectory aria-hidden="true"></canvas><p class="rollout-media-error" hidden></p></div>
-                  <div class="rollout-comparison-score" data-rollout-comparison></div>
                 </figure>
               </div>
               <div class="playback-controls" hidden>

@@ -145,12 +145,12 @@ export function setupRolloutDemo(root) {
   const loadMessage = query("[data-rollout-load-message]");
   const retry = query("[data-rollout-retry]");
   const content = query("[data-rollout-content]");
+  const comparison = query("[data-rollout-comparison]");
   const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
   const slots = new Map(Array.from(root.querySelectorAll("[data-rollout-slot]")).map((slot) => [slot.dataset.rolloutSlot, {
     video: slot.querySelector("video"),
     error: slot.querySelector(".rollout-media-error"),
     gates: slot.querySelector("[data-rollout-gates]"),
-    comparison: slot.querySelector("[data-rollout-comparison]"),
   }]));
   let catalog;
   let group;
@@ -196,38 +196,41 @@ export function setupRolloutDemo(root) {
     }));
   }
 
-  function renderComparison(slot, clip, reference, isReference) {
-    if (!slot.comparison) return;
-    slot.comparison.replaceChildren();
-    if (isReference) {
-      const label = document.createElement("p");
-      label.className = "rollout-error-reference";
-      label.textContent = "Reference trajectory";
-      slot.comparison.append(label);
-      slot.comparison.setAttribute("aria-label", "Ground-truth reference for the trajectory comparison");
-      return;
+  function renderComparison(clips, baseline) {
+    if (!comparison) return;
+    const table = document.createElement("table");
+    table.className = "rollout-trajectory-table";
+    const caption = table.createCaption();
+    caption.className = "sr-only";
+    caption.textContent = `SE(3) trajectory errors against GT: ${baseline.label || baseline.id} and WorldSync. Lower is better.`;
+    table.title = "AnyPos estimates compared with the reference-video AnyPos estimate, not simulator pose truth. NDTW is path-normalized pose DTW: sqrt(position_m² + (0.05 × rotation_rad)²), averaged over each arm's FastDTW alignment path, then averaged over both arms. Not a 0–1 navigation similarity. Position and rotation use the same alignment paths. Recomputed from the displayed tracks; not the published benchmark score.";
+    const header = table.createTHead().insertRow();
+    for (const [label, fullLabel] of [["SE(3) ↓", "Trajectory error against GT; lower is better"], ["Baseline", baseline.label || baseline.id], ["WorldSync", "WorldSync"]]) {
+      const cell = document.createElement("th");
+      cell.scope = "col";
+      cell.textContent = label;
+      cell.title = fullLabel;
+      cell.setAttribute("aria-label", fullLabel);
+      header.append(cell);
     }
-    const metric = getTrajectoryComparison(clip, reference);
-    const heading = document.createElement("div");
-    heading.className = "rollout-error-primary";
-    const title = document.createElement("span");
-    title.textContent = "Pose DTW vs\u00a0GT\u00a0↓";
-    const value = document.createElement("strong");
-    value.dataset.metric = "poseDtw";
-    value.textContent = metric ? metric.poseDtw.toFixed(5) : "—";
-    heading.append(title, value);
-    slot.comparison.append(heading);
-    slot.comparison.setAttribute("aria-label", "Trajectory error relative to GT; lower is better");
-    slot.comparison.title = metric ? "AnyPos estimates compared with the reference-video AnyPos estimate, not simulator pose truth. Mean two-arm pose DTW: sqrt(position_m² + (0.05 × rotation_rad)²), averaged over the FastDTW path. Position and rotation are measured along that same path. Recomputed from the displayed tracks; not the published benchmark score." : "Trajectory comparison unavailable for these videos.";
-    const details = document.createElement("dl");
-    details.className = "rollout-error-details";
-    for (const [key, label, unit] of [["positionCm", "Position", "cm"], ["rotationDeg", "Rotation", "°"]]) {
-      const name = document.createElement("dt"); name.textContent = label;
-      const number = document.createElement("dd"); number.dataset.metric = key;
-      number.textContent = metric ? `${metric[key].toFixed(2)}${unit === "°" ? "" : " "}${unit}` : "—";
-      details.append(name, number);
+    const metrics = ["baseline", "worldsync"].map((key) => [key, getTrajectoryComparison(clips[key], clips.gt)]);
+    const body = table.createTBody();
+    for (const [key, label, places, fullLabel] of [["poseDtw", "NDTW", 5, "Path-normalized SE(3) pose DTW"], ["positionCm", "Pos. (cm)", 2, "Position error in centimetres, along the pose-DTW path"], ["rotationDeg", "Rot. (°)", 2, "Rotation error in degrees, along the pose-DTW path"]]) {
+      const row = body.insertRow();
+      const name = document.createElement("th");
+      name.scope = "row";
+      name.textContent = label;
+      name.title = fullLabel;
+      name.setAttribute("aria-label", fullLabel);
+      row.append(name);
+      for (const [model, metric] of metrics) {
+        const cell = row.insertCell();
+        cell.dataset.comparisonModel = model;
+        cell.dataset.metric = key;
+        cell.textContent = metric ? metric[key].toFixed(places) : "—";
+      }
     }
-    slot.comparison.append(details);
+    comparison.replaceChildren(table);
   }
 
   function renderSelection() {
@@ -245,7 +248,6 @@ export function setupRolloutDemo(root) {
         slot.error.hidden = available;
         slot.error.textContent = "Recording unavailable. Choose another task or model.";
         renderGates(slot, clip, key === "gt");
-        renderComparison(slot, clip, clips.gt, key === "gt");
         if (available) slot.video.src = clip.src;
         else slot.video.removeAttribute("src");
         if (assetPath(clip?.poster)) slot.video.poster = clip.poster;
@@ -253,6 +255,7 @@ export function setupRolloutDemo(root) {
         const modelName = key === "gt" ? "Ground truth" : key === "baseline" ? baseline.label || baseline.id : "WorldSync";
         slot.video.setAttribute("aria-label", `${modelName}: ${caseOptionLabel(sample)}`);
       }
+      renderComparison(clips, baseline);
     };
     group.replaceSources(updateSources);
     if (Object.values(clips).some((clip) => !assetPath(clip?.src))) {
