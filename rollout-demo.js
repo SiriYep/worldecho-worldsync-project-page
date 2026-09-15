@@ -205,7 +205,7 @@ export function setupRolloutDemo(root) {
     caption.textContent = `SE(3) trajectory errors against GT: ${baseline.label || baseline.id} and WorldSync. Lower is better.`;
     table.title = "AnyPos estimates compared with the reference-video AnyPos estimate, not simulator pose truth. NDTW is path-normalized pose DTW: sqrt(position_m² + (0.05 × rotation_rad)²), averaged over each arm's FastDTW alignment path, then averaged over both arms. Not a 0–1 navigation similarity. Position and rotation use the same alignment paths. Recomputed from the displayed tracks; not the published benchmark score.";
     const header = table.createTHead().insertRow();
-    for (const [label, fullLabel] of [["SE(3) ↓", "Trajectory error against GT; lower is better"], ["Baseline", baseline.label || baseline.id], ["WorldSync", "WorldSync"]]) {
+    for (const [label, fullLabel] of [["SE(3) ↓", "Trajectory error against GT; lower is better"], [baseline.label || baseline.id, baseline.label || baseline.id], ["WorldSync", "WorldSync"]]) {
       const cell = document.createElement("th");
       cell.scope = "col";
       cell.textContent = label;

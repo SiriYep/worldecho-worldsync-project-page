@@ -33,7 +33,7 @@
 .rollout-trajectory-table th, .rollout-trajectory-table td { padding: 2px 0 2px 4px; text-align: right; white-space: nowrap; }
 .rollout-trajectory-table th:first-child { padding-left: 0; text-align: left; }
 .rollout-trajectory-table th { color: var(--ink-soft); font-weight: 400; }
-.rollout-trajectory-table thead th { padding-bottom: 4px; font-size: 11px; }
+.rollout-trajectory-table thead th { padding-bottom: 4px; font-size: 11px; white-space: normal; overflow-wrap: anywhere; vertical-align: bottom; }
 .rollout-trajectory-table tbody tr:first-child td { font-weight: 600; }
 .rollout-media-error { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 18px; background: var(--surface); color: var(--ink-soft); text-align: center; font-size: 13px; line-height: 1.6; }
 .rollout-demo .playback-controls { display: flex; align-items: center; gap: 18px; margin-top: 18px; padding: 0; }

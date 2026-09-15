@@ -4,8 +4,9 @@ The local preview at `#state-control` shows **six recommended tasks**, with GT
 and WorldSync fixed beside one selectable comparison model. The three choices
 are Cosmos-Predict2.5, CtrlWorld and DreamDojo, all from Expanded configurations.
 The interface shows task/model names and each model's four gate scores and
-minimum requirements above its video. Above the GT video, a table compares the current
-Baseline and WorldSync in three rows: NDTW, Pos. (cm) and Rot. (°). Play/Pause,
+minimum requirements above its video. Above the GT video, a table compares the
+selected model and WorldSync in three rows: NDTW, Pos. (cm) and Rot. (°). The
+selected model's full name appears in its column header. Play/Pause,
 Restart and seek control the videos. These are existing recordings, separate
 from the action-draft playground.
 
@@ -218,9 +219,10 @@ synthetic experiment image, video, result or success claim is provided.
 The gallery now displays **24 model/reference comparisons**: six cases ×
 WorldSync and the three Expanded baselines. Each model is compared with that
 case's same displayed AnyPos GT-reference track. A three-row table sits below
-the **GT reference** label and above the GT video. Its header is **SE(3) ↓ / Baseline /
-WorldSync**; the accessible caption and Baseline header's tooltip identify the
-currently selected model. The table shows those two
+the **GT reference** label and above the GT video. Its header is **SE(3) ↓ /
+selected model name / WorldSync**. The comparison column directly displays
+**Cosmos-Predict2.5**, **CtrlWorld** or **DreamDojo**, following the model selector.
+The accessible caption identifies the same selection. The table shows those two
 models' errors against GT, without an artificial GT self-error of zero.
 These are differences between estimated tracks, not errors against simulator
 robot-pose ground truth.
