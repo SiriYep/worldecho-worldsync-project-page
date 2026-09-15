@@ -12,12 +12,14 @@
 .rollout-arm-left::before { background: #05b3a4; }
 .rollout-arm-right::before { background: #f27936; }
 .rollout-demo[data-trajectory-visible="false"] [data-rollout-trajectory] { visibility: hidden; }
-.rollout-demo .demo-slot { display: grid; grid-template-rows: auto auto auto; align-content: start; }
+.rollout-demo .demo-slot { display: grid; grid-template-rows: auto auto auto auto; align-content: start; }
 .rollout-demo .demo-slot figcaption { min-height: 35px; }
 .rollout-demo .demo-slot h4 { margin: 0 0 12px; color: var(--ink); font-size: 16px; line-height: 1.4; }
-.rollout-gates { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px 8px; min-height: 39px; margin: 0 0 14px; padding: 0; list-style: none; }
-.rollout-gates li { display: flex; align-items: center; gap: 5px; min-width: 0; color: var(--ink-soft); font-size: 11px; line-height: 1.4; }
-.rollout-gates .rollout-gate-reference { grid-column: 1 / -1; align-self: start; }
+.rollout-gates { display: grid; grid-template-columns: 1fr; gap: 7px; min-height: 89px; margin: 0 0 14px; padding: 0; list-style: none; }
+.rollout-gates li { display: grid; grid-template-columns: 16px minmax(0, 1fr) auto auto; align-items: center; gap: 5px; min-width: 0; color: var(--ink-soft); font-size: 11px; line-height: 1.4; }
+.rollout-gate-score { color: var(--ink); font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.rollout-gate-threshold { color: var(--muted); font-size: 10px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.rollout-gates .rollout-gate-reference { display: block; grid-column: 1 / -1; align-self: start; }
 .rollout-gate-icon { display: inline-grid; flex: 0 0 16px; place-items: center; width: 16px; height: 16px; border: 1px solid currentColor; border-radius: 50%; font: 11px/1 var(--font-body); color: var(--muted); }
 .rollout-gates [data-status="pass"] .rollout-gate-icon { color: #34865b; }
 .rollout-gates [data-status="fail"] .rollout-gate-icon { color: #b4554c; }
@@ -25,6 +27,12 @@
 .rollout-media video { display: block; width: 100%; height: 100%; object-fit: contain; }
 .rollout-media [data-rollout-trajectory] { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .rollout-demo .demo-slot-ours .rollout-media { border-color: var(--ink-soft); }
+.rollout-comparison-score { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); }
+.rollout-error-primary { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; color: var(--ink-soft); font-size: 12px; }
+.rollout-error-primary strong { color: var(--ink); font-size: 20px; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.rollout-error-details { display: grid; grid-template-columns: 1fr auto; gap: 5px 10px; margin: 10px 0 0; color: var(--ink-soft); font-size: 12px; }
+.rollout-error-details dd { margin: 0; color: var(--ink); text-align: right; font-variant-numeric: tabular-nums; }
+.rollout-error-reference { color: var(--muted); font-size: 12px; }
 .rollout-media-error { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 18px; background: var(--surface); color: var(--ink-soft); text-align: center; font-size: 13px; line-height: 1.6; }
 .rollout-demo .playback-controls { display: flex; align-items: center; gap: 18px; margin-top: 18px; padding: 0; }
 .rollout-demo .playback-actions { flex: none; }
@@ -41,8 +49,8 @@
 .real-world-card h3 { font-size: 17px; font-weight: 500; }
 .real-world-card p { margin-top: 10px; color: var(--muted); font-size: 13px; }
 @media (min-width: 620px) {
-  .rollout-demo .demo-comparison { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: auto auto auto; row-gap: 0; }
-  .rollout-demo .demo-slot { grid-row: span 3; grid-template-rows: subgrid; }
+  .rollout-demo .demo-comparison { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: auto auto auto auto; row-gap: 0; }
+  .rollout-demo .demo-slot { grid-row: span 4; grid-template-rows: subgrid; }
 }
 @media (min-width: 620px) and (max-width: 900px) {
   .rollout-demo .demo-comparison { gap: 12px; }
@@ -51,12 +59,10 @@
 }
 @media (max-width: 619px) {
   .rollout-demo .demo-comparison { grid-template-columns: 1fr; gap: 24px; }
-  .rollout-gates { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .real-world-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 420px) {
   .rollout-toolbar { grid-template-columns: 1fr; gap: 16px; }
-  .rollout-gates { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .rollout-demo .playback-controls { gap: 10px; }
   .rollout-demo .playback-actions { gap: 6px; }
 }

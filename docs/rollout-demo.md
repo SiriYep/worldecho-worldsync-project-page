@@ -3,8 +3,9 @@
 The local preview at `#state-control` shows **six recommended tasks**, with GT
 and WorldSync fixed beside one selectable comparison model. The three choices
 are Cosmos-Predict2.5, CtrlWorld and DreamDojo, all from Expanded configurations.
-The interface shows only task/model names, compact gate indicators and
-Play/Pause, Restart and seek controls. These are existing recordings, separate
+The interface shows task/model names, each gate's recorded score and minimum
+requirement, and three trajectory differences relative to GT. Play/Pause,
+Restart and seek control the videos. These are existing recordings, separate
 from the action-draft playground.
 
 The full **34-case catalog and 476 recordings remain intact for audit**. The
@@ -141,25 +142,32 @@ These are short 32-action windows within the named tasks, not full episodes.
 
 Each model clip accepts `visualGates` records for these four checks:
 
-| Gate ID | Compact label | Meaning of the existing record |
+| Gate ID | Displayed value and requirement | Meaning of the existing record |
 | --- | --- | --- |
-| `image_quality` | Image quality | MUSIQ perceptual-quality check |
-| `motion_smoothness` | Motion | VFIMamba interpolation consistency on eligible frame pairs |
-| `eef_visibility` | EEF visibility | SAM3 tracking visibility rule across native frames |
-| `arm_integrity` | Arm integrity | Automated Qwen3-VL judgment on eight sampled frames |
+| `image_quality` | MUSIQ / 100, minimum 0.400 | Recorded perceptual-quality score; not a probability |
+| `motion_smoothness` | Native score, minimum 0.600 | VFIMamba consistency on eligible frame pairs; values can exceed 1 |
+| `eef_visibility` | Qualifying frames / 33, minimum 16 frames | All promptable end effectors must meet the SAM3 tracking rule in the same frame |
+| `arm_integrity` | Binary 0 or 1; no numeric threshold | Automated Qwen3-VL judgment on eight sampled frames, not confidence |
 
 The UI distinguishes pass, fail, skipped and unavailable. Missing, malformed
 or duplicate records never default to pass. Restored GT has no evaluated gate
 record and is displayed as **GT reference**. A passed check is not a task
-success claim or human confirmation that every frame is sound.
+success claim or human confirmation that every frame is sound. Genuine zero
+scores stay zero; null, missing or skipped scores display a dash. Numeric
+minimums retain the recorded units, and rounded values do not recompute the
+pass/fail status. EEF counts come from explicit source counts rather than
+rounding a ratio. The arm-integrity threshold remains null, and GT has neither
+a score nor a fabricated zero error.
 
 The six-case export contains 24 model videos and 96 recorded check outcomes:
 95 pass and one fail. Cosmos-Predict2.5 on `put_object_cabinet` fails the stored
 EEF visibility rule (15 qualifying frames against a requirement of 16);
 its other three checks pass. These are existing report-lineage pack records,
 not fresh evaluations of the browser videos or the paper's final rescoring.
-The export audit is `demo-annotations/visual-gates.md` with its JSON and script
-in the private `20260915-demo-appendix` audit directory. Its binding uses
+The score/threshold audit is `demo-scores/gate-score-audit.md`, backed by
+`gate-score-audit.json` and `validate_gate_scores.py`, in the private
+`20260915-demo-appendix` directory. It checks all 96 values against the original
+records; `demo-annotations/visual-gates.md` retains the source export audit. Its binding uses
 recorded sample/path identity and download/transformation receipts; the metric
 files do not themselves contain a video-content hash from historical scoring.
 
@@ -179,8 +187,9 @@ The six reference-video tracks and twelve WorldSync/DreamDojo tracks reuse
 verified direct report artifacts. The matching Cosmos-Predict2.5/CtrlWorld
 scoring runs had not saved prediction arrays, so twelve tracks were extracted
 separately on CPU in FP32 using the same frozen loader and weights. This is
-display annotation, not exact reproduction of CUDA BF16 scoring or a new
-metric evaluation. The pack's older colorfix arrays were not used.
+display annotation, not exact reproduction of CUDA BF16 scoring. The later
+24 comparisons below use these displayed annotations and the common GT
+reference. The pack's older colorfix arrays were not used.
 
 Each track has 33 native frames, with no temporal warping, motion smoothing,
 or manual point adjustment. Projection uses the canonical sample's own camera
@@ -203,24 +212,73 @@ The `#real-world-experiments` section contains two empty cards labeled
 **Video forthcoming**. They reserve places for verified robot videos; no
 synthetic experiment image, video, result or success claim is provided.
 
+## Trajectory differences relative to GT
+
+The gallery now displays **24 model/reference comparisons**: six cases ×
+WorldSync and the three Expanded baselines. Each model is compared with that
+case's same displayed AnyPos GT-reference track. The GT column says
+**Reference trajectory** and does not display an artificial self-error of zero.
+These are differences between estimated tracks, not errors against simulator
+robot-pose ground truth.
+
+The labels and units are:
+
+- **Pose DTW vs GT ↓:** weighted pose distance, printed to five decimals. For
+  each arm, FastDTW uses the per-pair cost
+  `sqrt(||p_pred(i) - p_ref(j)||² + (0.05 × geodesic_rad(R_pred(i), R_ref(j)))²)`.
+  Positions are in metres; the fixed rotation scale is 0.05 m/rad. Divide each
+  arm's accumulated cost by its alignment-path length, then average the arms
+  equally. This is not pure position error, a probability, or navigation-style
+  nDTW similarity.
+- **Position:** centimetres, averaged along each arm's **same pose-DTW path**,
+  then averaged equally across arms and printed to two decimals.
+- **Rotation:** degrees, using the geodesic rotation error along those same
+  paths and the same arm averaging, printed to two decimals.
+
+Lower values indicate closer estimated trajectories. Position and rotation
+are not independently optimized DTW paths. There is no GT-extent normalization,
+exponentiation or visual-gate penalty; gate results remain separate. DTW allows
+timing shifts, whereas the visible video synchronization still uses normalized
+clip progress. Gripper open/close values and object motion are not part of this
+pose metric.
+
+The computation uses the frozen accepted **main50** pose scorer and FastDTW
+implementation. Historical 140-row StateMajor rules are not substituted.
+The source tracks remain eighteen reused artifacts plus twelve CPU FP32
+Cosmos-Predict2.5/CtrlWorld tracks. The twelve WorldSync/DreamDojo comparisons
+reproduce the recorded raw scores exactly. CPU annotation comparisons can
+differ from historical CUDA BF16 predictions and model-specific GT caches;
+the demo consistently uses one displayed reference per case.
+
+Model/reference video hashes, checkpoint identity and both sides' xyz/rotation
+array hashes bind each displayed comparison to its tracks. Missing or
+mismatched data displays a dash; null is never treated as zero.
+Changing task/model replaces the numbers with the corresponding pair. Values
+are shown unchanged when a baseline is closer than WorldSync; for example,
+Cosmos-Predict2.5 has lower Pose DTW on the microphone-handover case, and
+DreamDojo has lower Pose DTW on the move-stapler case.
+
+The private `demo-scores/trajectory-metrics.md` and `trajectory-metrics.json`
+record all 24 pairs, same-path component errors, source/array/checkpoint/video
+hashes and differences from historical scores. `compute_trajectory_metrics.py`
+uses a debug reproduction before the complete calculation; the frozen scorer
+module and FastDTW implementation hashes are recorded. This calculation runs
+on existing arrays, without model inference, new video generation or rerunning
+visual gates.
+
 ## Score boundary
 
-The demo shows recorded gate statuses but no numeric trajectory score. The
-pack distinguishes report-lineage gated/pass values from later paper rescoring. CtrlWorld and
-Cosmos-Predict2.5 also contain older AnyPos trajectory arrays alongside newer
-reported scores. Those arrays must not be silently combined with the other
-configurations or presented as the current paper's scorer output.
+The visual-gate numbers are existing report-lineage pack records. The newly
+computed trajectory differences are demo-only comparisons of the displayed
+AnyPos annotations. Neither replaces the paper's benchmark values. The
+historical CtrlWorld/Cosmos-Predict2.5 colorfix arrays remain excluded.
 
-The existing leaderboard is unchanged. The initial file audit missed the
-supplied pack’s static GT error; the corrected audit checks original sources
-and temporal content for all 34 archived cases. The score prescreen uses
-combined position-and-rotation pose NDTW from the existing report records;
-the source field name `raw_m` must not be interpreted as pure position error.
-Score-based candidate selection does not establish a representative model
-advantage, and sampled frames can miss brief contact or release events. It is
-not a new rollout-generation run, a full 50-task score reproduction, or an
-independent checkpoint tensor audit. Subsequent AnyPos extraction/projection is
-separate annotation work.
+The existing leaderboard is unchanged. The original 500-sample prescreen and
+34-case visual review remain selected qualitative evidence rather than an
+estimate of aggregate performance. The corrected media audit checks original
+sources and temporal content for all 34 archived cases, but short sampled
+frames can miss contact or release events. Gate passes, low trajectory
+errors and recommendation labels do not establish task success.
 
 ## Local preview
 

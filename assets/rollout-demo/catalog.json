@@ -1446,7 +1446,10 @@
               "method": "MUSIQ",
               "status": "pass",
               "score": 0.6868583170572917,
-              "threshold": 0.4
+              "threshold": 0.4,
+              "valueKind": "normalized-score",
+              "basis": "Mean MUSIQ / 100; not probability.",
+              "evaluatedFrames": 33
             },
             {
               "id": "motion_smoothness",
@@ -1454,7 +1457,12 @@
               "method": "VFIMamba",
               "status": "pass",
               "score": 1.7517638546638223,
-              "threshold": 0.6
+              "threshold": 0.6,
+              "valueKind": "native-score",
+              "basis": "VFIMamba interpolation consistency weighted by frame difference; can exceed 1.",
+              "evaluatedPairs": 16,
+              "candidatePairs": 16,
+              "excludedStaticPairs": 0
             },
             {
               "id": "eef_visibility",
@@ -1462,7 +1470,13 @@
               "method": "SAM3 mask_track_t8_n16",
               "status": "pass",
               "score": 0.7575757575757576,
-              "threshold": 0.48484848484848486
+              "threshold": 0.48484848484848486,
+              "valueKind": "frame-count",
+              "basis": "Qualifying native frames with all promptable end effectors simultaneously detected; ratio is not confidence.",
+              "numerator": 25,
+              "denominator": 33,
+              "thresholdCount": 16,
+              "presenceLogitThreshold": 8.0
             },
             {
               "id": "arm_integrity",
@@ -1470,7 +1484,21 @@
               "method": "Qwen3-VL-8B-Instruct",
               "status": "pass",
               "score": 1.0,
-              "threshold": null
+              "threshold": null,
+              "valueKind": "binary",
+              "basis": "Recorded intact flag: 1=true, 0=false; not confidence. No numeric threshold.",
+              "sampledFrames": 8,
+              "sampledFrameIndices": [
+                0,
+                4,
+                9,
+                13,
+                18,
+                22,
+                27,
+                32
+              ],
+              "requiredBooleanValue": true
             }
           ],
           "trajectory": {
@@ -2753,6 +2781,41 @@
               "rotmatSha256": "fdf1eaf4243239d5779e0fa0f791b9afce12adcf029d6d5679b650ac25fc19c2"
             },
             "numericalExecution": "CPU FP32; not CUDA BF16 report-score reproduction"
+          },
+          "trajectoryComparison": {
+            "poseDtw": 0.01947767843328949,
+            "positionCm": 1.6125387343257018,
+            "rotationDeg": 12.313157556673051,
+            "referenceVideoSha256": "78276fe85295e6ad9281767e4146416b0a3845c092aee15107b7c793468a16d1",
+            "videoSha256": "328be7cb0090bcd49ef3c610648aa6eb8836dd680575612a37f7ae3e05258c85",
+            "definition": "Mean of left/right path-length-normalized FastDTW costs. Per-pair cost = sqrt(||p_pred-p_gt||_2^2 + (0.05 * rotation_geodesic_rad(R_pred,R_gt))^2). Position cm and rotation degrees are means along these same per-arm pose-DTW paths, then averaged equally across arms. Lower is closer.",
+            "sourceKind": "recomputed-current-demo-annotations",
+            "checkpointSha256": "a6cc52e6ec5b4f10e3db53866e068497b976e4292f3a0ac6c677e86aa9c451ab",
+            "predictionTrajectorySourceKind": "fresh-demo-annotation-extraction",
+            "referenceTrajectorySourceKind": "direct-report-artifact",
+            "frameCount": 33,
+            "version": 1,
+            "metricId": "pose_dtw_rot005_path_mean",
+            "scorerSha256": "d4055319e4967d27a63b6f9965ef5c6d609d4d341daebf8eb38acf987fc1f24b",
+            "fastdtwVersion": "0.3.4",
+            "metricConfig": {
+              "distance": "pose_two_arm_mean_dtw",
+              "max_missing_ratio": 0.9,
+              "epsilon": 1e-06,
+              "position_weight": 1.0,
+              "rotation_weight_m_per_rad": 0.05
+            },
+            "gatePenaltyApplied": false,
+            "trajectoryHashes": {
+              "prediction": {
+                "xyz": "5bf8f5ee70f6bb91285623e2e3c07df788f800ca5db614583620440163a2c14d",
+                "rotmat": "fdf1eaf4243239d5779e0fa0f791b9afce12adcf029d6d5679b650ac25fc19c2"
+              },
+              "reference": {
+                "xyz": "726166c7e6440a9025e0d3dfd3c6b55f96b08c77fd12ae1ac3309aea4227c0bd",
+                "rotmat": "70b75b35c245a3e7552d7a9dbfc71ccdd817b64467c52db3978d9a5225db8778"
+              }
+            }
           }
         },
         "cosmos_predict25_expert": {
@@ -2783,7 +2846,10 @@
               "method": "MUSIQ",
               "status": "pass",
               "score": 0.554879001270641,
-              "threshold": 0.4
+              "threshold": 0.4,
+              "valueKind": "normalized-score",
+              "basis": "Mean MUSIQ / 100; not probability.",
+              "evaluatedFrames": 33
             },
             {
               "id": "motion_smoothness",
@@ -2791,7 +2857,12 @@
               "method": "VFIMamba",
               "status": "pass",
               "score": 1.4182542303452006,
-              "threshold": 0.6
+              "threshold": 0.6,
+              "valueKind": "native-score",
+              "basis": "VFIMamba interpolation consistency weighted by frame difference; can exceed 1.",
+              "evaluatedPairs": 16,
+              "candidatePairs": 16,
+              "excludedStaticPairs": 0
             },
             {
               "id": "eef_visibility",
@@ -2799,7 +2870,13 @@
               "method": "SAM3 mask_track_t8_n16",
               "status": "pass",
               "score": 1.0,
-              "threshold": 0.48484848484848486
+              "threshold": 0.48484848484848486,
+              "valueKind": "frame-count",
+              "basis": "Qualifying native frames with all promptable end effectors simultaneously detected; ratio is not confidence.",
+              "numerator": 33,
+              "denominator": 33,
+              "thresholdCount": 16,
+              "presenceLogitThreshold": 8.0
             },
             {
               "id": "arm_integrity",
@@ -2807,7 +2884,21 @@
               "method": "Qwen3-VL-8B-Instruct",
               "status": "pass",
               "score": 1.0,
-              "threshold": null
+              "threshold": null,
+              "valueKind": "binary",
+              "basis": "Recorded intact flag: 1=true, 0=false; not confidence. No numeric threshold.",
+              "sampledFrames": 8,
+              "sampledFrameIndices": [
+                0,
+                4,
+                9,
+                13,
+                18,
+                22,
+                27,
+                32
+              ],
+              "requiredBooleanValue": true
             }
           ],
           "trajectory": {
@@ -4090,6 +4181,41 @@
               "rotmatSha256": "0c730df18c822db2a2f329b9dab8978a3bd04b99cad627a7a8e0fac93e278dea"
             },
             "numericalExecution": "CPU FP32; not CUDA BF16 report-score reproduction"
+          },
+          "trajectoryComparison": {
+            "poseDtw": 0.027220223093027022,
+            "positionCm": 2.4261396511576794,
+            "rotationDeg": 13.772810770879714,
+            "referenceVideoSha256": "78276fe85295e6ad9281767e4146416b0a3845c092aee15107b7c793468a16d1",
+            "videoSha256": "cddfa2fb99f1985d881816e268c72ec2ecb8dce0daf4bbe8ca09a4ccf0617651",
+            "definition": "Mean of left/right path-length-normalized FastDTW costs. Per-pair cost = sqrt(||p_pred-p_gt||_2^2 + (0.05 * rotation_geodesic_rad(R_pred,R_gt))^2). Position cm and rotation degrees are means along these same per-arm pose-DTW paths, then averaged equally across arms. Lower is closer.",
+            "sourceKind": "recomputed-current-demo-annotations",
+            "checkpointSha256": "a6cc52e6ec5b4f10e3db53866e068497b976e4292f3a0ac6c677e86aa9c451ab",
+            "predictionTrajectorySourceKind": "fresh-demo-annotation-extraction",
+            "referenceTrajectorySourceKind": "direct-report-artifact",
+            "frameCount": 33,
+            "version": 1,
+            "metricId": "pose_dtw_rot005_path_mean",
+            "scorerSha256": "d4055319e4967d27a63b6f9965ef5c6d609d4d341daebf8eb38acf987fc1f24b",
+            "fastdtwVersion": "0.3.4",
+            "metricConfig": {
+              "distance": "pose_two_arm_mean_dtw",
+              "max_missing_ratio": 0.9,
+              "epsilon": 1e-06,
+              "position_weight": 1.0,
+              "rotation_weight_m_per_rad": 0.05
+            },
+            "gatePenaltyApplied": false,
+            "trajectoryHashes": {
+              "prediction": {
+                "xyz": "1e96f3b07bd84c14508a01d2e372c6e5353bcfa49d8a83fab9e39945fb7b94b5",
+                "rotmat": "0c730df18c822db2a2f329b9dab8978a3bd04b99cad627a7a8e0fac93e278dea"
+              },
+              "reference": {
+                "xyz": "726166c7e6440a9025e0d3dfd3c6b55f96b08c77fd12ae1ac3309aea4227c0bd",
+                "rotmat": "70b75b35c245a3e7552d7a9dbfc71ccdd817b64467c52db3978d9a5225db8778"
+              }
+            }
           }
         },
         "ctrlworld_expert": {
@@ -4120,7 +4246,10 @@
               "method": "MUSIQ",
               "status": "pass",
               "score": 0.6394696969696969,
-              "threshold": 0.4
+              "threshold": 0.4,
+              "valueKind": "normalized-score",
+              "basis": "Mean MUSIQ / 100; not probability.",
+              "evaluatedFrames": 33
             },
             {
               "id": "motion_smoothness",
@@ -4128,7 +4257,12 @@
               "method": "VFIMamba",
               "status": "pass",
               "score": 1.242997766458502,
-              "threshold": 0.6
+              "threshold": 0.6,
+              "valueKind": "native-score",
+              "basis": "VFIMamba interpolation consistency weighted by frame difference; can exceed 1.",
+              "evaluatedPairs": 16,
+              "candidatePairs": 16,
+              "excludedStaticPairs": 0
             },
             {
               "id": "eef_visibility",
@@ -4136,7 +4270,13 @@
               "method": "SAM3 mask_track_t8_n16",
               "status": "pass",
               "score": 1.0,
-              "threshold": 0.48484848484848486
+              "threshold": 0.48484848484848486,
+              "valueKind": "frame-count",
+              "basis": "Qualifying native frames with all promptable end effectors simultaneously detected; ratio is not confidence.",
+              "numerator": 33,
+              "denominator": 33,
+              "thresholdCount": 16,
+              "presenceLogitThreshold": 8.0
             },
             {
               "id": "arm_integrity",
@@ -4144,7 +4284,21 @@
               "method": "Qwen3-VL-8B-Instruct",
               "status": "pass",
               "score": 1.0,
-              "threshold": null
+              "threshold": null,
+              "valueKind": "binary",
+              "basis": "Recorded intact flag: 1=true, 0=false; not confidence. No numeric threshold.",
+              "sampledFrames": 8,
+              "sampledFrameIndices": [
+                0,
+                4,
+                9,
+                13,
+                18,
+                22,
+                27,
+                32
+              ],
+              "requiredBooleanValue": true
             }
           ],
           "trajectory": {
@@ -5426,6 +5580,41 @@
               "xyzSha256": "c8578c1a9ea23005226b0b2bdcb18732b0de991ee999d9a34055e3d799c474d2",
               "rotmatSha256": "0e504bee2bc304b4ac8cd47b3171449c3606dad3bdc9368d690fc5b5a9bf8ae5"
             }
+          },
+          "trajectoryComparison": {
+            "poseDtw": 0.02618784479820637,
+            "positionCm": 2.48677475135541,
+            "rotationDeg": 7.955810646660059,
+            "referenceVideoSha256": "78276fe85295e6ad9281767e4146416b0a3845c092aee15107b7c793468a16d1",
+            "videoSha256": "42688940f7d4d2bb4bc5c6d69bb4d47875e0d4c81aa9cb44424045ac1bb89a8e",
+            "definition": "Mean of left/right path-length-normalized FastDTW costs. Per-pair cost = sqrt(||p_pred-p_gt||_2^2 + (0.05 * rotation_geodesic_rad(R_pred,R_gt))^2). Position cm and rotation degrees are means along these same per-arm pose-DTW paths, then averaged equally across arms. Lower is closer.",
+            "sourceKind": "recomputed-current-demo-annotations",
+            "checkpointSha256": "a6cc52e6ec5b4f10e3db53866e068497b976e4292f3a0ac6c677e86aa9c451ab",
+            "predictionTrajectorySourceKind": "direct-report-artifact",
+            "referenceTrajectorySourceKind": "direct-report-artifact",
+            "frameCount": 33,
+            "version": 1,
+            "metricId": "pose_dtw_rot005_path_mean",
+            "scorerSha256": "d4055319e4967d27a63b6f9965ef5c6d609d4d341daebf8eb38acf987fc1f24b",
+            "fastdtwVersion": "0.3.4",
+            "metricConfig": {
+              "distance": "pose_two_arm_mean_dtw",
+              "max_missing_ratio": 0.9,
+              "epsilon": 1e-06,
+              "position_weight": 1.0,
+              "rotation_weight_m_per_rad": 0.05
+            },
+            "gatePenaltyApplied": false,
+            "trajectoryHashes": {
+              "prediction": {
+                "xyz": "c8578c1a9ea23005226b0b2bdcb18732b0de991ee999d9a34055e3d799c474d2",
+                "rotmat": "0e504bee2bc304b4ac8cd47b3171449c3606dad3bdc9368d690fc5b5a9bf8ae5"
+              },
+              "reference": {
+                "xyz": "726166c7e6440a9025e0d3dfd3c6b55f96b08c77fd12ae1ac3309aea4227c0bd",
+                "rotmat": "70b75b35c245a3e7552d7a9dbfc71ccdd817b64467c52db3978d9a5225db8778"
+              }
+            }
           }
         },
         "dreamdojo_expert": {
@@ -5488,7 +5677,10 @@
               "method": "MUSIQ",
               "status": "pass",
               "score": 0.5607575757575758,
-              "threshold": 0.4
+              "threshold": 0.4,
+              "valueKind": "normalized-score",
+              "basis": "Mean MUSIQ / 100; not probability.",
+              "evaluatedFrames": 33
             },
             {
               "id": "motion_smoothness",
@@ -5496,7 +5688,12 @@
               "method": "VFIMamba",
               "status": "pass",
               "score": 1.193322602750388,
-              "threshold": 0.6
+              "threshold": 0.6,
+              "valueKind": "native-score",
+              "basis": "VFIMamba interpolation consistency weighted by frame difference; can exceed 1.",
+              "evaluatedPairs": 16,
+              "candidatePairs": 16,
+              "excludedStaticPairs": 0
             },
             {
               "id": "eef_visibility",
@@ -5504,7 +5701,13 @@
               "method": "SAM3 mask_track_t8_n16",
               "status": "pass",
               "score": 1.0,
-              "threshold": 0.48484848484848486
+              "threshold": 0.48484848484848486,
+              "valueKind": "frame-count",
+              "basis": "Qualifying native frames with all promptable end effectors simultaneously detected; ratio is not confidence.",
+              "numerator": 33,
+              "denominator": 33,
+              "thresholdCount": 16,
+              "presenceLogitThreshold": 8.0
             },
             {
               "id": "arm_integrity",
@@ -5512,7 +5715,21 @@
               "method": "Qwen3-VL-8B-Instruct",
               "status": "pass",
               "score": 1.0,
-              "threshold": null
+              "threshold": null,
+              "valueKind": "binary",
+              "basis": "Recorded intact flag: 1=true, 0=false; not confidence. No numeric threshold.",
+              "sampledFrames": 8,
+              "sampledFrameIndices": [
+                0,
+                4,
+                9,
+                13,
+                18,
+                22,
+                27,
+                32
+              ],
+              "requiredBooleanValue": true
             }
           ],
           "trajectory": {
@@ -6793,6 +7010,41 @@
               "hdf5Sha256": "71d5cca7d9f6a1efdf9801d70192b75e147b9fa495fa5e402467428d1f87d47f",
               "xyzSha256": "966e5e28690b882d569fed0e7addd5bf107c2951a88e01ed39c3ef1a8cf0aff6",
               "rotmatSha256": "dec2d4e819fda4a1639506f732d40dabe5eac096169f581a622b158e058535e7"
+            }
+          },
+          "trajectoryComparison": {
+            "poseDtw": 0.015936924476099793,
+            "positionCm": 1.439470785350026,
+            "rotationDeg": 7.552929612458546,
+            "referenceVideoSha256": "78276fe85295e6ad9281767e4146416b0a3845c092aee15107b7c793468a16d1",
+            "videoSha256": "8f6a1f83a83a57484863cc7e121f6dd79c2b50b11fbd9b04d6d95e9d7869ebd9",
+            "definition": "Mean of left/right path-length-normalized FastDTW costs. Per-pair cost = sqrt(||p_pred-p_gt||_2^2 + (0.05 * rotation_geodesic_rad(R_pred,R_gt))^2). Position cm and rotation degrees are means along these same per-arm pose-DTW paths, then averaged equally across arms. Lower is closer.",
+            "sourceKind": "recomputed-current-demo-annotations",
+            "checkpointSha256": "a6cc52e6ec5b4f10e3db53866e068497b976e4292f3a0ac6c677e86aa9c451ab",
+            "predictionTrajectorySourceKind": "direct-report-artifact",
+            "referenceTrajectorySourceKind": "direct-report-artifact",
+            "frameCount": 33,
+            "version": 1,
+            "metricId": "pose_dtw_rot005_path_mean",
+            "scorerSha256": "d4055319e4967d27a63b6f9965ef5c6d609d4d341daebf8eb38acf987fc1f24b",
+            "fastdtwVersion": "0.3.4",
+            "metricConfig": {
+              "distance": "pose_two_arm_mean_dtw",
+              "max_missing_ratio": 0.9,
+              "epsilon": 1e-06,
+              "position_weight": 1.0,
+              "rotation_weight_m_per_rad": 0.05
+            },
+            "gatePenaltyApplied": false,
+            "trajectoryHashes": {
+              "prediction": {
+                "xyz": "966e5e28690b882d569fed0e7addd5bf107c2951a88e01ed39c3ef1a8cf0aff6",
+                "rotmat": "dec2d4e819fda4a1639506f732d40dabe5eac096169f581a622b158e058535e7"
+              },
+              "reference": {
+                "xyz": "726166c7e6440a9025e0d3dfd3c6b55f96b08c77fd12ae1ac3309aea4227c0bd",
+                "rotmat": "70b75b35c245a3e7552d7a9dbfc71ccdd817b64467c52db3978d9a5225db8778"
+              }
             }
           }
         }
@@ -8154,7 +8406,10 @@
               "method": "MUSIQ",
               "status": "pass",
               "score": 0.5884790536129113,
-              "threshold": 0.4
+              "threshold": 0.4,
+              "valueKind": "normalized-score",
+              "basis": "Mean MUSIQ / 100; not probability.",
+              "evaluatedFrames": 33
             },
             {
               "id": "motion_smoothness",
@@ -8162,7 +8417,12 @@
               "method": "VFIMamba",
               "status": "pass",
               "score": 1.7215641877540229,
-              "threshold": 0.6
+              "threshold": 0.6,
+              "valueKind": "native-score",
+              "basis": "VFIMamba interpolation consistency weighted by frame difference; can exceed 1.",
+              "evaluatedPairs": 16,
+              "candidatePairs": 16,
+              "excludedStaticPairs": 0
             },
             {
               "id": "eef_visibility",
@@ -8170,7 +8430,13 @@
               "method": "SAM3 mask_track_t8_n16",
               "status": "pass",
               "score": 1.0,
-              "threshold": 0.48484848484848486
+              "threshold": 0.48484848484848486,
+              "valueKind": "frame-count",
+              "basis": "Qualifying native frames with all promptable end effectors simultaneously detected; ratio is not confidence.",
+              "numerator": 33,
+              "denominator": 33,
+              "thresholdCount": 16,
+              "presenceLogitThreshold": 8.0
             },
             {
               "id": "arm_integrity",
@@ -8178,7 +8444,21 @@
               "method": "Qwen3-VL-8B-Instruct",
               "status": "pass",
               "score": 1.0,
-              "threshold": null
+              "threshold": null,
+              "valueKind": "binary",
+              "basis": "Recorded intact flag: 1=true, 0=false; not confidence. No numeric threshold.",
+              "sampledFrames": 8,
+              "sampledFrameIndices": [
+                0,
+                4,
+                9,
+                13,
+                18,
+                22,
+                27,
+                32
+              ],
+              "requiredBooleanValue": true
             }
           ],
           "trajectory": {
@@ -9461,6 +9741,41 @@
               "rotmatSha256": "5964c83a8bb4d11be3e8caf3a8e02b0e7a185e5bfcd351fe639ffaabd39be1b1"
             },
             "numericalExecution": "CPU FP32; not CUDA BF16 report-score reproduction"
+          },
+          "trajectoryComparison": {
+            "poseDtw": 0.008967820735809932,
+            "positionCm": 0.5314936309707049,
+            "rotationDeg": 8.027760929266485,
+            "referenceVideoSha256": "e37ebaca40956eaee3ac592ba3255272de6db3cc1061c39867829cee3df57ffd",
+            "videoSha256": "09aaac8c526f21a51c790b665f6e049ac7786ca152a4ba35f35234adbca80485",
+            "definition": "Mean of left/right path-length-normalized FastDTW costs. Per-pair cost = sqrt(||p_pred-p_gt||_2^2 + (0.05 * rotation_geodesic_rad(R_pred,R_gt))^2). Position cm and rotation degrees are means along these same per-arm pose-DTW paths, then averaged equally across arms. Lower is closer.",
+            "sourceKind": "recomputed-current-demo-annotations",
+            "checkpointSha256": "a6cc52e6ec5b4f10e3db53866e068497b976e4292f3a0ac6c677e86aa9c451ab",
+            "predictionTrajectorySourceKind": "fresh-demo-annotation-extraction",
+            "referenceTrajectorySourceKind": "direct-report-artifact",
+            "frameCount": 33,
+            "version": 1,
+            "metricId": "pose_dtw_rot005_path_mean",
+            "scorerSha256": "d4055319e4967d27a63b6f9965ef5c6d609d4d341daebf8eb38acf987fc1f24b",
+            "fastdtwVersion": "0.3.4",
+            "metricConfig": {
+              "distance": "pose_two_arm_mean_dtw",
+              "max_missing_ratio": 0.9,
+              "epsilon": 1e-06,
+              "position_weight": 1.0,
+              "rotation_weight_m_per_rad": 0.05
+            },
+            "gatePenaltyApplied": false,
+            "trajectoryHashes": {
+              "prediction": {
+                "xyz": "ad9c2f53bb45502e0053507a6429339468f66037f22a3162869a96063a495202",
+                "rotmat": "5964c83a8bb4d11be3e8caf3a8e02b0e7a185e5bfcd351fe639ffaabd39be1b1"
+              },
+              "reference": {
+                "xyz": "8cc691a4a4940c9fc6e2db419c8b3ea813fac49c6ea22ce51a5ae0213295f69a",
+                "rotmat": "02352aa5da555833f90f35e6311acdacc11ad4fbafe7cc2323b5697d28026e7d"
+              }
+            }
           }
         },
         "cosmos_predict25_expert": {
@@ -9491,7 +9806,10 @@
               "method": "MUSIQ",
               "status": "pass",
               "score": 0.4475843464244496,
-              "threshold": 0.4
+              "threshold": 0.4,
+              "valueKind": "normalized-score",
+              "basis": "Mean MUSIQ / 100; not probability.",
+              "evaluatedFrames": 33
             },
             {
               "id": "motion_smoothness",
@@ -9499,7 +9817,12 @@
               "method": "VFIMamba",
               "status": "pass",
               "score": 1.5903720391347322,
-              "threshold": 0.6
+              "threshold": 0.6,
+              "valueKind": "native-score",
+              "basis": "VFIMamba interpolation consistency weighted by frame difference; can exceed 1.",
+              "evaluatedPairs": 16,
+              "candidatePairs": 16,
+              "excludedStaticPairs": 0
             },
             {
               "id": "eef_visibility",
@@ -9507,7 +9830,13 @@
               "method": "SAM3 mask_track_t8_n16",
               "status": "pass",
               "score": 1.0,
-              "threshold": 0.48484848484848486
+              "threshold": 0.48484848484848486,
+              "valueKind": "frame-count",
+              "basis": "Qualifying native frames with all promptable end effectors simultaneously detected; ratio is not confidence.",
+              "numerator": 33,
+              "denominator": 33,
+              "thresholdCount": 16,
+              "presenceLogitThreshold": 8.0
             },
             {
               "id": "arm_integrity",
@@ -9515,7 +9844,21 @@
               "method": "Qwen3-VL-8B-Instruct",
               "status": "pass",
               "score": 1.0,
-              "threshold": null
+              "threshold": null,
+              "valueKind": "binary",
+              "basis": "Recorded intact flag: 1=true, 0=false; not confidence. No numeric threshold.",
+              "sampledFrames": 8,
+              "sampledFrameIndices": [
+                0,
+                4,
+                9,
+                13,
+                18,
+                22,
+                27,
+                32
+              ],
+              "requiredBooleanValue": true
             }
           ],
           "trajectory": {
@@ -10798,6 +11141,41 @@
               "rotmatSha256": "7d05229d7ef4eb0276485e8a753583c1a461892748fc0dbf1f6c20abdbe1fef8"
             },
             "numericalExecution": "CPU FP32; not CUDA BF16 report-score reproduction"
+          },
+          "trajectoryComparison": {
+            "poseDtw": 0.013772033252265212,
+            "positionCm": 0.8555057906925271,
+            "rotationDeg": 11.590804068681855,
+            "referenceVideoSha256": "e37ebaca40956eaee3ac592ba3255272de6db3cc1061c39867829cee3df57ffd",
+            "videoSha256": "b64165e6948ddc8db68580eca87ee3ca27ec9bf44a0ed230b73905313b74c5f2",
+            "definition": "Mean of left/right path-length-normalized FastDTW costs. Per-pair cost = sqrt(||p_pred-p_gt||_2^2 + (0.05 * rotation_geodesic_rad(R_pred,R_gt))^2). Position cm and rotation degrees are means along these same per-arm pose-DTW paths, then averaged equally across arms. Lower is closer.",
+            "sourceKind": "recomputed-current-demo-annotations",
+            "checkpointSha256": "a6cc52e6ec5b4f10e3db53866e068497b976e4292f3a0ac6c677e86aa9c451ab",
+            "predictionTrajectorySourceKind": "fresh-demo-annotation-extraction",
+            "referenceTrajectorySourceKind": "direct-report-artifact",
+            "frameCount": 33,
+            "version": 1,
+            "metricId": "pose_dtw_rot005_path_mean",
+            "scorerSha256": "d4055319e4967d27a63b6f9965ef5c6d609d4d341daebf8eb38acf987fc1f24b",
+            "fastdtwVersion": "0.3.4",
+            "metricConfig": {
+              "distance": "pose_two_arm_mean_dtw",
+              "max_missing_ratio": 0.9,
+              "epsilon": 1e-06,
+              "position_weight": 1.0,
+              "rotation_weight_m_per_rad": 0.05
+            },
+            "gatePenaltyApplied": false,
+            "trajectoryHashes": {
+              "prediction": {
+                "xyz": "afafce3936de6cc879520afbd367ba9b035cd169e9de55c06ae19cf4b1ede756",
+                "rotmat": "7d05229d7ef4eb0276485e8a753583c1a461892748fc0dbf1f6c20abdbe1fef8"
+              },
+              "reference": {
+                "xyz": "8cc691a4a4940c9fc6e2db419c8b3ea813fac49c6ea22ce51a5ae0213295f69a",
+                "rotmat": "02352aa5da555833f90f35e6311acdacc11ad4fbafe7cc2323b5697d28026e7d"
+              }
+            }
           }
         },
         "ctrlworld_expert": {
@@ -10828,7 +11206,10 @@
               "method": "MUSIQ",
               "status": "pass",
               "score": 0.6112878787878787,
-              "threshold": 0.4
+              "threshold": 0.4,
+              "valueKind": "normalized-score",
+              "basis": "Mean MUSIQ / 100; not probability.",
+              "evaluatedFrames": 33
             },
             {
               "id": "motion_smoothness",
@@ -10836,7 +11217,12 @@
               "method": "VFIMamba",
               "status": "pass",
               "score": 1.2724212350949826,
-              "threshold": 0.6
+              "threshold": 0.6,
+              "valueKind": "native-score",
+              "basis": "VFIMamba interpolation consistency weighted by frame difference; can exceed 1.",
+              "evaluatedPairs": 16,
+              "candidatePairs": 16,
+              "excludedStaticPairs": 0
             },
             {
               "id": "eef_visibility",
@@ -10844,7 +11230,13 @@
               "method": "SAM3 mask_track_t8_n16",
               "status": "pass",
               "score": 1.0,
-              "threshold": 0.48484848484848486
+              "threshold": 0.48484848484848486,
+              "valueKind": "frame-count",
+              "basis": "Qualifying native frames with all promptable end effectors simultaneously detected; ratio is not confidence.",
+              "numerator": 33,
+              "denominator": 33,
+              "thresholdCount": 16,
+              "presenceLogitThreshold": 8.0
             },
             {
               "id": "arm_integrity",
@@ -10852,7 +11244,21 @@
               "method": "Qwen3-VL-8B-Instruct",
               "status": "pass",
               "score": 1.0,
-              "threshold": null
+              "threshold": null,
+              "valueKind": "binary",
+              "basis": "Recorded intact flag: 1=true, 0=false; not confidence. No numeric threshold.",
+              "sampledFrames": 8,
+              "sampledFrameIndices": [
+                0,
+                4,
+                9,
+                13,
+                18,
+                22,
+                27,
+                32
+              ],
+              "requiredBooleanValue": true
             }
           ],
           "trajectory": {
@@ -12134,6 +12540,41 @@
               "xyzSha256": "77f25cc106d6723bd4c35ca92b4f3719f7f558bdd23414fa69958e728dcc10d3",
               "rotmatSha256": "f0c2af12605db9fc9217eff03b7b913c9cf4ab6cdc88758dcf7072335d87485e"
             }
+          },
+          "trajectoryComparison": {
+            "poseDtw": 0.02235965520745204,
+            "positionCm": 2.062013256349269,
+            "rotationDeg": 7.424488614410715,
+            "referenceVideoSha256": "e37ebaca40956eaee3ac592ba3255272de6db3cc1061c39867829cee3df57ffd",
+            "videoSha256": "22f126d1608cf14f5c4249df0f2f40c55170f2a98d3ba961757b91289c34a09b",
+            "definition": "Mean of left/right path-length-normalized FastDTW costs. Per-pair cost = sqrt(||p_pred-p_gt||_2^2 + (0.05 * rotation_geodesic_rad(R_pred,R_gt))^2). Position cm and rotation degrees are means along these same per-arm pose-DTW paths, then averaged equally across arms. Lower is closer.",
+            "sourceKind": "recomputed-current-demo-annotations",
+            "checkpointSha256": "a6cc52e6ec5b4f10e3db53866e068497b976e4292f3a0ac6c677e86aa9c451ab",
+            "predictionTrajectorySourceKind": "direct-report-artifact",
+            "referenceTrajectorySourceKind": "direct-report-artifact",
+            "frameCount": 33,
+            "version": 1,
+            "metricId": "pose_dtw_rot005_path_mean",
+            "scorerSha256": "d4055319e4967d27a63b6f9965ef5c6d609d4d341daebf8eb38acf987fc1f24b",
+            "fastdtwVersion": "0.3.4",
+            "metricConfig": {
+              "distance": "pose_two_arm_mean_dtw",
+              "max_missing_ratio": 0.9,
+              "epsilon": 1e-06,
+              "position_weight": 1.0,
+              "rotation_weight_m_per_rad": 0.05
+            },
+            "gatePenaltyApplied": false,
+            "trajectoryHashes": {
+              "prediction": {
+                "xyz": "77f25cc106d6723bd4c35ca92b4f3719f7f558bdd23414fa69958e728dcc10d3",
+                "rotmat": "f0c2af12605db9fc9217eff03b7b913c9cf4ab6cdc88758dcf7072335d87485e"
+              },
+              "reference": {
+                "xyz": "8cc691a4a4940c9fc6e2db419c8b3ea813fac49c6ea22ce51a5ae0213295f69a",
+                "rotmat": "02352aa5da555833f90f35e6311acdacc11ad4fbafe7cc2323b5697d28026e7d"
+              }
+            }
           }
         },
         "dreamdojo_expert": {
@@ -12196,7 +12637,10 @@
               "method": "MUSIQ",
               "status": "pass",
               "score": 0.4653787878787879,
-              "threshold": 0.4
+              "threshold": 0.4,
+              "valueKind": "normalized-score",
+              "basis": "Mean MUSIQ / 100; not probability.",
+              "evaluatedFrames": 33
             },
             {
               "id": "motion_smoothness",
@@ -12204,7 +12648,12 @@
               "method": "VFIMamba",
               "status": "pass",
               "score": 1.266453881391328,
-              "threshold": 0.6
+              "threshold": 0.6,
+              "valueKind": "native-score",
+              "basis": "VFIMamba interpolation consistency weighted by frame difference; can exceed 1.",
+              "evaluatedPairs": 16,
+              "candidatePairs": 16,
+              "excludedStaticPairs": 0
             },
             {
               "id": "eef_visibility",
@@ -12212,7 +12661,13 @@
               "method": "SAM3 mask_track_t8_n16",
               "status": "pass",
               "score": 1.0,
-              "threshold": 0.48484848484848486
+              "threshold": 0.48484848484848486,
+              "valueKind": "frame-count",
+              "basis": "Qualifying native frames with all promptable end effectors simultaneously detected; ratio is not confidence.",
+              "numerator": 33,
+              "denominator": 33,
+              "thresholdCount": 16,
+              "presenceLogitThreshold": 8.0
             },
             {
               "id": "arm_integrity",
@@ -12220,7 +12675,21 @@
               "method": "Qwen3-VL-8B-Instruct",
               "status": "pass",
               "score": 1.0,
-              "threshold": null
+              "threshold": null,
+              "valueKind": "binary",
+              "basis": "Recorded intact flag: 1=true, 0=false; not confidence. No numeric threshold.",
+              "sampledFrames": 8,
+              "sampledFrameIndices": [
+                0,
+                4,
+                9,
+                13,
+                18,
+                22,
+                27,
+                32
+              ],
+              "requiredBooleanValue": true
             }
           ],
           "trajectory": {
@@ -13501,6 +13970,41 @@
               "hdf5Sha256": "855cd8d5519876d603e8d7fc0ca565ec6760cd2f1e809067b30c553e91034988",
               "xyzSha256": "542c20a25a133051bbcb62bb4039a067b90ae471eacbdfc619293300caa115ef",
               "rotmatSha256": "76d69d290e0b1337ca0a1845a265ad1237bff5178cfa9e03055668fc9f388e57"
+            }
+          },
+          "trajectoryComparison": {
+            "poseDtw": 0.012344193230829973,
+            "positionCm": 0.8485678506393084,
+            "rotationDeg": 9.522959231204307,
+            "referenceVideoSha256": "e37ebaca40956eaee3ac592ba3255272de6db3cc1061c39867829cee3df57ffd",
+            "videoSha256": "57aad8b6abe64d10a791a54083b952f1d849afd566f565047977a5b51cdca906",
+            "definition": "Mean of left/right path-length-normalized FastDTW costs. Per-pair cost = sqrt(||p_pred-p_gt||_2^2 + (0.05 * rotation_geodesic_rad(R_pred,R_gt))^2). Position cm and rotation degrees are means along these same per-arm pose-DTW paths, then averaged equally across arms. Lower is closer.",
+            "sourceKind": "recomputed-current-demo-annotations",
+            "checkpointSha256": "a6cc52e6ec5b4f10e3db53866e068497b976e4292f3a0ac6c677e86aa9c451ab",
+            "predictionTrajectorySourceKind": "direct-report-artifact",
+            "referenceTrajectorySourceKind": "direct-report-artifact",
+            "frameCount": 33,
+            "version": 1,
+            "metricId": "pose_dtw_rot005_path_mean",
+            "scorerSha256": "d4055319e4967d27a63b6f9965ef5c6d609d4d341daebf8eb38acf987fc1f24b",
+            "fastdtwVersion": "0.3.4",
+            "metricConfig": {
+              "distance": "pose_two_arm_mean_dtw",
+              "max_missing_ratio": 0.9,
+              "epsilon": 1e-06,
+              "position_weight": 1.0,
+              "rotation_weight_m_per_rad": 0.05
+            },
+            "gatePenaltyApplied": false,
+            "trajectoryHashes": {
+              "prediction": {
+                "xyz": "542c20a25a133051bbcb62bb4039a067b90ae471eacbdfc619293300caa115ef",
+                "rotmat": "76d69d290e0b1337ca0a1845a265ad1237bff5178cfa9e03055668fc9f388e57"
+              },
+              "reference": {
+                "xyz": "8cc691a4a4940c9fc6e2db419c8b3ea813fac49c6ea22ce51a5ae0213295f69a",
+                "rotmat": "02352aa5da555833f90f35e6311acdacc11ad4fbafe7cc2323b5697d28026e7d"
+              }
             }
           }
         }
@@ -14862,7 +15366,10 @@
               "method": "MUSIQ",
               "status": "pass",
               "score": 0.6221592619924834,
-              "threshold": 0.4
+              "threshold": 0.4,
+              "valueKind": "normalized-score",
+              "basis": "Mean MUSIQ / 100; not probability.",
+              "evaluatedFrames": 33
             },
             {
               "id": "motion_smoothness",
@@ -14870,7 +15377,12 @@
               "method": "VFIMamba",
               "status": "pass",
               "score": 1.6145623677144172,
-              "threshold": 0.6
+              "threshold": 0.6,
+              "valueKind": "native-score",
+              "basis": "VFIMamba interpolation consistency weighted by frame difference; can exceed 1.",
+              "evaluatedPairs": 16,
+              "candidatePairs": 16,
+              "excludedStaticPairs": 0
             },
             {
               "id": "eef_visibility",
@@ -14878,7 +15390,13 @@
               "method": "SAM3 mask_track_t8_n16",
               "status": "pass",
               "score": 1.0,
-              "threshold": 0.48484848484848486
+              "threshold": 0.48484848484848486,
+              "valueKind": "frame-count",
+              "basis": "Qualifying native frames with all promptable end effectors simultaneously detected; ratio is not confidence.",
+              "numerator": 33,
+              "denominator": 33,
+              "thresholdCount": 16,
+              "presenceLogitThreshold": 8.0
             },
             {
               "id": "arm_integrity",
@@ -14886,7 +15404,21 @@
               "method": "Qwen3-VL-8B-Instruct",
               "status": "pass",
               "score": 1.0,
-              "threshold": null
+              "threshold": null,
+              "valueKind": "binary",
+              "basis": "Recorded intact flag: 1=true, 0=false; not confidence. No numeric threshold.",
+              "sampledFrames": 8,
+              "sampledFrameIndices": [
+                0,
+                4,
+                9,
+                13,
+                18,
+                22,
+                27,
+                32
+              ],
+              "requiredBooleanValue": true
             }
           ],
           "trajectory": {
@@ -16169,6 +16701,41 @@
               "rotmatSha256": "9f5f048fa561bab6bdf8d64cc68821fe02f8cb01cad2f11ae1fd2eda390e7a9a"
             },
             "numericalExecution": "CPU FP32; not CUDA BF16 report-score reproduction"
+          },
+          "trajectoryComparison": {
+            "poseDtw": 0.008023077366569662,
+            "positionCm": 0.62869724106987,
+            "rotationDeg": 5.268758890878914,
+            "referenceVideoSha256": "79b26229f06ae99ab163875b0b07808cb3cec7484d6b4f2e586bb6229929afb9",
+            "videoSha256": "09c38f74356cf0b245ed21067dd4e6fd838690e69e2fffe69c685aa7c0d10213",
+            "definition": "Mean of left/right path-length-normalized FastDTW costs. Per-pair cost = sqrt(||p_pred-p_gt||_2^2 + (0.05 * rotation_geodesic_rad(R_pred,R_gt))^2). Position cm and rotation degrees are means along these same per-arm pose-DTW paths, then averaged equally across arms. Lower is closer.",
+            "sourceKind": "recomputed-current-demo-annotations",
+            "checkpointSha256": "a6cc52e6ec5b4f10e3db53866e068497b976e4292f3a0ac6c677e86aa9c451ab",
+            "predictionTrajectorySourceKind": "fresh-demo-annotation-extraction",
+            "referenceTrajectorySourceKind": "direct-report-artifact",
+            "frameCount": 33,
+            "version": 1,
+            "metricId": "pose_dtw_rot005_path_mean",
+            "scorerSha256": "d4055319e4967d27a63b6f9965ef5c6d609d4d341daebf8eb38acf987fc1f24b",
+            "fastdtwVersion": "0.3.4",
+            "metricConfig": {
+              "distance": "pose_two_arm_mean_dtw",
+              "max_missing_ratio": 0.9,
+              "epsilon": 1e-06,
+              "position_weight": 1.0,
+              "rotation_weight_m_per_rad": 0.05
+            },
+            "gatePenaltyApplied": false,
+            "trajectoryHashes": {
+              "prediction": {
+                "xyz": "08843952dae8160d705a56b9f254737d07a9651134b5e3f7318865be169cbc47",
+                "rotmat": "9f5f048fa561bab6bdf8d64cc68821fe02f8cb01cad2f11ae1fd2eda390e7a9a"
+              },
+              "reference": {
+                "xyz": "dfd0360602147343042ba495ba7cf79cf8c41807ca4ff9918f9ba5c688fb8d76",
+                "rotmat": "e8b659cb879e09fcfa28483a72657a7dbe56a69003171c97d57dd59f70417ec8"
+              }
+            }
           }
         },
         "cosmos_predict25_expert": {
@@ -16199,7 +16766,10 @@
               "method": "MUSIQ",
               "status": "pass",
               "score": 0.5012076510805072,
-              "threshold": 0.4
+              "threshold": 0.4,
+              "valueKind": "normalized-score",
+              "basis": "Mean MUSIQ / 100; not probability.",
+              "evaluatedFrames": 33
             },
             {
               "id": "motion_smoothness",
@@ -16207,7 +16777,12 @@
               "method": "VFIMamba",
               "status": "pass",
               "score": 1.523081998322695,
-              "threshold": 0.6
+              "threshold": 0.6,
+              "valueKind": "native-score",
+              "basis": "VFIMamba interpolation consistency weighted by frame difference; can exceed 1.",
+              "evaluatedPairs": 16,
+              "candidatePairs": 16,
+              "excludedStaticPairs": 0
             },
             {
               "id": "eef_visibility",
@@ -16215,7 +16790,13 @@
               "method": "SAM3 mask_track_t8_n16",
               "status": "pass",
               "score": 1.0,
-              "threshold": 0.48484848484848486
+              "threshold": 0.48484848484848486,
+              "valueKind": "frame-count",
+              "basis": "Qualifying native frames with all promptable end effectors simultaneously detected; ratio is not confidence.",
+              "numerator": 33,
+              "denominator": 33,
+              "thresholdCount": 16,
+              "presenceLogitThreshold": 8.0
             },
             {
               "id": "arm_integrity",
@@ -16223,7 +16804,21 @@
               "method": "Qwen3-VL-8B-Instruct",
               "status": "pass",
               "score": 1.0,
-              "threshold": null
+              "threshold": null,
+              "valueKind": "binary",
+              "basis": "Recorded intact flag: 1=true, 0=false; not confidence. No numeric threshold.",
+              "sampledFrames": 8,
+              "sampledFrameIndices": [
+                0,
+                4,
+                9,
+                13,
+                18,
+                22,
+                27,
+                32
+              ],
+              "requiredBooleanValue": true
             }
           ],
           "trajectory": {
@@ -17506,6 +18101,41 @@
               "rotmatSha256": "ae49bad61d34de61edddc3066eb20e988f3589a8039bcd7f2d87e53264591b56"
             },
             "numericalExecution": "CPU FP32; not CUDA BF16 report-score reproduction"
+          },
+          "trajectoryComparison": {
+            "poseDtw": 0.016155659730286962,
+            "positionCm": 1.240480510380373,
+            "rotationDeg": 10.893741774596583,
+            "referenceVideoSha256": "79b26229f06ae99ab163875b0b07808cb3cec7484d6b4f2e586bb6229929afb9",
+            "videoSha256": "8d1691169cdc031eb3692fc4e911e5c3113fae484a7588e1f43dec2c990c9273",
+            "definition": "Mean of left/right path-length-normalized FastDTW costs. Per-pair cost = sqrt(||p_pred-p_gt||_2^2 + (0.05 * rotation_geodesic_rad(R_pred,R_gt))^2). Position cm and rotation degrees are means along these same per-arm pose-DTW paths, then averaged equally across arms. Lower is closer.",
+            "sourceKind": "recomputed-current-demo-annotations",
+            "checkpointSha256": "a6cc52e6ec5b4f10e3db53866e068497b976e4292f3a0ac6c677e86aa9c451ab",
+            "predictionTrajectorySourceKind": "fresh-demo-annotation-extraction",
+            "referenceTrajectorySourceKind": "direct-report-artifact",
+            "frameCount": 33,
+            "version": 1,
+            "metricId": "pose_dtw_rot005_path_mean",
+            "scorerSha256": "d4055319e4967d27a63b6f9965ef5c6d609d4d341daebf8eb38acf987fc1f24b",
+            "fastdtwVersion": "0.3.4",
+            "metricConfig": {
+              "distance": "pose_two_arm_mean_dtw",
+              "max_missing_ratio": 0.9,
+              "epsilon": 1e-06,
+              "position_weight": 1.0,
+              "rotation_weight_m_per_rad": 0.05
+            },
+            "gatePenaltyApplied": false,
+            "trajectoryHashes": {
+              "prediction": {
+                "xyz": "0156fb7e36336bca7b6f58800edf0815b487b2bbf71d0b9996069b79c1f3cb66",
+                "rotmat": "ae49bad61d34de61edddc3066eb20e988f3589a8039bcd7f2d87e53264591b56"
+              },
+              "reference": {
+                "xyz": "dfd0360602147343042ba495ba7cf79cf8c41807ca4ff9918f9ba5c688fb8d76",
+                "rotmat": "e8b659cb879e09fcfa28483a72657a7dbe56a69003171c97d57dd59f70417ec8"
+              }
+            }
           }
         },
         "ctrlworld_expert": {
@@ -17536,7 +18166,10 @@
               "method": "MUSIQ",
               "status": "pass",
               "score": 0.6521969696969697,
-              "threshold": 0.4
+              "threshold": 0.4,
+              "valueKind": "normalized-score",
+              "basis": "Mean MUSIQ / 100; not probability.",
+              "evaluatedFrames": 33
             },
             {
               "id": "motion_smoothness",
@@ -17544,7 +18177,12 @@
               "method": "VFIMamba",
               "status": "pass",
               "score": 0.6639703914377129,
-              "threshold": 0.6
+              "threshold": 0.6,
+              "valueKind": "native-score",
+              "basis": "VFIMamba interpolation consistency weighted by frame difference; can exceed 1.",
+              "evaluatedPairs": 16,
+              "candidatePairs": 16,
+              "excludedStaticPairs": 0
             },
             {
               "id": "eef_visibility",
@@ -17552,7 +18190,13 @@
               "method": "SAM3 mask_track_t8_n16",
               "status": "pass",
               "score": 1.0,
-              "threshold": 0.48484848484848486
+              "threshold": 0.48484848484848486,
+              "valueKind": "frame-count",
+              "basis": "Qualifying native frames with all promptable end effectors simultaneously detected; ratio is not confidence.",
+              "numerator": 33,
+              "denominator": 33,
+              "thresholdCount": 16,
+              "presenceLogitThreshold": 8.0
             },
             {
               "id": "arm_integrity",
@@ -17560,7 +18204,21 @@
               "method": "Qwen3-VL-8B-Instruct",
               "status": "pass",
               "score": 1.0,
-              "threshold": null
+              "threshold": null,
+              "valueKind": "binary",
+              "basis": "Recorded intact flag: 1=true, 0=false; not confidence. No numeric threshold.",
+              "sampledFrames": 8,
+              "sampledFrameIndices": [
+                0,
+                4,
+                9,
+                13,
+                18,
+                22,
+                27,
+                32
+              ],
+              "requiredBooleanValue": true
             }
           ],
           "trajectory": {
@@ -18842,6 +19500,41 @@
               "xyzSha256": "fd6720bb6adda7c90c17a238c03502bf8d16f7375123d850c1e91a0957267746",
               "rotmatSha256": "f3e1aa62c19f007bb04b7755ed1954449a362d90e1b726a0d95e1368fc2aef40"
             }
+          },
+          "trajectoryComparison": {
+            "poseDtw": 0.02904598163807374,
+            "positionCm": 2.8344668955965475,
+            "rotationDeg": 5.55297416007955,
+            "referenceVideoSha256": "79b26229f06ae99ab163875b0b07808cb3cec7484d6b4f2e586bb6229929afb9",
+            "videoSha256": "6165277b14aa6f39be97d629ff598c149e894e63037621a385e6837b51c38799",
+            "definition": "Mean of left/right path-length-normalized FastDTW costs. Per-pair cost = sqrt(||p_pred-p_gt||_2^2 + (0.05 * rotation_geodesic_rad(R_pred,R_gt))^2). Position cm and rotation degrees are means along these same per-arm pose-DTW paths, then averaged equally across arms. Lower is closer.",
+            "sourceKind": "recomputed-current-demo-annotations",
+            "checkpointSha256": "a6cc52e6ec5b4f10e3db53866e068497b976e4292f3a0ac6c677e86aa9c451ab",
+            "predictionTrajectorySourceKind": "direct-report-artifact",
+            "referenceTrajectorySourceKind": "direct-report-artifact",
+            "frameCount": 33,
+            "version": 1,
+            "metricId": "pose_dtw_rot005_path_mean",
+            "scorerSha256": "d4055319e4967d27a63b6f9965ef5c6d609d4d341daebf8eb38acf987fc1f24b",
+            "fastdtwVersion": "0.3.4",
+            "metricConfig": {
+              "distance": "pose_two_arm_mean_dtw",
+              "max_missing_ratio": 0.9,
+              "epsilon": 1e-06,
+              "position_weight": 1.0,
+              "rotation_weight_m_per_rad": 0.05
+            },
+            "gatePenaltyApplied": false,
+            "trajectoryHashes": {
+              "prediction": {
+                "xyz": "fd6720bb6adda7c90c17a238c03502bf8d16f7375123d850c1e91a0957267746",
+                "rotmat": "f3e1aa62c19f007bb04b7755ed1954449a362d90e1b726a0d95e1368fc2aef40"
+              },
+              "reference": {
+                "xyz": "dfd0360602147343042ba495ba7cf79cf8c41807ca4ff9918f9ba5c688fb8d76",
+                "rotmat": "e8b659cb879e09fcfa28483a72657a7dbe56a69003171c97d57dd59f70417ec8"
+              }
+            }
           }
         },
         "dreamdojo_expert": {
@@ -18904,7 +19597,10 @@
               "method": "MUSIQ",
               "status": "pass",
               "score": 0.5267424242424242,
-              "threshold": 0.4
+              "threshold": 0.4,
+              "valueKind": "normalized-score",
+              "basis": "Mean MUSIQ / 100; not probability.",
+              "evaluatedFrames": 33
             },
             {
               "id": "motion_smoothness",
@@ -18912,7 +19608,12 @@
               "method": "VFIMamba",
               "status": "pass",
               "score": 1.2274172633231488,
-              "threshold": 0.6
+              "threshold": 0.6,
+              "valueKind": "native-score",
+              "basis": "VFIMamba interpolation consistency weighted by frame difference; can exceed 1.",
+              "evaluatedPairs": 16,
+              "candidatePairs": 16,
+              "excludedStaticPairs": 0
             },
             {
               "id": "eef_visibility",
@@ -18920,7 +19621,13 @@
               "method": "SAM3 mask_track_t8_n16",
               "status": "pass",
               "score": 1.0,
-              "threshold": 0.48484848484848486
+              "threshold": 0.48484848484848486,
+              "valueKind": "frame-count",
+              "basis": "Qualifying native frames with all promptable end effectors simultaneously detected; ratio is not confidence.",
+              "numerator": 33,
+              "denominator": 33,
+              "thresholdCount": 16,
+              "presenceLogitThreshold": 8.0
             },
             {
               "id": "arm_integrity",
@@ -18928,7 +19635,21 @@
               "method": "Qwen3-VL-8B-Instruct",
               "status": "pass",
               "score": 1.0,
-              "threshold": null
+              "threshold": null,
+              "valueKind": "binary",
+              "basis": "Recorded intact flag: 1=true, 0=false; not confidence. No numeric threshold.",
+              "sampledFrames": 8,
+              "sampledFrameIndices": [
+                0,
+                4,
+                9,
+                13,
+                18,
+                22,
+                27,
+                32
+              ],
+              "requiredBooleanValue": true
             }
           ],
           "trajectory": {
@@ -20209,6 +20930,41 @@
               "hdf5Sha256": "bcaf7b374d756080fb71347a870165ddf1cd7f839a7d16fed17722d366bf4129",
               "xyzSha256": "169e8d8fb4b07419a7ce01c232011203fa2d8053f0e8c2680c2f3b8b34679824",
               "rotmatSha256": "c9ac70c0547d499c33c2f61fefafff50e00f1286d84fcca393cd910eaee3c269"
+            }
+          },
+          "trajectoryComparison": {
+            "poseDtw": 0.013429228545373562,
+            "positionCm": 0.8958664898517364,
+            "rotationDeg": 11.132484098071192,
+            "referenceVideoSha256": "79b26229f06ae99ab163875b0b07808cb3cec7484d6b4f2e586bb6229929afb9",
+            "videoSha256": "359adbebdc31fc65a7154ff6049da61801347f39ad8d8d9df3c10ee31956c662",
+            "definition": "Mean of left/right path-length-normalized FastDTW costs. Per-pair cost = sqrt(||p_pred-p_gt||_2^2 + (0.05 * rotation_geodesic_rad(R_pred,R_gt))^2). Position cm and rotation degrees are means along these same per-arm pose-DTW paths, then averaged equally across arms. Lower is closer.",
+            "sourceKind": "recomputed-current-demo-annotations",
+            "checkpointSha256": "a6cc52e6ec5b4f10e3db53866e068497b976e4292f3a0ac6c677e86aa9c451ab",
+            "predictionTrajectorySourceKind": "direct-report-artifact",
+            "referenceTrajectorySourceKind": "direct-report-artifact",
+            "frameCount": 33,
+            "version": 1,
+            "metricId": "pose_dtw_rot005_path_mean",
+            "scorerSha256": "d4055319e4967d27a63b6f9965ef5c6d609d4d341daebf8eb38acf987fc1f24b",
+            "fastdtwVersion": "0.3.4",
+            "metricConfig": {
+              "distance": "pose_two_arm_mean_dtw",
+              "max_missing_ratio": 0.9,
+              "epsilon": 1e-06,
+              "position_weight": 1.0,
+              "rotation_weight_m_per_rad": 0.05
+            },
+            "gatePenaltyApplied": false,
+            "trajectoryHashes": {
+              "prediction": {
+                "xyz": "169e8d8fb4b07419a7ce01c232011203fa2d8053f0e8c2680c2f3b8b34679824",
+                "rotmat": "c9ac70c0547d499c33c2f61fefafff50e00f1286d84fcca393cd910eaee3c269"
+              },
+              "reference": {
+                "xyz": "dfd0360602147343042ba495ba7cf79cf8c41807ca4ff9918f9ba5c688fb8d76",
+                "rotmat": "e8b659cb879e09fcfa28483a72657a7dbe56a69003171c97d57dd59f70417ec8"
+              }
             }
           }
         }
@@ -21570,7 +22326,10 @@
               "method": "MUSIQ",
               "status": "pass",
               "score": 0.7161692532626066,
-              "threshold": 0.4
+              "threshold": 0.4,
+              "valueKind": "normalized-score",
+              "basis": "Mean MUSIQ / 100; not probability.",
+              "evaluatedFrames": 33
             },
             {
               "id": "motion_smoothness",
@@ -21578,7 +22337,12 @@
               "method": "VFIMamba",
               "status": "pass",
               "score": 1.763607303441308,
-              "threshold": 0.6
+              "threshold": 0.6,
+              "valueKind": "native-score",
+              "basis": "VFIMamba interpolation consistency weighted by frame difference; can exceed 1.",
+              "evaluatedPairs": 16,
+              "candidatePairs": 16,
+              "excludedStaticPairs": 0
             },
             {
               "id": "eef_visibility",
@@ -21586,7 +22350,13 @@
               "method": "SAM3 mask_track_t8_n16",
               "status": "fail",
               "score": 0.45454545454545453,
-              "threshold": 0.48484848484848486
+              "threshold": 0.48484848484848486,
+              "valueKind": "frame-count",
+              "basis": "Qualifying native frames with all promptable end effectors simultaneously detected; ratio is not confidence.",
+              "numerator": 15,
+              "denominator": 33,
+              "thresholdCount": 16,
+              "presenceLogitThreshold": 8.0
             },
             {
               "id": "arm_integrity",
@@ -21594,7 +22364,21 @@
               "method": "Qwen3-VL-8B-Instruct",
               "status": "pass",
               "score": 1.0,
-              "threshold": null
+              "threshold": null,
+              "valueKind": "binary",
+              "basis": "Recorded intact flag: 1=true, 0=false; not confidence. No numeric threshold.",
+              "sampledFrames": 8,
+              "sampledFrameIndices": [
+                0,
+                4,
+                9,
+                13,
+                18,
+                22,
+                27,
+                32
+              ],
+              "requiredBooleanValue": true
             }
           ],
           "trajectory": {
@@ -22877,6 +23661,41 @@
               "rotmatSha256": "60985f3cd97ebb8edf99496fb8caf55be6ec9744bef366704eaacd5f63ea90e6"
             },
             "numericalExecution": "CPU FP32; not CUDA BF16 report-score reproduction"
+          },
+          "trajectoryComparison": {
+            "poseDtw": 0.03557467889189779,
+            "positionCm": 2.2343136086302966,
+            "rotationDeg": 30.135858367637653,
+            "referenceVideoSha256": "f6873906b94396c58045d6035a76263ff95b6824e2dd94b783fb4e8a6460a3a2",
+            "videoSha256": "0308c43b492d839496c6d32fbc95cab43bfff4ce553c9ecb0eed177f0be15e64",
+            "definition": "Mean of left/right path-length-normalized FastDTW costs. Per-pair cost = sqrt(||p_pred-p_gt||_2^2 + (0.05 * rotation_geodesic_rad(R_pred,R_gt))^2). Position cm and rotation degrees are means along these same per-arm pose-DTW paths, then averaged equally across arms. Lower is closer.",
+            "sourceKind": "recomputed-current-demo-annotations",
+            "checkpointSha256": "a6cc52e6ec5b4f10e3db53866e068497b976e4292f3a0ac6c677e86aa9c451ab",
+            "predictionTrajectorySourceKind": "fresh-demo-annotation-extraction",
+            "referenceTrajectorySourceKind": "direct-report-artifact",
+            "frameCount": 33,
+            "version": 1,
+            "metricId": "pose_dtw_rot005_path_mean",
+            "scorerSha256": "d4055319e4967d27a63b6f9965ef5c6d609d4d341daebf8eb38acf987fc1f24b",
+            "fastdtwVersion": "0.3.4",
+            "metricConfig": {
+              "distance": "pose_two_arm_mean_dtw",
+              "max_missing_ratio": 0.9,
+              "epsilon": 1e-06,
+              "position_weight": 1.0,
+              "rotation_weight_m_per_rad": 0.05
+            },
+            "gatePenaltyApplied": false,
+            "trajectoryHashes": {
+              "prediction": {
+                "xyz": "ae25019d33a869f41ef88b5d68d6af5337841b21470d8da29555033343a0ebad",
+                "rotmat": "60985f3cd97ebb8edf99496fb8caf55be6ec9744bef366704eaacd5f63ea90e6"
+              },
+              "reference": {
+                "xyz": "cabc6323ea9f461938eab5a8e33e609888da806a0b66b746aa8a9e7944f60c15",
+                "rotmat": "25d4b8664e75cbb85bf90e6963854aef612b40dbc7ba67569c0740a2e386b805"
+              }
+            }
           }
         },
         "cosmos_predict25_expert": {
@@ -22907,7 +23726,10 @@
               "method": "MUSIQ",
               "status": "pass",
               "score": 0.7127915630918561,
-              "threshold": 0.4
+              "threshold": 0.4,
+              "valueKind": "normalized-score",
+              "basis": "Mean MUSIQ / 100; not probability.",
+              "evaluatedFrames": 33
             },
             {
               "id": "motion_smoothness",
@@ -22915,7 +23737,12 @@
               "method": "VFIMamba",
               "status": "pass",
               "score": 1.3352232116519496,
-              "threshold": 0.6
+              "threshold": 0.6,
+              "valueKind": "native-score",
+              "basis": "VFIMamba interpolation consistency weighted by frame difference; can exceed 1.",
+              "evaluatedPairs": 16,
+              "candidatePairs": 16,
+              "excludedStaticPairs": 0
             },
             {
               "id": "eef_visibility",
@@ -22923,7 +23750,13 @@
               "method": "SAM3 mask_track_t8_n16",
               "status": "pass",
               "score": 1.0,
-              "threshold": 0.48484848484848486
+              "threshold": 0.48484848484848486,
+              "valueKind": "frame-count",
+              "basis": "Qualifying native frames with all promptable end effectors simultaneously detected; ratio is not confidence.",
+              "numerator": 33,
+              "denominator": 33,
+              "thresholdCount": 16,
+              "presenceLogitThreshold": 8.0
             },
             {
               "id": "arm_integrity",
@@ -22931,7 +23764,21 @@
               "method": "Qwen3-VL-8B-Instruct",
               "status": "pass",
               "score": 1.0,
-              "threshold": null
+              "threshold": null,
+              "valueKind": "binary",
+              "basis": "Recorded intact flag: 1=true, 0=false; not confidence. No numeric threshold.",
+              "sampledFrames": 8,
+              "sampledFrameIndices": [
+                0,
+                4,
+                9,
+                13,
+                18,
+                22,
+                27,
+                32
+              ],
+              "requiredBooleanValue": true
             }
           ],
           "trajectory": {
@@ -24214,6 +25061,41 @@
               "rotmatSha256": "346eaabb048f62a0b1a5a7976c65e57121a8c221898464a819b590619490b49b"
             },
             "numericalExecution": "CPU FP32; not CUDA BF16 report-score reproduction"
+          },
+          "trajectoryComparison": {
+            "poseDtw": 0.03523561190442176,
+            "positionCm": 3.463111758066817,
+            "rotationDeg": 6.088323152376724,
+            "referenceVideoSha256": "f6873906b94396c58045d6035a76263ff95b6824e2dd94b783fb4e8a6460a3a2",
+            "videoSha256": "dbb0dd4b6f70efd5f2a61ae188308046eacde5ee43118719c593704f89725e06",
+            "definition": "Mean of left/right path-length-normalized FastDTW costs. Per-pair cost = sqrt(||p_pred-p_gt||_2^2 + (0.05 * rotation_geodesic_rad(R_pred,R_gt))^2). Position cm and rotation degrees are means along these same per-arm pose-DTW paths, then averaged equally across arms. Lower is closer.",
+            "sourceKind": "recomputed-current-demo-annotations",
+            "checkpointSha256": "a6cc52e6ec5b4f10e3db53866e068497b976e4292f3a0ac6c677e86aa9c451ab",
+            "predictionTrajectorySourceKind": "fresh-demo-annotation-extraction",
+            "referenceTrajectorySourceKind": "direct-report-artifact",
+            "frameCount": 33,
+            "version": 1,
+            "metricId": "pose_dtw_rot005_path_mean",
+            "scorerSha256": "d4055319e4967d27a63b6f9965ef5c6d609d4d341daebf8eb38acf987fc1f24b",
+            "fastdtwVersion": "0.3.4",
+            "metricConfig": {
+              "distance": "pose_two_arm_mean_dtw",
+              "max_missing_ratio": 0.9,
+              "epsilon": 1e-06,
+              "position_weight": 1.0,
+              "rotation_weight_m_per_rad": 0.05
+            },
+            "gatePenaltyApplied": false,
+            "trajectoryHashes": {
+              "prediction": {
+                "xyz": "e6497787420212f013923bc94a2fc0a674a34d2e4a937f7de001b191192a36c7",
+                "rotmat": "346eaabb048f62a0b1a5a7976c65e57121a8c221898464a819b590619490b49b"
+              },
+              "reference": {
+                "xyz": "cabc6323ea9f461938eab5a8e33e609888da806a0b66b746aa8a9e7944f60c15",
+                "rotmat": "25d4b8664e75cbb85bf90e6963854aef612b40dbc7ba67569c0740a2e386b805"
+              }
+            }
           }
         },
         "ctrlworld_expert": {
@@ -24244,7 +25126,10 @@
               "method": "MUSIQ",
               "status": "pass",
               "score": 0.7272727272727273,
-              "threshold": 0.4
+              "threshold": 0.4,
+              "valueKind": "normalized-score",
+              "basis": "Mean MUSIQ / 100; not probability.",
+              "evaluatedFrames": 33
             },
             {
               "id": "motion_smoothness",
@@ -24252,7 +25137,12 @@
               "method": "VFIMamba",
               "status": "pass",
               "score": 1.0807537238462097,
-              "threshold": 0.6
+              "threshold": 0.6,
+              "valueKind": "native-score",
+              "basis": "VFIMamba interpolation consistency weighted by frame difference; can exceed 1.",
+              "evaluatedPairs": 16,
+              "candidatePairs": 16,
+              "excludedStaticPairs": 0
             },
             {
               "id": "eef_visibility",
@@ -24260,7 +25150,13 @@
               "method": "SAM3 mask_track_t8_n16",
               "status": "pass",
               "score": 1.0,
-              "threshold": 0.48484848484848486
+              "threshold": 0.48484848484848486,
+              "valueKind": "frame-count",
+              "basis": "Qualifying native frames with all promptable end effectors simultaneously detected; ratio is not confidence.",
+              "numerator": 33,
+              "denominator": 33,
+              "thresholdCount": 16,
+              "presenceLogitThreshold": 8.0
             },
             {
               "id": "arm_integrity",
@@ -24268,7 +25164,21 @@
               "method": "Qwen3-VL-8B-Instruct",
               "status": "pass",
               "score": 1.0,
-              "threshold": null
+              "threshold": null,
+              "valueKind": "binary",
+              "basis": "Recorded intact flag: 1=true, 0=false; not confidence. No numeric threshold.",
+              "sampledFrames": 8,
+              "sampledFrameIndices": [
+                0,
+                4,
+                9,
+                13,
+                18,
+                22,
+                27,
+                32
+              ],
+              "requiredBooleanValue": true
             }
           ],
           "trajectory": {
@@ -25550,6 +26460,41 @@
               "xyzSha256": "996e62e8b4fdde6c1b8a54da442758dcc8e525331c99ad28fde627e5ab2deece",
               "rotmatSha256": "6f6c0826563e75d555593b274b011d08ec5cb124d0f6a2bb9eadddc02d1abb09"
             }
+          },
+          "trajectoryComparison": {
+            "poseDtw": 0.04227623591415644,
+            "positionCm": 3.855433199212995,
+            "rotationDeg": 17.483430086121945,
+            "referenceVideoSha256": "f6873906b94396c58045d6035a76263ff95b6824e2dd94b783fb4e8a6460a3a2",
+            "videoSha256": "3c152d0098ddd910b1e42dce5fd455cc316388af80ce0298417eafedc12dcb51",
+            "definition": "Mean of left/right path-length-normalized FastDTW costs. Per-pair cost = sqrt(||p_pred-p_gt||_2^2 + (0.05 * rotation_geodesic_rad(R_pred,R_gt))^2). Position cm and rotation degrees are means along these same per-arm pose-DTW paths, then averaged equally across arms. Lower is closer.",
+            "sourceKind": "recomputed-current-demo-annotations",
+            "checkpointSha256": "a6cc52e6ec5b4f10e3db53866e068497b976e4292f3a0ac6c677e86aa9c451ab",
+            "predictionTrajectorySourceKind": "direct-report-artifact",
+            "referenceTrajectorySourceKind": "direct-report-artifact",
+            "frameCount": 33,
+            "version": 1,
+            "metricId": "pose_dtw_rot005_path_mean",
+            "scorerSha256": "d4055319e4967d27a63b6f9965ef5c6d609d4d341daebf8eb38acf987fc1f24b",
+            "fastdtwVersion": "0.3.4",
+            "metricConfig": {
+              "distance": "pose_two_arm_mean_dtw",
+              "max_missing_ratio": 0.9,
+              "epsilon": 1e-06,
+              "position_weight": 1.0,
+              "rotation_weight_m_per_rad": 0.05
+            },
+            "gatePenaltyApplied": false,
+            "trajectoryHashes": {
+              "prediction": {
+                "xyz": "996e62e8b4fdde6c1b8a54da442758dcc8e525331c99ad28fde627e5ab2deece",
+                "rotmat": "6f6c0826563e75d555593b274b011d08ec5cb124d0f6a2bb9eadddc02d1abb09"
+              },
+              "reference": {
+                "xyz": "cabc6323ea9f461938eab5a8e33e609888da806a0b66b746aa8a9e7944f60c15",
+                "rotmat": "25d4b8664e75cbb85bf90e6963854aef612b40dbc7ba67569c0740a2e386b805"
+              }
+            }
           }
         },
         "dreamdojo_expert": {
@@ -25612,7 +26557,10 @@
               "method": "MUSIQ",
               "status": "pass",
               "score": 0.6833333333333332,
-              "threshold": 0.4
+              "threshold": 0.4,
+              "valueKind": "normalized-score",
+              "basis": "Mean MUSIQ / 100; not probability.",
+              "evaluatedFrames": 33
             },
             {
               "id": "motion_smoothness",
@@ -25620,7 +26568,12 @@
               "method": "VFIMamba",
               "status": "pass",
               "score": 0.9487627262429115,
-              "threshold": 0.6
+              "threshold": 0.6,
+              "valueKind": "native-score",
+              "basis": "VFIMamba interpolation consistency weighted by frame difference; can exceed 1.",
+              "evaluatedPairs": 16,
+              "candidatePairs": 16,
+              "excludedStaticPairs": 0
             },
             {
               "id": "eef_visibility",
@@ -25628,7 +26581,13 @@
               "method": "SAM3 mask_track_t8_n16",
               "status": "pass",
               "score": 1.0,
-              "threshold": 0.48484848484848486
+              "threshold": 0.48484848484848486,
+              "valueKind": "frame-count",
+              "basis": "Qualifying native frames with all promptable end effectors simultaneously detected; ratio is not confidence.",
+              "numerator": 33,
+              "denominator": 33,
+              "thresholdCount": 16,
+              "presenceLogitThreshold": 8.0
             },
             {
               "id": "arm_integrity",
@@ -25636,7 +26595,21 @@
               "method": "Qwen3-VL-8B-Instruct",
               "status": "pass",
               "score": 1.0,
-              "threshold": null
+              "threshold": null,
+              "valueKind": "binary",
+              "basis": "Recorded intact flag: 1=true, 0=false; not confidence. No numeric threshold.",
+              "sampledFrames": 8,
+              "sampledFrameIndices": [
+                0,
+                4,
+                9,
+                13,
+                18,
+                22,
+                27,
+                32
+              ],
+              "requiredBooleanValue": true
             }
           ],
           "trajectory": {
@@ -26917,6 +27890,41 @@
               "hdf5Sha256": "acb770e012f34aee59ffa9d398bdff82c3c91d9429bbe7f0c3673cd104743930",
               "xyzSha256": "ac0fe255919d3bcaf2adb87c60e166570ffb9f1f2b244a00b6d84523ab65140f",
               "rotmatSha256": "0580e6d95caa836e33af4d0636eb4b3a20c3be430505833448de193d5aa1be30"
+            }
+          },
+          "trajectoryComparison": {
+            "poseDtw": 0.01889006797667832,
+            "positionCm": 1.543103768118805,
+            "rotationDeg": 10.661681016511105,
+            "referenceVideoSha256": "f6873906b94396c58045d6035a76263ff95b6824e2dd94b783fb4e8a6460a3a2",
+            "videoSha256": "914564d468ed345d52f37cf194251e8a0ba9ff978a85e73f3d73c2f7a96fc0d4",
+            "definition": "Mean of left/right path-length-normalized FastDTW costs. Per-pair cost = sqrt(||p_pred-p_gt||_2^2 + (0.05 * rotation_geodesic_rad(R_pred,R_gt))^2). Position cm and rotation degrees are means along these same per-arm pose-DTW paths, then averaged equally across arms. Lower is closer.",
+            "sourceKind": "recomputed-current-demo-annotations",
+            "checkpointSha256": "a6cc52e6ec5b4f10e3db53866e068497b976e4292f3a0ac6c677e86aa9c451ab",
+            "predictionTrajectorySourceKind": "direct-report-artifact",
+            "referenceTrajectorySourceKind": "direct-report-artifact",
+            "frameCount": 33,
+            "version": 1,
+            "metricId": "pose_dtw_rot005_path_mean",
+            "scorerSha256": "d4055319e4967d27a63b6f9965ef5c6d609d4d341daebf8eb38acf987fc1f24b",
+            "fastdtwVersion": "0.3.4",
+            "metricConfig": {
+              "distance": "pose_two_arm_mean_dtw",
+              "max_missing_ratio": 0.9,
+              "epsilon": 1e-06,
+              "position_weight": 1.0,
+              "rotation_weight_m_per_rad": 0.05
+            },
+            "gatePenaltyApplied": false,
+            "trajectoryHashes": {
+              "prediction": {
+                "xyz": "ac0fe255919d3bcaf2adb87c60e166570ffb9f1f2b244a00b6d84523ab65140f",
+                "rotmat": "0580e6d95caa836e33af4d0636eb4b3a20c3be430505833448de193d5aa1be30"
+              },
+              "reference": {
+                "xyz": "cabc6323ea9f461938eab5a8e33e609888da806a0b66b746aa8a9e7944f60c15",
+                "rotmat": "25d4b8664e75cbb85bf90e6963854aef612b40dbc7ba67569c0740a2e386b805"
+              }
             }
           }
         }
@@ -28278,7 +29286,10 @@
               "method": "MUSIQ",
               "status": "pass",
               "score": 0.581807334206321,
-              "threshold": 0.4
+              "threshold": 0.4,
+              "valueKind": "normalized-score",
+              "basis": "Mean MUSIQ / 100; not probability.",
+              "evaluatedFrames": 33
             },
             {
               "id": "motion_smoothness",
@@ -28286,7 +29297,12 @@
               "method": "VFIMamba",
               "status": "pass",
               "score": 1.2564843187007297,
-              "threshold": 0.6
+              "threshold": 0.6,
+              "valueKind": "native-score",
+              "basis": "VFIMamba interpolation consistency weighted by frame difference; can exceed 1.",
+              "evaluatedPairs": 16,
+              "candidatePairs": 16,
+              "excludedStaticPairs": 0
             },
             {
               "id": "eef_visibility",
@@ -28294,7 +29310,13 @@
               "method": "SAM3 mask_track_t8_n16",
               "status": "pass",
               "score": 1.0,
-              "threshold": 0.48484848484848486
+              "threshold": 0.48484848484848486,
+              "valueKind": "frame-count",
+              "basis": "Qualifying native frames with all promptable end effectors simultaneously detected; ratio is not confidence.",
+              "numerator": 33,
+              "denominator": 33,
+              "thresholdCount": 16,
+              "presenceLogitThreshold": 8.0
             },
             {
               "id": "arm_integrity",
@@ -28302,7 +29324,21 @@
               "method": "Qwen3-VL-8B-Instruct",
               "status": "pass",
               "score": 1.0,
-              "threshold": null
+              "threshold": null,
+              "valueKind": "binary",
+              "basis": "Recorded intact flag: 1=true, 0=false; not confidence. No numeric threshold.",
+              "sampledFrames": 8,
+              "sampledFrameIndices": [
+                0,
+                4,
+                9,
+                13,
+                18,
+                22,
+                27,
+                32
+              ],
+              "requiredBooleanValue": true
             }
           ],
           "trajectory": {
@@ -29585,6 +30621,41 @@
               "rotmatSha256": "7e4214fbb4a3fc448dd3719a34985f5c8ab0cfe5f37f6b24bd6e2a7a02bd76f8"
             },
             "numericalExecution": "CPU FP32; not CUDA BF16 report-score reproduction"
+          },
+          "trajectoryComparison": {
+            "poseDtw": 0.04585772855147793,
+            "positionCm": 0.9586237652524379,
+            "rotationDeg": 50.06404109898773,
+            "referenceVideoSha256": "04add7067053610cabb55020ce3f7af77a03351e495ae2b30fbf756e7d63ccb1",
+            "videoSha256": "9d3415bdba756d7352be31784c4442064af3eb7daac89ef259c3b2f26aa942d5",
+            "definition": "Mean of left/right path-length-normalized FastDTW costs. Per-pair cost = sqrt(||p_pred-p_gt||_2^2 + (0.05 * rotation_geodesic_rad(R_pred,R_gt))^2). Position cm and rotation degrees are means along these same per-arm pose-DTW paths, then averaged equally across arms. Lower is closer.",
+            "sourceKind": "recomputed-current-demo-annotations",
+            "checkpointSha256": "a6cc52e6ec5b4f10e3db53866e068497b976e4292f3a0ac6c677e86aa9c451ab",
+            "predictionTrajectorySourceKind": "fresh-demo-annotation-extraction",
+            "referenceTrajectorySourceKind": "direct-report-artifact",
+            "frameCount": 33,
+            "version": 1,
+            "metricId": "pose_dtw_rot005_path_mean",
+            "scorerSha256": "d4055319e4967d27a63b6f9965ef5c6d609d4d341daebf8eb38acf987fc1f24b",
+            "fastdtwVersion": "0.3.4",
+            "metricConfig": {
+              "distance": "pose_two_arm_mean_dtw",
+              "max_missing_ratio": 0.9,
+              "epsilon": 1e-06,
+              "position_weight": 1.0,
+              "rotation_weight_m_per_rad": 0.05
+            },
+            "gatePenaltyApplied": false,
+            "trajectoryHashes": {
+              "prediction": {
+                "xyz": "48d35311816f8802ae4484aa8ed5a6859546d1f9d741baa1b74be2914f863fca",
+                "rotmat": "7e4214fbb4a3fc448dd3719a34985f5c8ab0cfe5f37f6b24bd6e2a7a02bd76f8"
+              },
+              "reference": {
+                "xyz": "f4d797161552dcebdebd764bf37ff63d08c6766adf66206e8ed7899e60e91d50",
+                "rotmat": "4866f191a2b9e6ecb70be915e755cc34bae8ec23d3375023ed285cd3702d7bb4"
+              }
+            }
           }
         },
         "cosmos_predict25_expert": {
@@ -29615,7 +30686,10 @@
               "method": "MUSIQ",
               "status": "pass",
               "score": 0.47766044385505446,
-              "threshold": 0.4
+              "threshold": 0.4,
+              "valueKind": "normalized-score",
+              "basis": "Mean MUSIQ / 100; not probability.",
+              "evaluatedFrames": 33
             },
             {
               "id": "motion_smoothness",
@@ -29623,7 +30697,12 @@
               "method": "VFIMamba",
               "status": "pass",
               "score": 1.4815359555107739,
-              "threshold": 0.6
+              "threshold": 0.6,
+              "valueKind": "native-score",
+              "basis": "VFIMamba interpolation consistency weighted by frame difference; can exceed 1.",
+              "evaluatedPairs": 16,
+              "candidatePairs": 16,
+              "excludedStaticPairs": 0
             },
             {
               "id": "eef_visibility",
@@ -29631,7 +30710,13 @@
               "method": "SAM3 mask_track_t8_n16",
               "status": "pass",
               "score": 1.0,
-              "threshold": 0.48484848484848486
+              "threshold": 0.48484848484848486,
+              "valueKind": "frame-count",
+              "basis": "Qualifying native frames with all promptable end effectors simultaneously detected; ratio is not confidence.",
+              "numerator": 33,
+              "denominator": 33,
+              "thresholdCount": 16,
+              "presenceLogitThreshold": 8.0
             },
             {
               "id": "arm_integrity",
@@ -29639,7 +30724,21 @@
               "method": "Qwen3-VL-8B-Instruct",
               "status": "pass",
               "score": 1.0,
-              "threshold": null
+              "threshold": null,
+              "valueKind": "binary",
+              "basis": "Recorded intact flag: 1=true, 0=false; not confidence. No numeric threshold.",
+              "sampledFrames": 8,
+              "sampledFrameIndices": [
+                0,
+                4,
+                9,
+                13,
+                18,
+                22,
+                27,
+                32
+              ],
+              "requiredBooleanValue": true
             }
           ],
           "trajectory": {
@@ -30922,6 +32021,41 @@
               "rotmatSha256": "dd44095e8a18ac3add53218c482df69742d56d5d17f477deb9a32ea676ec8cc2"
             },
             "numericalExecution": "CPU FP32; not CUDA BF16 report-score reproduction"
+          },
+          "trajectoryComparison": {
+            "poseDtw": 0.04609546192449144,
+            "positionCm": 2.095748467755895,
+            "rotationDeg": 45.52195045796008,
+            "referenceVideoSha256": "04add7067053610cabb55020ce3f7af77a03351e495ae2b30fbf756e7d63ccb1",
+            "videoSha256": "18785247f4718b97b17d0081bba1f77b680f3e96f8d0484d46a53af1d057dbdb",
+            "definition": "Mean of left/right path-length-normalized FastDTW costs. Per-pair cost = sqrt(||p_pred-p_gt||_2^2 + (0.05 * rotation_geodesic_rad(R_pred,R_gt))^2). Position cm and rotation degrees are means along these same per-arm pose-DTW paths, then averaged equally across arms. Lower is closer.",
+            "sourceKind": "recomputed-current-demo-annotations",
+            "checkpointSha256": "a6cc52e6ec5b4f10e3db53866e068497b976e4292f3a0ac6c677e86aa9c451ab",
+            "predictionTrajectorySourceKind": "fresh-demo-annotation-extraction",
+            "referenceTrajectorySourceKind": "direct-report-artifact",
+            "frameCount": 33,
+            "version": 1,
+            "metricId": "pose_dtw_rot005_path_mean",
+            "scorerSha256": "d4055319e4967d27a63b6f9965ef5c6d609d4d341daebf8eb38acf987fc1f24b",
+            "fastdtwVersion": "0.3.4",
+            "metricConfig": {
+              "distance": "pose_two_arm_mean_dtw",
+              "max_missing_ratio": 0.9,
+              "epsilon": 1e-06,
+              "position_weight": 1.0,
+              "rotation_weight_m_per_rad": 0.05
+            },
+            "gatePenaltyApplied": false,
+            "trajectoryHashes": {
+              "prediction": {
+                "xyz": "d040360548ec04bddb5f83d1b7075ec884ee41c8bf16c1beeed944b276c9d08a",
+                "rotmat": "dd44095e8a18ac3add53218c482df69742d56d5d17f477deb9a32ea676ec8cc2"
+              },
+              "reference": {
+                "xyz": "f4d797161552dcebdebd764bf37ff63d08c6766adf66206e8ed7899e60e91d50",
+                "rotmat": "4866f191a2b9e6ecb70be915e755cc34bae8ec23d3375023ed285cd3702d7bb4"
+              }
+            }
           }
         },
         "ctrlworld_expert": {
@@ -30952,7 +32086,10 @@
               "method": "MUSIQ",
               "status": "pass",
               "score": 0.5862121212121213,
-              "threshold": 0.4
+              "threshold": 0.4,
+              "valueKind": "normalized-score",
+              "basis": "Mean MUSIQ / 100; not probability.",
+              "evaluatedFrames": 33
             },
             {
               "id": "motion_smoothness",
@@ -30960,7 +32097,12 @@
               "method": "VFIMamba",
               "status": "pass",
               "score": 1.0171810364355443,
-              "threshold": 0.6
+              "threshold": 0.6,
+              "valueKind": "native-score",
+              "basis": "VFIMamba interpolation consistency weighted by frame difference; can exceed 1.",
+              "evaluatedPairs": 16,
+              "candidatePairs": 16,
+              "excludedStaticPairs": 0
             },
             {
               "id": "eef_visibility",
@@ -30968,7 +32110,13 @@
               "method": "SAM3 mask_track_t8_n16",
               "status": "pass",
               "score": 0.8484848484848485,
-              "threshold": 0.48484848484848486
+              "threshold": 0.48484848484848486,
+              "valueKind": "frame-count",
+              "basis": "Qualifying native frames with all promptable end effectors simultaneously detected; ratio is not confidence.",
+              "numerator": 28,
+              "denominator": 33,
+              "thresholdCount": 16,
+              "presenceLogitThreshold": 8.0
             },
             {
               "id": "arm_integrity",
@@ -30976,7 +32124,21 @@
               "method": "Qwen3-VL-8B-Instruct",
               "status": "pass",
               "score": 1.0,
-              "threshold": null
+              "threshold": null,
+              "valueKind": "binary",
+              "basis": "Recorded intact flag: 1=true, 0=false; not confidence. No numeric threshold.",
+              "sampledFrames": 8,
+              "sampledFrameIndices": [
+                0,
+                4,
+                9,
+                13,
+                18,
+                22,
+                27,
+                32
+              ],
+              "requiredBooleanValue": true
             }
           ],
           "trajectory": {
@@ -32258,6 +33420,41 @@
               "xyzSha256": "0edb44ebb7b745172f15e1c6650c559fb6d74920dd6e4b0916ae2819101fb857",
               "rotmatSha256": "bb745081efd2786db4e7af000ed130c3f05d2bfc75f9ff268fca932d141b9e95"
             }
+          },
+          "trajectoryComparison": {
+            "poseDtw": 0.010390863837942904,
+            "positionCm": 0.8974893169291497,
+            "rotationDeg": 5.834643836177418,
+            "referenceVideoSha256": "04add7067053610cabb55020ce3f7af77a03351e495ae2b30fbf756e7d63ccb1",
+            "videoSha256": "8540c4ecfa45bf88b2e4285e97bb3e6db6cbdf39443c4b4cf4e4c50453c965c3",
+            "definition": "Mean of left/right path-length-normalized FastDTW costs. Per-pair cost = sqrt(||p_pred-p_gt||_2^2 + (0.05 * rotation_geodesic_rad(R_pred,R_gt))^2). Position cm and rotation degrees are means along these same per-arm pose-DTW paths, then averaged equally across arms. Lower is closer.",
+            "sourceKind": "recomputed-current-demo-annotations",
+            "checkpointSha256": "a6cc52e6ec5b4f10e3db53866e068497b976e4292f3a0ac6c677e86aa9c451ab",
+            "predictionTrajectorySourceKind": "direct-report-artifact",
+            "referenceTrajectorySourceKind": "direct-report-artifact",
+            "frameCount": 33,
+            "version": 1,
+            "metricId": "pose_dtw_rot005_path_mean",
+            "scorerSha256": "d4055319e4967d27a63b6f9965ef5c6d609d4d341daebf8eb38acf987fc1f24b",
+            "fastdtwVersion": "0.3.4",
+            "metricConfig": {
+              "distance": "pose_two_arm_mean_dtw",
+              "max_missing_ratio": 0.9,
+              "epsilon": 1e-06,
+              "position_weight": 1.0,
+              "rotation_weight_m_per_rad": 0.05
+            },
+            "gatePenaltyApplied": false,
+            "trajectoryHashes": {
+              "prediction": {
+                "xyz": "0edb44ebb7b745172f15e1c6650c559fb6d74920dd6e4b0916ae2819101fb857",
+                "rotmat": "bb745081efd2786db4e7af000ed130c3f05d2bfc75f9ff268fca932d141b9e95"
+              },
+              "reference": {
+                "xyz": "f4d797161552dcebdebd764bf37ff63d08c6766adf66206e8ed7899e60e91d50",
+                "rotmat": "4866f191a2b9e6ecb70be915e755cc34bae8ec23d3375023ed285cd3702d7bb4"
+              }
+            }
           }
         },
         "dreamdojo_expert": {
@@ -32320,7 +33517,10 @@
               "method": "MUSIQ",
               "status": "pass",
               "score": 0.4709848484848485,
-              "threshold": 0.4
+              "threshold": 0.4,
+              "valueKind": "normalized-score",
+              "basis": "Mean MUSIQ / 100; not probability.",
+              "evaluatedFrames": 33
             },
             {
               "id": "motion_smoothness",
@@ -32328,7 +33528,12 @@
               "method": "VFIMamba",
               "status": "pass",
               "score": 1.0161494972538798,
-              "threshold": 0.6
+              "threshold": 0.6,
+              "valueKind": "native-score",
+              "basis": "VFIMamba interpolation consistency weighted by frame difference; can exceed 1.",
+              "evaluatedPairs": 16,
+              "candidatePairs": 16,
+              "excludedStaticPairs": 0
             },
             {
               "id": "eef_visibility",
@@ -32336,7 +33541,13 @@
               "method": "SAM3 mask_track_t8_n16",
               "status": "pass",
               "score": 1.0,
-              "threshold": 0.48484848484848486
+              "threshold": 0.48484848484848486,
+              "valueKind": "frame-count",
+              "basis": "Qualifying native frames with all promptable end effectors simultaneously detected; ratio is not confidence.",
+              "numerator": 33,
+              "denominator": 33,
+              "thresholdCount": 16,
+              "presenceLogitThreshold": 8.0
             },
             {
               "id": "arm_integrity",
@@ -32344,7 +33555,21 @@
               "method": "Qwen3-VL-8B-Instruct",
               "status": "pass",
               "score": 1.0,
-              "threshold": null
+              "threshold": null,
+              "valueKind": "binary",
+              "basis": "Recorded intact flag: 1=true, 0=false; not confidence. No numeric threshold.",
+              "sampledFrames": 8,
+              "sampledFrameIndices": [
+                0,
+                4,
+                9,
+                13,
+                18,
+                22,
+                27,
+                32
+              ],
+              "requiredBooleanValue": true
             }
           ],
           "trajectory": {
@@ -33625,6 +34850,41 @@
               "hdf5Sha256": "9c050e58885d7cf29b8fb0adc4ddb6713ef23d31bb392e024026646a4ddf8e65",
               "xyzSha256": "cc3b05ed97ee32b86c4b6601cfa6e1fbc07d5281d485e23a012ec30b59260fad",
               "rotmatSha256": "9fea9b4ec7606fce0c0b54e8e1c9a4a257c32acffe8b52958ed4ee8645ee53a4"
+            }
+          },
+          "trajectoryComparison": {
+            "poseDtw": 0.011421258301900269,
+            "positionCm": 0.8775455282146047,
+            "rotationDeg": 8.132421395980762,
+            "referenceVideoSha256": "04add7067053610cabb55020ce3f7af77a03351e495ae2b30fbf756e7d63ccb1",
+            "videoSha256": "758279b08d97569b9906393457c0b389c41afa35c61eb6316e4e5b6e275b3818",
+            "definition": "Mean of left/right path-length-normalized FastDTW costs. Per-pair cost = sqrt(||p_pred-p_gt||_2^2 + (0.05 * rotation_geodesic_rad(R_pred,R_gt))^2). Position cm and rotation degrees are means along these same per-arm pose-DTW paths, then averaged equally across arms. Lower is closer.",
+            "sourceKind": "recomputed-current-demo-annotations",
+            "checkpointSha256": "a6cc52e6ec5b4f10e3db53866e068497b976e4292f3a0ac6c677e86aa9c451ab",
+            "predictionTrajectorySourceKind": "direct-report-artifact",
+            "referenceTrajectorySourceKind": "direct-report-artifact",
+            "frameCount": 33,
+            "version": 1,
+            "metricId": "pose_dtw_rot005_path_mean",
+            "scorerSha256": "d4055319e4967d27a63b6f9965ef5c6d609d4d341daebf8eb38acf987fc1f24b",
+            "fastdtwVersion": "0.3.4",
+            "metricConfig": {
+              "distance": "pose_two_arm_mean_dtw",
+              "max_missing_ratio": 0.9,
+              "epsilon": 1e-06,
+              "position_weight": 1.0,
+              "rotation_weight_m_per_rad": 0.05
+            },
+            "gatePenaltyApplied": false,
+            "trajectoryHashes": {
+              "prediction": {
+                "xyz": "cc3b05ed97ee32b86c4b6601cfa6e1fbc07d5281d485e23a012ec30b59260fad",
+                "rotmat": "9fea9b4ec7606fce0c0b54e8e1c9a4a257c32acffe8b52958ed4ee8645ee53a4"
+              },
+              "reference": {
+                "xyz": "f4d797161552dcebdebd764bf37ff63d08c6766adf66206e8ed7899e60e91d50",
+                "rotmat": "4866f191a2b9e6ecb70be915e755cc34bae8ec23d3375023ed285cd3702d7bb4"
+              }
             }
           }
         }
@@ -34986,7 +36246,10 @@
               "method": "MUSIQ",
               "status": "pass",
               "score": 0.7028940998424182,
-              "threshold": 0.4
+              "threshold": 0.4,
+              "valueKind": "normalized-score",
+              "basis": "Mean MUSIQ / 100; not probability.",
+              "evaluatedFrames": 33
             },
             {
               "id": "motion_smoothness",
@@ -34994,7 +36257,12 @@
               "method": "VFIMamba",
               "status": "pass",
               "score": 1.3211456642319668,
-              "threshold": 0.6
+              "threshold": 0.6,
+              "valueKind": "native-score",
+              "basis": "VFIMamba interpolation consistency weighted by frame difference; can exceed 1.",
+              "evaluatedPairs": 16,
+              "candidatePairs": 16,
+              "excludedStaticPairs": 0
             },
             {
               "id": "eef_visibility",
@@ -35002,7 +36270,13 @@
               "method": "SAM3 mask_track_t8_n16",
               "status": "pass",
               "score": 0.9393939393939394,
-              "threshold": 0.48484848484848486
+              "threshold": 0.48484848484848486,
+              "valueKind": "frame-count",
+              "basis": "Qualifying native frames with all promptable end effectors simultaneously detected; ratio is not confidence.",
+              "numerator": 31,
+              "denominator": 33,
+              "thresholdCount": 16,
+              "presenceLogitThreshold": 8.0
             },
             {
               "id": "arm_integrity",
@@ -35010,7 +36284,21 @@
               "method": "Qwen3-VL-8B-Instruct",
               "status": "pass",
               "score": 1.0,
-              "threshold": null
+              "threshold": null,
+              "valueKind": "binary",
+              "basis": "Recorded intact flag: 1=true, 0=false; not confidence. No numeric threshold.",
+              "sampledFrames": 8,
+              "sampledFrameIndices": [
+                0,
+                4,
+                9,
+                13,
+                18,
+                22,
+                27,
+                32
+              ],
+              "requiredBooleanValue": true
             }
           ],
           "trajectory": {
@@ -36293,6 +37581,41 @@
               "rotmatSha256": "3e5ff19e41c88b2edb015e02f2021bf513341a4379d8a9901332aa7e1f52df1d"
             },
             "numericalExecution": "CPU FP32; not CUDA BF16 report-score reproduction"
+          },
+          "trajectoryComparison": {
+            "poseDtw": 0.00861492618669475,
+            "positionCm": 0.8429559108708876,
+            "rotationDeg": 1.9421991941657288,
+            "referenceVideoSha256": "7bed27f138559795a87e6c001caf89dbd67d22f4676da2105cc1733d5477d624",
+            "videoSha256": "cbf461e1d60ea019d56bc1142744ba0c278f99ece66605bc86bffd1aa9e6f220",
+            "definition": "Mean of left/right path-length-normalized FastDTW costs. Per-pair cost = sqrt(||p_pred-p_gt||_2^2 + (0.05 * rotation_geodesic_rad(R_pred,R_gt))^2). Position cm and rotation degrees are means along these same per-arm pose-DTW paths, then averaged equally across arms. Lower is closer.",
+            "sourceKind": "recomputed-current-demo-annotations",
+            "checkpointSha256": "a6cc52e6ec5b4f10e3db53866e068497b976e4292f3a0ac6c677e86aa9c451ab",
+            "predictionTrajectorySourceKind": "fresh-demo-annotation-extraction",
+            "referenceTrajectorySourceKind": "direct-report-artifact",
+            "frameCount": 33,
+            "version": 1,
+            "metricId": "pose_dtw_rot005_path_mean",
+            "scorerSha256": "d4055319e4967d27a63b6f9965ef5c6d609d4d341daebf8eb38acf987fc1f24b",
+            "fastdtwVersion": "0.3.4",
+            "metricConfig": {
+              "distance": "pose_two_arm_mean_dtw",
+              "max_missing_ratio": 0.9,
+              "epsilon": 1e-06,
+              "position_weight": 1.0,
+              "rotation_weight_m_per_rad": 0.05
+            },
+            "gatePenaltyApplied": false,
+            "trajectoryHashes": {
+              "prediction": {
+                "xyz": "5d16d9cadba6c8b07a3960bae55384476c2b79e42084916bc0e7b4086e975214",
+                "rotmat": "3e5ff19e41c88b2edb015e02f2021bf513341a4379d8a9901332aa7e1f52df1d"
+              },
+              "reference": {
+                "xyz": "30c7ebc8c8339c82d9aec4d4272bda5f14c8b330d7202279aa2428907694ab98",
+                "rotmat": "8a64d1ab98f2f67757ff679f59cf31ceabc61115041c301425c2de2ada0bf7f9"
+              }
+            }
           }
         },
         "cosmos_predict25_expert": {
@@ -36323,7 +37646,10 @@
               "method": "MUSIQ",
               "status": "pass",
               "score": 0.5617322251290986,
-              "threshold": 0.4
+              "threshold": 0.4,
+              "valueKind": "normalized-score",
+              "basis": "Mean MUSIQ / 100; not probability.",
+              "evaluatedFrames": 33
             },
             {
               "id": "motion_smoothness",
@@ -36331,7 +37657,12 @@
               "method": "VFIMamba",
               "status": "pass",
               "score": 0.9975337466436845,
-              "threshold": 0.6
+              "threshold": 0.6,
+              "valueKind": "native-score",
+              "basis": "VFIMamba interpolation consistency weighted by frame difference; can exceed 1.",
+              "evaluatedPairs": 15,
+              "candidatePairs": 16,
+              "excludedStaticPairs": 1
             },
             {
               "id": "eef_visibility",
@@ -36339,7 +37670,13 @@
               "method": "SAM3 mask_track_t8_n16",
               "status": "pass",
               "score": 1.0,
-              "threshold": 0.48484848484848486
+              "threshold": 0.48484848484848486,
+              "valueKind": "frame-count",
+              "basis": "Qualifying native frames with all promptable end effectors simultaneously detected; ratio is not confidence.",
+              "numerator": 33,
+              "denominator": 33,
+              "thresholdCount": 16,
+              "presenceLogitThreshold": 8.0
             },
             {
               "id": "arm_integrity",
@@ -36347,7 +37684,21 @@
               "method": "Qwen3-VL-8B-Instruct",
               "status": "pass",
               "score": 1.0,
-              "threshold": null
+              "threshold": null,
+              "valueKind": "binary",
+              "basis": "Recorded intact flag: 1=true, 0=false; not confidence. No numeric threshold.",
+              "sampledFrames": 8,
+              "sampledFrameIndices": [
+                0,
+                4,
+                9,
+                13,
+                18,
+                22,
+                27,
+                32
+              ],
+              "requiredBooleanValue": true
             }
           ],
           "trajectory": {
@@ -37630,6 +38981,41 @@
               "rotmatSha256": "d32a207bf6f70b4b1b576f603318ebf622d2ead49fff089971702951745acd99"
             },
             "numericalExecution": "CPU FP32; not CUDA BF16 report-score reproduction"
+          },
+          "trajectoryComparison": {
+            "poseDtw": 0.011831311821739542,
+            "positionCm": 1.1491756306225058,
+            "rotationDeg": 3.165477988157748,
+            "referenceVideoSha256": "7bed27f138559795a87e6c001caf89dbd67d22f4676da2105cc1733d5477d624",
+            "videoSha256": "306140b1b48d9b53a1cabd6a6780ccc39b85ed2522b6166f707d81ce10aabe43",
+            "definition": "Mean of left/right path-length-normalized FastDTW costs. Per-pair cost = sqrt(||p_pred-p_gt||_2^2 + (0.05 * rotation_geodesic_rad(R_pred,R_gt))^2). Position cm and rotation degrees are means along these same per-arm pose-DTW paths, then averaged equally across arms. Lower is closer.",
+            "sourceKind": "recomputed-current-demo-annotations",
+            "checkpointSha256": "a6cc52e6ec5b4f10e3db53866e068497b976e4292f3a0ac6c677e86aa9c451ab",
+            "predictionTrajectorySourceKind": "fresh-demo-annotation-extraction",
+            "referenceTrajectorySourceKind": "direct-report-artifact",
+            "frameCount": 33,
+            "version": 1,
+            "metricId": "pose_dtw_rot005_path_mean",
+            "scorerSha256": "d4055319e4967d27a63b6f9965ef5c6d609d4d341daebf8eb38acf987fc1f24b",
+            "fastdtwVersion": "0.3.4",
+            "metricConfig": {
+              "distance": "pose_two_arm_mean_dtw",
+              "max_missing_ratio": 0.9,
+              "epsilon": 1e-06,
+              "position_weight": 1.0,
+              "rotation_weight_m_per_rad": 0.05
+            },
+            "gatePenaltyApplied": false,
+            "trajectoryHashes": {
+              "prediction": {
+                "xyz": "973be53e08328d67e8e0482406620807e82a9310dfaeb5c086eba01d1c83ead7",
+                "rotmat": "d32a207bf6f70b4b1b576f603318ebf622d2ead49fff089971702951745acd99"
+              },
+              "reference": {
+                "xyz": "30c7ebc8c8339c82d9aec4d4272bda5f14c8b330d7202279aa2428907694ab98",
+                "rotmat": "8a64d1ab98f2f67757ff679f59cf31ceabc61115041c301425c2de2ada0bf7f9"
+              }
+            }
           }
         },
         "ctrlworld_expert": {
@@ -37660,7 +39046,10 @@
               "method": "MUSIQ",
               "status": "pass",
               "score": 0.7303030303030303,
-              "threshold": 0.4
+              "threshold": 0.4,
+              "valueKind": "normalized-score",
+              "basis": "Mean MUSIQ / 100; not probability.",
+              "evaluatedFrames": 33
             },
             {
               "id": "motion_smoothness",
@@ -37668,7 +39057,12 @@
               "method": "VFIMamba",
               "status": "pass",
               "score": 0.9526298240952572,
-              "threshold": 0.6
+              "threshold": 0.6,
+              "valueKind": "native-score",
+              "basis": "VFIMamba interpolation consistency weighted by frame difference; can exceed 1.",
+              "evaluatedPairs": 16,
+              "candidatePairs": 16,
+              "excludedStaticPairs": 0
             },
             {
               "id": "eef_visibility",
@@ -37676,7 +39070,13 @@
               "method": "SAM3 mask_track_t8_n16",
               "status": "pass",
               "score": 1.0,
-              "threshold": 0.48484848484848486
+              "threshold": 0.48484848484848486,
+              "valueKind": "frame-count",
+              "basis": "Qualifying native frames with all promptable end effectors simultaneously detected; ratio is not confidence.",
+              "numerator": 33,
+              "denominator": 33,
+              "thresholdCount": 16,
+              "presenceLogitThreshold": 8.0
             },
             {
               "id": "arm_integrity",
@@ -37684,7 +39084,21 @@
               "method": "Qwen3-VL-8B-Instruct",
               "status": "pass",
               "score": 1.0,
-              "threshold": null
+              "threshold": null,
+              "valueKind": "binary",
+              "basis": "Recorded intact flag: 1=true, 0=false; not confidence. No numeric threshold.",
+              "sampledFrames": 8,
+              "sampledFrameIndices": [
+                0,
+                4,
+                9,
+                13,
+                18,
+                22,
+                27,
+                32
+              ],
+              "requiredBooleanValue": true
             }
           ],
           "trajectory": {
@@ -38966,6 +40380,41 @@
               "xyzSha256": "8f3054173a91e513d46baab421f79175bae06dc0a1c45c6062a3b5e7b14782d7",
               "rotmatSha256": "38bd109dfe097b24a2eb23deafc35160470e046198ce7b666275e9b9ccef440c"
             }
+          },
+          "trajectoryComparison": {
+            "poseDtw": 0.007710267019399213,
+            "positionCm": 0.5881654809468962,
+            "rotationDeg": 5.547438443090036,
+            "referenceVideoSha256": "7bed27f138559795a87e6c001caf89dbd67d22f4676da2105cc1733d5477d624",
+            "videoSha256": "657b34a161f7b117047c087e9af1dbfdc381a05e3478fca34384cbd44fff53db",
+            "definition": "Mean of left/right path-length-normalized FastDTW costs. Per-pair cost = sqrt(||p_pred-p_gt||_2^2 + (0.05 * rotation_geodesic_rad(R_pred,R_gt))^2). Position cm and rotation degrees are means along these same per-arm pose-DTW paths, then averaged equally across arms. Lower is closer.",
+            "sourceKind": "recomputed-current-demo-annotations",
+            "checkpointSha256": "a6cc52e6ec5b4f10e3db53866e068497b976e4292f3a0ac6c677e86aa9c451ab",
+            "predictionTrajectorySourceKind": "direct-report-artifact",
+            "referenceTrajectorySourceKind": "direct-report-artifact",
+            "frameCount": 33,
+            "version": 1,
+            "metricId": "pose_dtw_rot005_path_mean",
+            "scorerSha256": "d4055319e4967d27a63b6f9965ef5c6d609d4d341daebf8eb38acf987fc1f24b",
+            "fastdtwVersion": "0.3.4",
+            "metricConfig": {
+              "distance": "pose_two_arm_mean_dtw",
+              "max_missing_ratio": 0.9,
+              "epsilon": 1e-06,
+              "position_weight": 1.0,
+              "rotation_weight_m_per_rad": 0.05
+            },
+            "gatePenaltyApplied": false,
+            "trajectoryHashes": {
+              "prediction": {
+                "xyz": "8f3054173a91e513d46baab421f79175bae06dc0a1c45c6062a3b5e7b14782d7",
+                "rotmat": "38bd109dfe097b24a2eb23deafc35160470e046198ce7b666275e9b9ccef440c"
+              },
+              "reference": {
+                "xyz": "30c7ebc8c8339c82d9aec4d4272bda5f14c8b330d7202279aa2428907694ab98",
+                "rotmat": "8a64d1ab98f2f67757ff679f59cf31ceabc61115041c301425c2de2ada0bf7f9"
+              }
+            }
           }
         },
         "dreamdojo_expert": {
@@ -39028,7 +40477,10 @@
               "method": "MUSIQ",
               "status": "pass",
               "score": 0.6421969696969697,
-              "threshold": 0.4
+              "threshold": 0.4,
+              "valueKind": "normalized-score",
+              "basis": "Mean MUSIQ / 100; not probability.",
+              "evaluatedFrames": 33
             },
             {
               "id": "motion_smoothness",
@@ -39036,7 +40488,12 @@
               "method": "VFIMamba",
               "status": "pass",
               "score": 1.1032398703022541,
-              "threshold": 0.6
+              "threshold": 0.6,
+              "valueKind": "native-score",
+              "basis": "VFIMamba interpolation consistency weighted by frame difference; can exceed 1.",
+              "evaluatedPairs": 8,
+              "candidatePairs": 16,
+              "excludedStaticPairs": 8
             },
             {
               "id": "eef_visibility",
@@ -39044,7 +40501,13 @@
               "method": "SAM3 mask_track_t8_n16",
               "status": "pass",
               "score": 1.0,
-              "threshold": 0.48484848484848486
+              "threshold": 0.48484848484848486,
+              "valueKind": "frame-count",
+              "basis": "Qualifying native frames with all promptable end effectors simultaneously detected; ratio is not confidence.",
+              "numerator": 33,
+              "denominator": 33,
+              "thresholdCount": 16,
+              "presenceLogitThreshold": 8.0
             },
             {
               "id": "arm_integrity",
@@ -39052,7 +40515,21 @@
               "method": "Qwen3-VL-8B-Instruct",
               "status": "pass",
               "score": 1.0,
-              "threshold": null
+              "threshold": null,
+              "valueKind": "binary",
+              "basis": "Recorded intact flag: 1=true, 0=false; not confidence. No numeric threshold.",
+              "sampledFrames": 8,
+              "sampledFrameIndices": [
+                0,
+                4,
+                9,
+                13,
+                18,
+                22,
+                27,
+                32
+              ],
+              "requiredBooleanValue": true
             }
           ],
           "trajectory": {
@@ -40333,6 +41810,41 @@
               "hdf5Sha256": "82383a9f1b2541f741825b549f60df02230b377e76929510766cde48c4b5871f",
               "xyzSha256": "e139795158c3912740ae3650809bdab3d88c9c6ee6be3ffe1a0ae7d451e418b9",
               "rotmatSha256": "eaddcedf62724ec6712c1fd3621577d1e5cb74613558cf8c0a923f67cbdb411b"
+            }
+          },
+          "trajectoryComparison": {
+            "poseDtw": 0.016135540351207695,
+            "positionCm": 1.5973139185412057,
+            "rotationDeg": 2.2267017478787547,
+            "referenceVideoSha256": "7bed27f138559795a87e6c001caf89dbd67d22f4676da2105cc1733d5477d624",
+            "videoSha256": "c2c956189e7dcbd3e9df68a13bbc69220cee8e5bf523bc8886a49bceb75150c2",
+            "definition": "Mean of left/right path-length-normalized FastDTW costs. Per-pair cost = sqrt(||p_pred-p_gt||_2^2 + (0.05 * rotation_geodesic_rad(R_pred,R_gt))^2). Position cm and rotation degrees are means along these same per-arm pose-DTW paths, then averaged equally across arms. Lower is closer.",
+            "sourceKind": "recomputed-current-demo-annotations",
+            "checkpointSha256": "a6cc52e6ec5b4f10e3db53866e068497b976e4292f3a0ac6c677e86aa9c451ab",
+            "predictionTrajectorySourceKind": "direct-report-artifact",
+            "referenceTrajectorySourceKind": "direct-report-artifact",
+            "frameCount": 33,
+            "version": 1,
+            "metricId": "pose_dtw_rot005_path_mean",
+            "scorerSha256": "d4055319e4967d27a63b6f9965ef5c6d609d4d341daebf8eb38acf987fc1f24b",
+            "fastdtwVersion": "0.3.4",
+            "metricConfig": {
+              "distance": "pose_two_arm_mean_dtw",
+              "max_missing_ratio": 0.9,
+              "epsilon": 1e-06,
+              "position_weight": 1.0,
+              "rotation_weight_m_per_rad": 0.05
+            },
+            "gatePenaltyApplied": false,
+            "trajectoryHashes": {
+              "prediction": {
+                "xyz": "e139795158c3912740ae3650809bdab3d88c9c6ee6be3ffe1a0ae7d451e418b9",
+                "rotmat": "eaddcedf62724ec6712c1fd3621577d1e5cb74613558cf8c0a923f67cbdb411b"
+              },
+              "reference": {
+                "xyz": "30c7ebc8c8339c82d9aec4d4272bda5f14c8b330d7202279aa2428907694ab98",
+                "rotmat": "8a64d1ab98f2f67757ff679f59cf31ceabc61115041c301425c2de2ada0bf7f9"
+              }
             }
           }
         }
@@ -44244,6 +45756,18 @@
       "ctrlworld_coverage",
       "dreamdojo_coverage"
     ],
-    "displayedCaseCount": 6
+    "displayedCaseCount": 6,
+    "trajectoryComparison": {
+      "sourceKind": "recomputed-current-demo-annotations",
+      "definition": "Mean of left/right path-length-normalized FastDTW costs. Per-pair cost = sqrt(||p_pred-p_gt||_2^2 + (0.05 * rotation_geodesic_rad(R_pred,R_gt))^2). Position cm and rotation degrees are means along these same per-arm pose-DTW paths, then averaged equally across arms. Lower is closer.",
+      "units": {
+        "poseDtw": "weighted pose-distance with metre-equivalent rotation scaling; not pure position metres and not a 0\u20131 similarity",
+        "positionCm": "centimetres, averaged along pose-DTW alignment",
+        "rotationDeg": "degrees, averaged along pose-DTW alignment"
+      },
+      "comparisonCount": 24,
+      "metricExportSha256": "395274cb7dd8b2881c62286815f8b10a1cc52cdc302aac61d855b465abdca025",
+      "gateScoreAuditSha256": "6e71dd13db498c021fbe447f23aa59646a1a76ab5b329ae00551cda4a2d52394"
+    }
   }
 }

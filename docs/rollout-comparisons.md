@@ -17,10 +17,14 @@ Do not assign model names to the separate visual-collapse/action-mismatch clips 
 
 ## Page status
 
-The `#state-control` gallery now shows six recommended tasks and three Expanded baseline choices: Cosmos-Predict2.5, CtrlWorld and DreamDojo. The interface shows task/model names, GT and WorldSync, four compact recorded gate indicators, and Play/Pause, Restart and seek. Training details, review labels, per-case cautions, metadata and shortlist controls are removed from this view; existing local shortlist storage is untouched.
+The `#state-control` gallery now shows six recommended tasks and three Expanded baseline choices: Cosmos-Predict2.5, CtrlWorld and DreamDojo. The interface shows task/model names, GT and WorldSync, each gate's recorded score and minimum requirement, and Play/Pause, Restart and seek. Training details, review labels, per-case cautions, metadata and shortlist controls are removed from this view; existing local shortlist storage is untouched.
 
 The full 34-case, 476-recording catalog is retained for audit. Its selection history remains: all 500 pack samples received score prescreening, 34 cases received seven-frame inspection against GT and every baseline, and the six recommendations received an all-33-frame GT/WorldSync inspection. The current six-task view exposes 30 recordings across its model choices. This does not mean all 500 samples were watched as videos.
 
-All 30 displayed recordings have calibrated AnyPos overlays; the checkbox toggles the layer, and missing or invalid data remains hidden. GT gate labels identify an unscored reference. The separate Real-world experiments section has two Video forthcoming placeholders, with no experimental results implied. See [media and annotation provenance](rollout-demo.md) and [selection evidence and caveats](rollout-screening.md).
+All 30 displayed recordings have calibrated AnyPos overlays; the checkbox toggles the layer, and missing or invalid data remains hidden. The source set remains eighteen reused tracks plus twelve CPU FP32 Cosmos-Predict2.5/CtrlWorld tracks.
+
+The new 24 model/GT comparisons display Pose DTW, position in centimetres and rotation in degrees below the videos. Each uses the common displayed GT-reference track and the accepted main50 pose-DTW formula; both component errors are averaged along the same pose-DTW alignment paths, without a gate penalty. The GT column identifies the reference without inventing a zero score. Missing or mismatched values display a dash, and lower baseline errors are shown unchanged. These are demo-only calculations on existing arrays, separate from historical visual-gate records and paper scores; StateMajor rules are not used.
+
+The separate Real-world experiments section has two Video forthcoming placeholders, with no experimental results implied. See [media, gate units and trajectory formulas](rollout-demo.md) and [selection evidence and caveats](rollout-screening.md).
 
 The separate interactive playground and the GitHub/Hugging Face release have their own requirements. The release still concerns a checkpoint trained on 50 tasks and minimal single-task inference; this gallery clarification does not change that scope.

@@ -16,6 +16,49 @@ const GATE_STATUS = {
   skipped: { icon: "−", label: "Skipped" },
 };
 const instances = new WeakMap();
+const finite = (value) => typeof value === "number" && Number.isFinite(value);
+
+/** Keep each gate's own units: these scores are not interchangeable probabilities. */
+export function formatGateScore(record) {
+  const empty = { valueText: "—", thresholdText: "", detail: "Score unavailable" };
+  if (!record || !["pass", "fail"].includes(record.status) || !finite(record.score)) return empty;
+  const score = record.score;
+  const thresholdText = finite(record.threshold) ? `≥${record.threshold.toFixed(3)}` : "";
+  if (record.id === "arm_integrity") {
+    if (![0, 1].includes(score)) return empty;
+    return { valueText: String(score), thresholdText: "", detail: `Binary judgment: ${score}; 1 = intact, 0 = failed. Not a confidence score. No numeric threshold was reported.` };
+  }
+  if (record.id === "eef_visibility") {
+    const { numerator, denominator, thresholdCount } = record;
+    const countsValid = [numerator, denominator, thresholdCount].every(Number.isInteger)
+      && denominator > 0 && numerator >= 0 && numerator <= denominator && thresholdCount >= 0 && thresholdCount <= denominator
+      && Math.abs(numerator / denominator - score) < 1e-9
+      && finite(record.threshold) && Math.abs(thresholdCount / denominator - record.threshold) < 1e-9;
+    if (countsValid) return { valueText: `${numerator}/${denominator}`, thresholdText: `≥${thresholdCount}f`, detail: `${numerator} of ${denominator} frames satisfy the visibility rule; at least ${thresholdCount} required. Raw ratio ${score.toFixed(6)}, threshold ${record.threshold.toFixed(6)}.` };
+    return { valueText: score.toFixed(3), thresholdText, detail: `Recorded visibility ratio ${score}; threshold ${record.threshold ?? "unreported"}. Frame counts unavailable.` };
+  }
+  return {
+    valueText: score.toFixed(3), thresholdText,
+    detail: record.id === "image_quality" ? `MUSIQ / 100: ${score}; threshold ${record.threshold ?? "unreported"}. Not a probability.`
+      : `VFIMamba smoothness: ${score}; threshold ${record.threshold ?? "unreported"}. This score can exceed 1.`,
+  };
+}
+
+/** A mismatch with either displayed video's identity invalidates the comparison. */
+export function getTrajectoryComparison(clip, reference) {
+  const metric = clip?.trajectoryComparison;
+  if (metric?.version !== 1 || metric.metricId !== "pose_dtw_rot005_path_mean") return null;
+  if (![metric.poseDtw, metric.positionCm, metric.rotationDeg].every((v) => finite(v) && v >= 0)) return null;
+  if (!clip?.trajectory?.videoSha256 || !reference?.trajectory?.videoSha256) return null;
+  if (metric.videoSha256 !== clip.trajectory.videoSha256 || metric.referenceVideoSha256 !== reference.trajectory.videoSha256) return null;
+  if (metric.checkpointSha256 !== clip.trajectory.checkpointSha256 || metric.checkpointSha256 !== reference.trajectory.checkpointSha256) return null;
+  for (const [side, track] of [["prediction", clip.trajectory], ["reference", reference.trajectory]]) {
+    for (const key of ["xyz", "rotmat"]) {
+      if (!metric.trajectoryHashes?.[side]?.[key] || metric.trajectoryHashes[side][key] !== track.projection?.[`${key}Sha256`]) return null;
+    }
+  }
+  return metric;
+}
 
 export function caseOptionLabel(sample) {
   return sample.label || String(sample.task || "Task").replaceAll("_", " ");
@@ -41,7 +84,7 @@ export function getVisualGates(clip) {
     const matches = records.filter((record) => record?.id === gate.id);
     const record = matches.length === 1 ? matches[0] : null;
     const status = record && Object.hasOwn(GATE_STATUS, record.status) ? record.status : "unavailable";
-    return { ...gate, status, icon: GATE_STATUS[status].icon };
+    return { ...gate, status, icon: GATE_STATUS[status].icon, ...formatGateScore(record && { ...record, id: gate.id, status }) };
   });
 }
 
@@ -107,6 +150,7 @@ export function setupRolloutDemo(root) {
     video: slot.querySelector("video"),
     error: slot.querySelector(".rollout-media-error"),
     gates: slot.querySelector("[data-rollout-gates]"),
+    comparison: slot.querySelector("[data-rollout-comparison]"),
   }]));
   let catalog;
   let group;
@@ -132,17 +176,58 @@ export function setupRolloutDemo(root) {
       const statusLabel = GATE_STATUS[gate.status].label;
       item.dataset.gate = gate.id;
       item.dataset.status = gate.status;
-      item.title = `${gate.label}: ${statusLabel} · Recorded sample-pack check`;
+      item.title = `${gate.label}: ${statusLabel}. ${gate.detail} Recorded sample-pack check.`;
       item.setAttribute("aria-label", item.title);
       const icon = document.createElement("span");
       icon.className = "rollout-gate-icon";
       icon.textContent = gate.icon;
       icon.setAttribute("aria-hidden", "true");
       const label = document.createElement("span");
+      label.className = "rollout-gate-label";
       label.textContent = gate.label;
-      item.append(icon, label);
+      const score = document.createElement("strong");
+      score.className = "rollout-gate-score";
+      score.textContent = gate.valueText;
+      const threshold = document.createElement("span");
+      threshold.className = "rollout-gate-threshold";
+      threshold.textContent = gate.thresholdText;
+      item.append(icon, label, score, threshold);
       return item;
     }));
+  }
+
+  function renderComparison(slot, clip, reference, isReference) {
+    if (!slot.comparison) return;
+    slot.comparison.replaceChildren();
+    if (isReference) {
+      const label = document.createElement("p");
+      label.className = "rollout-error-reference";
+      label.textContent = "Reference trajectory";
+      slot.comparison.append(label);
+      slot.comparison.setAttribute("aria-label", "Ground-truth reference for the trajectory comparison");
+      return;
+    }
+    const metric = getTrajectoryComparison(clip, reference);
+    const heading = document.createElement("div");
+    heading.className = "rollout-error-primary";
+    const title = document.createElement("span");
+    title.textContent = "Pose DTW vs\u00a0GT\u00a0↓";
+    const value = document.createElement("strong");
+    value.dataset.metric = "poseDtw";
+    value.textContent = metric ? metric.poseDtw.toFixed(5) : "—";
+    heading.append(title, value);
+    slot.comparison.append(heading);
+    slot.comparison.setAttribute("aria-label", "Trajectory error relative to GT; lower is better");
+    slot.comparison.title = metric ? "AnyPos estimates compared with the reference-video AnyPos estimate, not simulator pose truth. Mean two-arm pose DTW: sqrt(position_m² + (0.05 × rotation_rad)²), averaged over the FastDTW path. Position and rotation are measured along that same path. Recomputed from the displayed tracks; not the published benchmark score." : "Trajectory comparison unavailable for these videos.";
+    const details = document.createElement("dl");
+    details.className = "rollout-error-details";
+    for (const [key, label, unit] of [["positionCm", "Position", "cm"], ["rotationDeg", "Rotation", "°"]]) {
+      const name = document.createElement("dt"); name.textContent = label;
+      const number = document.createElement("dd"); number.dataset.metric = key;
+      number.textContent = metric ? `${metric[key].toFixed(2)}${unit === "°" ? "" : " "}${unit}` : "—";
+      details.append(name, number);
+    }
+    slot.comparison.append(details);
   }
 
   function renderSelection() {
@@ -160,6 +245,7 @@ export function setupRolloutDemo(root) {
         slot.error.hidden = available;
         slot.error.textContent = "Recording unavailable. Choose another task or model.";
         renderGates(slot, clip, key === "gt");
+        renderComparison(slot, clip, clips.gt, key === "gt");
         if (available) slot.video.src = clip.src;
         else slot.video.removeAttribute("src");
         if (assetPath(clip?.poster)) slot.video.poster = clip.poster;
