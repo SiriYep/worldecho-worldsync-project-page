@@ -125,7 +125,7 @@ export function setupRolloutDemo(root) {
         else slot.video.removeAttribute("src");
         if (assetPath(clip?.poster)) slot.video.poster = clip.poster;
         else slot.video.removeAttribute("poster");
-        const modelName = key === "gt" ? "Ground truth" : key === "baseline" ? baseline.label || baseline.id : "WorldSync";
+        const modelName = key === "gt" ? "Simulator ground truth" : key === "baseline" ? baseline.label || baseline.id : "WorldSync";
         slot.video.setAttribute("aria-label", `${modelName} rollout for ${sample.label || sample.task || sample.id}`);
       }
     };

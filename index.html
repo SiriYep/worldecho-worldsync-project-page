@@ -530,10 +530,10 @@
         <div class="container">
           <div class="section-heading split-heading">
             <div><p class="kicker">Part IV / Rollout comparisons</p><h2 id="state-control-heading">Same actions.<br>Different rollouts.</h2></div>
-            <p class="lead">Compare recorded rollouts from WorldSync and other world models with ground truth for the same scene and action sequence.</p>
+            <p class="lead">Compare each model’s predicted motion with the simulator’s actual execution of the same action sequence. Watch the grippers’ movement direction and final position.</p>
           </div>
           <div class="demo-gallery rollout-demo" data-rollout-demo data-catalog="assets/rollout-demo/catalog.json" aria-describedby="rollout-alignment-note">
-            <div class="demo-gallery-heading"><h3>Ground truth and model rollouts</h3><span class="rollout-recorded">Prerecorded comparisons</span></div>
+            <div class="demo-gallery-heading"><h3>Simulator ground truth and model predictions</h3><span class="rollout-recorded">Prerecorded comparisons</span></div>
             <div class="rollout-load" data-rollout-load role="status">
               <p data-rollout-load-message>Loading recorded comparisons…</p>
               <button type="button" data-rollout-retry hidden>Retry loading</button>
@@ -550,8 +550,8 @@
               <p class="rollout-conditioning" data-rollout-conditioning></p>
               <div class="demo-comparison">
                 <figure class="demo-slot" data-rollout-slot="gt">
-                  <figcaption><span class="demo-step">01 / Ground truth</span><h4>Reference rollout</h4><p class="rollout-regime">Recorded reference</p></figcaption>
-                  <div class="rollout-media"><video muted playsinline preload="auto" aria-label="Ground-truth rollout"></video><p class="rollout-media-error" hidden></p></div>
+                  <figcaption><span class="demo-step">01 / Ground truth (GT)</span><h4>Simulator execution</h4><p class="rollout-regime">Recorded action consequences</p></figcaption>
+                  <div class="rollout-media"><video muted playsinline preload="auto" aria-label="Simulator ground-truth rollout"></video><p class="rollout-media-error" hidden></p></div>
                   <p class="rollout-clip-info" data-rollout-info></p>
                 </figure>
                 <figure class="demo-slot" data-rollout-slot="baseline">

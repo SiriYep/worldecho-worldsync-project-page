@@ -1,0 +1,79 @@
+{
+  "version": 1,
+  "reviewNote": "Frozen receipts for the six canonical GT clips audited on 2026-09-15. Adding a clip or changing an export requires an explicit reviewed receipt update.",
+  "auditRecordSha256": "9452d861cfd1d80046ae097af0320a882d3a995493cbe8ee3461b061ebe16972",
+  "receipts": {
+    "clean_adjust_bottle_ep0040_start0040_cw32": {
+      "outputSha256": "09b3b2a6d11b4d8c7c0779264164e568e6b42f2fae6bbc408bf2cbaf8c213642",
+      "provenance": {
+        "type": "canonical-source",
+        "chunkId": "clean_adjust_bottle_ep0040_start0040_cw32",
+        "startFrame": 40,
+        "frames": 33,
+        "actionSha256": "6088f8e41e078c1055543709918fc9beff46dcee804246ff56bcd93605442e5e",
+        "sourceSha256": "224a5b1026b64139f06a19c8bfba51e0dac880bd957560ebd043bc3026420cdb",
+        "manifestSha256": "3e5ee4c64a546b7473d37ca989541db51047007e37a6885d96a3157c363b5732"
+      }
+    },
+    "perturbed_pca_grab_roller_ep0042_start0064_seed0003_s0000_cw32": {
+      "outputSha256": "8fb1e4373b27c40086cd89a88d65ce0cc5e955d4eb212d829c5f76e0bd789003",
+      "provenance": {
+        "type": "canonical-source",
+        "chunkId": "perturbed_pca_grab_roller_ep0042_start0064_seed0003_s0000_cw32",
+        "startFrame": 0,
+        "frames": 33,
+        "actionSha256": "5b259137625656df8d87c3eca828b5db1f94afed1d0de9deed91d4a8af97b698",
+        "sourceSha256": "850742199ca648d15e061c127e90d443e290b6943d1ab70c0e7bd248118e8931",
+        "manifestSha256": "3e5ee4c64a546b7473d37ca989541db51047007e37a6885d96a3157c363b5732"
+      }
+    },
+    "perturbed_raw_handover_block_ep0015_start0047_seed0002_s0000_cw32": {
+      "outputSha256": "feebb61231b3c14e6440435baa29a702f11384669580820d4366713db9cb716a",
+      "provenance": {
+        "type": "canonical-source",
+        "chunkId": "perturbed_raw_handover_block_ep0015_start0047_seed0002_s0000_cw32",
+        "startFrame": 0,
+        "frames": 33,
+        "actionSha256": "ba776249fea4b5f453eb5ff4cb5c10c4c449751b4b58c410d1b7c3c71b33aa43",
+        "sourceSha256": "6d42f90129a9588d78d013c58f98a8dace8fc671508b73ec1b7ec93c2189a26c",
+        "manifestSha256": "3e5ee4c64a546b7473d37ca989541db51047007e37a6885d96a3157c363b5732"
+      }
+    },
+    "random_feasible_weighted_lift_pot_ep0001_start0027_seed0007_s0249_cw32": {
+      "outputSha256": "783144e02d4bd5662e0401f6763f2190adbce0eb5623c434fb15558d7de6ceea",
+      "provenance": {
+        "type": "canonical-source",
+        "chunkId": "random_feasible_weighted_lift_pot_ep0001_start0027_seed0007_s0249_cw32",
+        "startFrame": 249,
+        "frames": 33,
+        "actionSha256": "b6c16a537e8e79c3884ee1254f1d63b5fbac06c8f111bf7a4b0ca6a4bafe414c",
+        "sourceSha256": "aff0174b23f5912ff019c4ea2de17284a6ce2b2aa293533939c98796f251c511",
+        "manifestSha256": "3e5ee4c64a546b7473d37ca989541db51047007e37a6885d96a3157c363b5732"
+      }
+    },
+    "exploration_policy_rollout_rotate_qrcode_s00_seed00100012_ep0009_s0174_cw32": {
+      "outputSha256": "ef60d1721be07e210d59f114034e60ababffd84e12cb196ae3b7a71571b0d781",
+      "provenance": {
+        "type": "canonical-source",
+        "chunkId": "exploration_policy_rollout_rotate_qrcode_s00_seed00100012_ep0009_s0174_cw32",
+        "startFrame": 174,
+        "frames": 33,
+        "actionSha256": "1a28cdd044c791ed0e7dcfaf39806aaf5f758ce6f89cfd1e7f3d29d33216a702",
+        "sourceSha256": "4f7fd7c1178bf6d7e2efa69850e1ee9583af97703260b09a6572f70f2a5fc763",
+        "manifestSha256": "3e5ee4c64a546b7473d37ca989541db51047007e37a6885d96a3157c363b5732"
+      }
+    },
+    "random_feasible_uniform_stack_blocks_two_ep0001_start0069_seed0015_s0176_cw32": {
+      "outputSha256": "a35cbabf0991852e99b06269f8c20203891e9bb4a4eacff0f602e87a5f7d7317",
+      "provenance": {
+        "type": "canonical-source",
+        "chunkId": "random_feasible_uniform_stack_blocks_two_ep0001_start0069_seed0015_s0176_cw32",
+        "startFrame": 176,
+        "frames": 33,
+        "actionSha256": "45dd6096fe4b3821b0faeb2f6497a6c564c76dcea4b0320c9bdfec48d31a2cfe",
+        "sourceSha256": "d0ae3c6d20c80c662803f56d840c81a710a7f46a189939ce9bcb78d0aa38253d",
+        "manifestSha256": "3e5ee4c64a546b7473d37ca989541db51047007e37a6885d96a3157c363b5732"
+      }
+    }
+  }
+}

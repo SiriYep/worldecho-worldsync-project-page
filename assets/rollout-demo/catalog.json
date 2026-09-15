@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "selectionNote": "Seven task/category pairs chosen for query coverage; the first sample in each pair follows pack order, without filtering by model score. These qualitative examples are not a representative performance estimate.",
+  "selectionNote": "Seven task/category pairs were initially selected by pack order, without score filtering. Six are shown after recovering their original simulator videos. Place bread in basket (cross-state replay) is omitted because its original GT video is unavailable. These qualitative examples are not a representative performance estimate.",
   "models": [
     {
       "id": "cosmos3_coverage",
@@ -105,12 +105,21 @@
       "action": "assets/rollout-demo/01-adjust-bottle/action.npy",
       "actionSha256": "6088f8e41e078c1055543709918fc9beff46dcee804246ff56bcd93605442e5e",
       "gt": {
-        "src": "assets/rollout-demo/01-adjust-bottle/gt.mp4",
-        "poster": "assets/rollout-demo/01-adjust-bottle/gt.jpg",
+        "src": "assets/rollout-demo/01-adjust-bottle/gt-source.mp4",
+        "poster": "assets/rollout-demo/01-adjust-bottle/gt-source.jpg",
         "frames": 33,
         "fps": 22.0,
         "width": 320,
-        "height": 256
+        "height": 256,
+        "provenance": {
+          "type": "canonical-source",
+          "chunkId": "clean_adjust_bottle_ep0040_start0040_cw32",
+          "startFrame": 40,
+          "frames": 33,
+          "actionSha256": "6088f8e41e078c1055543709918fc9beff46dcee804246ff56bcd93605442e5e",
+          "sourceSha256": "224a5b1026b64139f06a19c8bfba51e0dac880bd957560ebd043bc3026420cdb",
+          "manifestSha256": "3e5ee4c64a546b7473d37ca989541db51047007e37a6885d96a3157c363b5732"
+        }
       },
       "outputs": {
         "cosmos3_coverage": {
@@ -229,12 +238,21 @@
       "action": "assets/rollout-demo/02-grab-roller/action.npy",
       "actionSha256": "5b259137625656df8d87c3eca828b5db1f94afed1d0de9deed91d4a8af97b698",
       "gt": {
-        "src": "assets/rollout-demo/02-grab-roller/gt.mp4",
-        "poster": "assets/rollout-demo/02-grab-roller/gt.jpg",
+        "src": "assets/rollout-demo/02-grab-roller/gt-source.mp4",
+        "poster": "assets/rollout-demo/02-grab-roller/gt-source.jpg",
         "frames": 33,
         "fps": 22.0,
         "width": 320,
-        "height": 256
+        "height": 256,
+        "provenance": {
+          "type": "canonical-source",
+          "chunkId": "perturbed_pca_grab_roller_ep0042_start0064_seed0003_s0000_cw32",
+          "startFrame": 0,
+          "frames": 33,
+          "actionSha256": "5b259137625656df8d87c3eca828b5db1f94afed1d0de9deed91d4a8af97b698",
+          "sourceSha256": "850742199ca648d15e061c127e90d443e290b6943d1ab70c0e7bd248118e8931",
+          "manifestSha256": "3e5ee4c64a546b7473d37ca989541db51047007e37a6885d96a3157c363b5732"
+        }
       },
       "outputs": {
         "cosmos3_coverage": {
@@ -353,12 +371,21 @@
       "action": "assets/rollout-demo/03-handover-block/action.npy",
       "actionSha256": "ba776249fea4b5f453eb5ff4cb5c10c4c449751b4b58c410d1b7c3c71b33aa43",
       "gt": {
-        "src": "assets/rollout-demo/03-handover-block/gt.mp4",
-        "poster": "assets/rollout-demo/03-handover-block/gt.jpg",
+        "src": "assets/rollout-demo/03-handover-block/gt-source.mp4",
+        "poster": "assets/rollout-demo/03-handover-block/gt-source.jpg",
         "frames": 33,
         "fps": 22.0,
         "width": 320,
-        "height": 256
+        "height": 256,
+        "provenance": {
+          "type": "canonical-source",
+          "chunkId": "perturbed_raw_handover_block_ep0015_start0047_seed0002_s0000_cw32",
+          "startFrame": 0,
+          "frames": 33,
+          "actionSha256": "ba776249fea4b5f453eb5ff4cb5c10c4c449751b4b58c410d1b7c3c71b33aa43",
+          "sourceSha256": "6d42f90129a9588d78d013c58f98a8dace8fc671508b73ec1b7ec93c2189a26c",
+          "manifestSha256": "3e5ee4c64a546b7473d37ca989541db51047007e37a6885d96a3157c363b5732"
+        }
       },
       "outputs": {
         "cosmos3_coverage": {
@@ -468,130 +495,6 @@
       }
     },
     {
-      "id": "counterfactual_replay_place_bread_basket_src_ep0000_seed0000__replay_seed0003_s0065_cw32",
-      "task": "place_bread_basket",
-      "label": "Place bread in basket",
-      "family": "counterfactual_replay",
-      "familyLabel": "Cross-state replay",
-      "input": "assets/rollout-demo/04-place-bread-basket/input.png",
-      "action": "assets/rollout-demo/04-place-bread-basket/action.npy",
-      "actionSha256": "b3ea9fbfba22fb59268bbf6f65ce223cf15d734501ed51d09be9b7567504a9c2",
-      "gt": {
-        "src": "assets/rollout-demo/04-place-bread-basket/gt.mp4",
-        "poster": "assets/rollout-demo/04-place-bread-basket/gt.jpg",
-        "frames": 33,
-        "fps": 22.0,
-        "width": 320,
-        "height": 256
-      },
-      "outputs": {
-        "cosmos3_coverage": {
-          "src": "assets/rollout-demo/04-place-bread-basket/cosmos3_coverage.mp4",
-          "poster": "assets/rollout-demo/04-place-bread-basket/cosmos3_coverage.jpg",
-          "frames": 33,
-          "fps": 30.0,
-          "width": 224,
-          "height": 168
-        },
-        "cosmos3_expert": {
-          "src": "assets/rollout-demo/04-place-bread-basket/cosmos3_expert.mp4",
-          "poster": "assets/rollout-demo/04-place-bread-basket/cosmos3_expert.jpg",
-          "frames": 33,
-          "fps": 30.0,
-          "width": 224,
-          "height": 168
-        },
-        "cosmos_predict25_coverage": {
-          "src": "assets/rollout-demo/04-place-bread-basket/cosmos_predict25_coverage.mp4",
-          "poster": "assets/rollout-demo/04-place-bread-basket/cosmos_predict25_coverage.jpg",
-          "frames": 33,
-          "fps": 22.0,
-          "width": 320,
-          "height": 256
-        },
-        "cosmos_predict25_expert": {
-          "src": "assets/rollout-demo/04-place-bread-basket/cosmos_predict25_expert.mp4",
-          "poster": "assets/rollout-demo/04-place-bread-basket/cosmos_predict25_expert.jpg",
-          "frames": 33,
-          "fps": 22.0,
-          "width": 320,
-          "height": 256
-        },
-        "ctrlworld_coverage": {
-          "src": "assets/rollout-demo/04-place-bread-basket/ctrlworld_coverage.mp4",
-          "poster": "assets/rollout-demo/04-place-bread-basket/ctrlworld_coverage.jpg",
-          "frames": 33,
-          "fps": 30.0,
-          "width": 320,
-          "height": 240
-        },
-        "ctrlworld_expert": {
-          "src": "assets/rollout-demo/04-place-bread-basket/ctrlworld_expert.mp4",
-          "poster": "assets/rollout-demo/04-place-bread-basket/ctrlworld_expert.jpg",
-          "frames": 33,
-          "fps": 30.0,
-          "width": 320,
-          "height": 240
-        },
-        "dreamdojo_coverage": {
-          "src": "assets/rollout-demo/04-place-bread-basket/dreamdojo_coverage.mp4",
-          "poster": "assets/rollout-demo/04-place-bread-basket/dreamdojo_coverage.jpg",
-          "frames": 33,
-          "fps": 30.0,
-          "width": 640,
-          "height": 480
-        },
-        "dreamdojo_expert": {
-          "src": "assets/rollout-demo/04-place-bread-basket/dreamdojo_expert.mp4",
-          "poster": "assets/rollout-demo/04-place-bread-basket/dreamdojo_expert.jpg",
-          "frames": 33,
-          "fps": 30.0,
-          "width": 640,
-          "height": 480
-        },
-        "lingbotva_coverage": {
-          "src": "assets/rollout-demo/04-place-bread-basket/lingbotva_coverage.mp4",
-          "poster": "assets/rollout-demo/04-place-bread-basket/lingbotva_coverage.jpg",
-          "frames": 32,
-          "fps": 10.0,
-          "width": 320,
-          "height": 256
-        },
-        "lingbotva_expert": {
-          "src": "assets/rollout-demo/04-place-bread-basket/lingbotva_expert.mp4",
-          "poster": "assets/rollout-demo/04-place-bread-basket/lingbotva_expert.jpg",
-          "frames": 32,
-          "fps": 10.0,
-          "width": 320,
-          "height": 256
-        },
-        "motus_coverage": {
-          "src": "assets/rollout-demo/04-place-bread-basket/motus_coverage.mp4",
-          "poster": "assets/rollout-demo/04-place-bread-basket/motus_coverage.jpg",
-          "frames": 33,
-          "fps": 30.0,
-          "width": 320,
-          "height": 240
-        },
-        "motus_expert": {
-          "src": "assets/rollout-demo/04-place-bread-basket/motus_expert.mp4",
-          "poster": "assets/rollout-demo/04-place-bread-basket/motus_expert.jpg",
-          "frames": 33,
-          "fps": 30.0,
-          "width": 320,
-          "height": 240
-        },
-        "worldsync": {
-          "src": "assets/rollout-demo/04-place-bread-basket/worldsync.mp4",
-          "poster": "assets/rollout-demo/04-place-bread-basket/worldsync.jpg",
-          "frames": 33,
-          "fps": 30.0,
-          "width": 320,
-          "height": 256
-        }
-      }
-    },
-    {
       "id": "exploration_policy_rollout_rotate_qrcode_s00_seed00100012_ep0009_s0174_cw32",
       "task": "rotate_qrcode",
       "label": "Rotate QR code",
@@ -601,12 +504,21 @@
       "action": "assets/rollout-demo/05-rotate-qrcode/action.npy",
       "actionSha256": "1a28cdd044c791ed0e7dcfaf39806aaf5f758ce6f89cfd1e7f3d29d33216a702",
       "gt": {
-        "src": "assets/rollout-demo/05-rotate-qrcode/gt.mp4",
-        "poster": "assets/rollout-demo/05-rotate-qrcode/gt.jpg",
+        "src": "assets/rollout-demo/05-rotate-qrcode/gt-source.mp4",
+        "poster": "assets/rollout-demo/05-rotate-qrcode/gt-source.jpg",
         "frames": 33,
         "fps": 22.0,
         "width": 320,
-        "height": 256
+        "height": 256,
+        "provenance": {
+          "type": "canonical-source",
+          "chunkId": "exploration_policy_rollout_rotate_qrcode_s00_seed00100012_ep0009_s0174_cw32",
+          "startFrame": 174,
+          "frames": 33,
+          "actionSha256": "1a28cdd044c791ed0e7dcfaf39806aaf5f758ce6f89cfd1e7f3d29d33216a702",
+          "sourceSha256": "4f7fd7c1178bf6d7e2efa69850e1ee9583af97703260b09a6572f70f2a5fc763",
+          "manifestSha256": "3e5ee4c64a546b7473d37ca989541db51047007e37a6885d96a3157c363b5732"
+        }
       },
       "outputs": {
         "cosmos3_coverage": {
@@ -725,12 +637,21 @@
       "action": "assets/rollout-demo/06-stack-blocks-two/action.npy",
       "actionSha256": "45dd6096fe4b3821b0faeb2f6497a6c564c76dcea4b0320c9bdfec48d31a2cfe",
       "gt": {
-        "src": "assets/rollout-demo/06-stack-blocks-two/gt.mp4",
-        "poster": "assets/rollout-demo/06-stack-blocks-two/gt.jpg",
+        "src": "assets/rollout-demo/06-stack-blocks-two/gt-source.mp4",
+        "poster": "assets/rollout-demo/06-stack-blocks-two/gt-source.jpg",
         "frames": 33,
         "fps": 22.0,
         "width": 320,
-        "height": 256
+        "height": 256,
+        "provenance": {
+          "type": "canonical-source",
+          "chunkId": "random_feasible_uniform_stack_blocks_two_ep0001_start0069_seed0015_s0176_cw32",
+          "startFrame": 176,
+          "frames": 33,
+          "actionSha256": "45dd6096fe4b3821b0faeb2f6497a6c564c76dcea4b0320c9bdfec48d31a2cfe",
+          "sourceSha256": "d0ae3c6d20c80c662803f56d840c81a710a7f46a189939ce9bcb78d0aa38253d",
+          "manifestSha256": "3e5ee4c64a546b7473d37ca989541db51047007e37a6885d96a3157c363b5732"
+        }
       },
       "outputs": {
         "cosmos3_coverage": {
@@ -849,12 +770,21 @@
       "action": "assets/rollout-demo/07-lift-pot/action.npy",
       "actionSha256": "b6c16a537e8e79c3884ee1254f1d63b5fbac06c8f111bf7a4b0ca6a4bafe414c",
       "gt": {
-        "src": "assets/rollout-demo/07-lift-pot/gt.mp4",
-        "poster": "assets/rollout-demo/07-lift-pot/gt.jpg",
+        "src": "assets/rollout-demo/07-lift-pot/gt-source.mp4",
+        "poster": "assets/rollout-demo/07-lift-pot/gt-source.jpg",
         "frames": 33,
         "fps": 22.0,
         "width": 320,
-        "height": 256
+        "height": 256,
+        "provenance": {
+          "type": "canonical-source",
+          "chunkId": "random_feasible_weighted_lift_pot_ep0001_start0027_seed0007_s0249_cw32",
+          "startFrame": 249,
+          "frames": 33,
+          "actionSha256": "b6c16a537e8e79c3884ee1254f1d63b5fbac06c8f111bf7a4b0ca6a4bafe414c",
+          "sourceSha256": "aff0174b23f5912ff019c4ea2de17284a6ce2b2aa293533939c98796f251c511",
+          "manifestSha256": "3e5ee4c64a546b7473d37ca989541db51047007e37a6885d96a3157c363b5732"
+        }
       },
       "outputs": {
         "cosmos3_coverage": {
