@@ -1,8 +1,8 @@
 import { VideoGroup } from "./video-playback.js";
 import { setupRolloutTrajectories } from "./rollout-trajectory.js";
 
-const COMPARISON_IDS = ["cosmos_predict25_coverage", "ctrlworld_coverage", "dreamdojo_coverage"];
-const DEFAULT_MODEL = COMPARISON_IDS[0];
+const COMPARISON_IDS = ["cosmos3_coverage", "cosmos_predict25_coverage", "ctrlworld_coverage", "dreamdojo_coverage"];
+const DEFAULT_MODEL = "cosmos_predict25_coverage";
 const GATES = [
   { id: "image_quality", label: "Image quality" },
   { id: "motion_smoothness", label: "Smoothness" },
@@ -37,8 +37,11 @@ export function formatGateScore(record) {
     if (countsValid) return { valueText: `${numerator}/${denominator}`, thresholdText: `≥${thresholdCount}f`, detail: `${numerator} of ${denominator} frames satisfy the visibility rule; at least ${thresholdCount} required. Raw ratio ${score.toFixed(6)}, threshold ${record.threshold.toFixed(6)}.` };
     return { valueText: score.toFixed(3), thresholdText, detail: `Recorded visibility ratio ${score}; threshold ${record.threshold ?? "unreported"}. Frame counts unavailable.` };
   }
+  let decimals = 3;
+  // Preserve a visible threshold failure when rounding would make the values equal.
+  while (decimals < 8 && finite(record.threshold) && score < record.threshold && score.toFixed(decimals) === record.threshold.toFixed(decimals)) decimals += 1;
   return {
-    valueText: score.toFixed(3), thresholdText,
+    valueText: score.toFixed(decimals), thresholdText,
     detail: record.id === "image_quality" ? `MUSIQ / 100: ${score}; threshold ${record.threshold ?? "unreported"}. Not a probability.`
       : `VFIMamba smoothness: ${score}; threshold ${record.threshold ?? "unreported"}. This score can exceed 1.`,
   };
@@ -113,7 +116,7 @@ export function selectComparison(catalog, caseId, modelId = DEFAULT_MODEL) {
   const sample = cases.find((item) => item.id === caseId) || cases[0];
   if (!sample) return null;
   const baselines = getComparisonModels(catalog);
-  const baseline = baselines.find((model) => model.id === modelId) || baselines[0];
+  const baseline = baselines.find((model) => model.id === modelId) || baselines.find((model) => model.id === DEFAULT_MODEL) || baselines[0];
   return {
     sample,
     baseline,

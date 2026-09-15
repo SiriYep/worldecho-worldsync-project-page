@@ -1,8 +1,9 @@
 # Recorded rollout comparisons
 
 The local preview at `#state-control` shows **six recommended tasks**, with GT
-and WorldSync fixed beside one selectable comparison model. The three choices
-are Cosmos-Predict2.5, CtrlWorld and DreamDojo, all from Expanded configurations.
+and WorldSync fixed beside one selectable comparison model. The four choices
+are Cosmos3, Cosmos-Predict2.5, CtrlWorld and DreamDojo, all from Expanded
+configurations.
 The interface shows task/model names and each model's four gate scores and
 minimum requirements above its video. Above the GT video, a table compares the
 selected model and WorldSync in three rows: NDTW, Pos. (cm) and Rot. (°). The
@@ -11,8 +12,8 @@ Restart and seek control the videos. These are existing recordings, separate
 from the action-draft playground.
 
 The full **34-case catalog and 476 recordings remain intact for audit**. The
-current view exposes 30 recordings: six GT and 24 model outputs across the
-three baseline choices plus WorldSync. Review labels, selection notes,
+current view exposes 36 recordings: six GT and 30 model outputs across the
+four baseline choices plus WorldSync. Review labels, selection notes,
 cautions, training details and sample metadata remain in the catalog/docs,
 rather than the main interface. Personal shortlist controls have been removed;
 previously stored shortlist IDs are neither read nor changed.
@@ -59,7 +60,7 @@ subtypes; use the full sample ID to identify a recording.
 model configuration, training regime, step, action hash, and shared input.
 The source pack identifies WorldSync as `WanWorld-mix4-ie-afe-no-robot`, step
 60000 (`fresh_wanworld_norobot_50task_core5_20260722`). Baselines use Expert at
-20k or Expanded at 40k. The current three visible baseline choices are the
+20k or Expanded at 40k. The current four visible baseline choices are the
 40k Expanded rows; WorldSync is 60k. These unequal training budgets are retained
 here and in the catalog even though the main view omits them. LingBotVA remains
 in the archive as a video-only model that does not consume the action array;
@@ -102,7 +103,7 @@ observations are not substituted for GT video.
 ## Media and playback
 
 - 476 archived videos: 34 recovered GT and 442 recorded model outputs. The
-  current six-task interface exposes 30 of these recordings.
+  current six-task interface exposes 36 of these recordings.
 - Of the model outputs, 340 H.264 videos are byte-identical copies and 102 were
   MPEG-4 Part 2 converted to H.264 CRF18 with source frames, fps and size
   preserved. The original fourteen cases contributed 140 copies and 42
@@ -110,9 +111,9 @@ observations are not substituted for GT video.
   The 34 GT clips are H.264 CRF18 exports of original simulator frames.
   Re-encoding is lossy; original files remain in the audit archive. Posters
   come from frame zero of the displayed video.
-- Visible GT and Cosmos-Predict2.5 clips use 33 frames at 22 fps; CtrlWorld,
-  DreamDojo and WorldSync use 33 frames at 30 fps. Archived LingBotVA clips use
-  32 frames at 10 fps. Source sizes across the archive range from 224×168 to
+- Visible GT and Cosmos-Predict2.5 clips use 33 frames at 22 fps; Cosmos3,
+  CtrlWorld, DreamDojo and WorldSync use 33 frames at 30 fps. Archived LingBotVA
+  clips use 32 frames at 10 fps. Source sizes across the archive range from 224×168 to
   640×480. Videos retain their full image in an `object-fit: contain` frame.
 - The common slider follows normalized clip progress, not physical timestamps.
   Playback changes rates to cover each complete recording. No frame-level
@@ -130,6 +131,7 @@ task name as its label. The comparison selector uses these exact rows:
 
 | Visible model name | Catalog model ID |
 | --- | --- |
+| Cosmos3 | `cosmos3_coverage` |
 | Cosmos-Predict2.5 | `cosmos_predict25_coverage` |
 | CtrlWorld | `ctrlworld_coverage` |
 | DreamDojo | `dreamdojo_coverage` |
@@ -161,21 +163,36 @@ pass/fail status. EEF counts come from explicit source counts rather than
 rounding a ratio. The arm-integrity threshold remains null, and GT has neither
 a score nor a fabricated zero error.
 
-The six-case export contains 24 model videos and 96 recorded check outcomes:
-95 pass and one fail. Cosmos-Predict2.5 on `put_object_cabinet` fails the stored
+The six-case export contains 30 model videos and 120 recorded check outcomes:
+**115 pass, 4 fail and 1 skipped**. The resulting clip gate statuses are
+**25 pass, 4 fail and 1 incomplete**; these describe the checks, not task success.
+The original 96 outcomes remain in the first score audit; the additional 24
+Cosmos3 outcomes (20 pass, 3 fail and 1 skipped) are recorded in the private
+`cosmos3-restore/gates/gate-audit.md` and `gate-audit.json`.
+Cosmos-Predict2.5 on `put_object_cabinet` fails the stored
 EEF visibility rule (15 qualifying frames against a requirement of 16);
 its other three checks pass. These are existing report-lineage pack records,
 not fresh evaluations of the browser videos or the paper's final rescoring.
+
+Cosmos3 on `put_object_cabinet` has a **skipped** smoothness check because no
+dynamic frame pairs were eligible: 0 of 16 evaluated, with all 16 excluded as
+static. Its score stays null and the clip status is incomplete, even though the
+source's legacy overall flag says passed. Cosmos3 on `move_playingcard_away`
+has MUSIQ / 100 of `0.39969696969696966`, below the `0.400` minimum. The visible
+score uses `0.3997` to avoid rounding a failed score to the threshold; the
+tooltip retains the raw value. Source pass/fail decisions remain unchanged.
+
 The score/threshold audit is `demo-scores/gate-score-audit.md`, backed by
 `gate-score-audit.json` and `validate_gate_scores.py`, in the private
-`20260915-demo-appendix` directory. It checks all 96 values against the original
-records; `demo-annotations/visual-gates.md` retains the source export audit. Its binding uses
+`20260915-demo-appendix` directory. It checks the original 96 values against
+their source records; `demo-annotations/visual-gates.md` retains the source
+export audit. Its binding uses
 recorded sample/path identity and download/transformation receipts; the metric
 files do not themselves contain a video-content hash from historical scoring.
 
 ## AnyPos trajectory layer
 
-All 30 recordings in the six-task gallery have per-clip `trajectory` data. Valid data
+All 36 recordings in the six-task gallery have per-clip `trajectory` data. Valid data
 uses `version: 1`, `space: "normalized-image"`, source width/height and a frame
 array of left/right image points. Canvas drawing follows each video's native
 frame progress and the visible image rectangle, including letterboxing.
@@ -185,12 +202,14 @@ invalid data leaves it hidden, and out-of-view points break the visible trail.
 
 All tracks use AnyPos Mix4 step6000 v1, checkpoint SHA-256
 `a6cc52e6ec5b4f10e3db53866e068497b976e4292f3a0ac6c677e86aa9c451ab`.
-The six reference-video tracks and twelve WorldSync/DreamDojo tracks reuse
-verified direct report artifacts. The matching Cosmos-Predict2.5/CtrlWorld
-scoring runs had not saved prediction arrays, so twelve tracks were extracted
+The six reference-video tracks, twelve WorldSync/DreamDojo tracks and six
+restored Cosmos3 tracks reuse verified direct report artifacts. These are
+twenty-four existing artifacts in total; the six Cosmos3 tracks reuse v1
+outputs rather than running new pose inference. The matching
+Cosmos-Predict2.5/CtrlWorld scoring runs had not saved prediction arrays, so twelve tracks were extracted
 separately on CPU in FP32 using the same frozen loader and weights. This is
 display annotation, not exact reproduction of CUDA BF16 scoring. The later
-24 comparisons below use these displayed annotations and the common GT
+30 comparisons below use these displayed annotations and the common GT
 reference. The pack's older colorfix arrays were not used.
 
 Each track has 33 native frames, with no temporal warping, motion smoothing,
@@ -204,7 +223,9 @@ localization errors remain visible. The alternative immutable GT cache differs
 slightly and was not mixed into these selected direct GT tracks.
 
 The private `demo-annotations` audit includes extraction receipts, calibrated
-projections, start/middle/end visual checks and `annotation-verification.json`.
+projections, start/middle/end visual checks and `annotation-verification.json`
+for the original thirty tracks. The `cosmos3-restore` supplement records the
+six restored Cosmos3 tracks and their verification.
 These checks establish traceable overlays, not perfect pose accuracy or complete
 task success.
 
@@ -216,12 +237,12 @@ synthetic experiment image, video, result or success claim is provided.
 
 ## Trajectory differences relative to GT
 
-The gallery now displays **24 model/reference comparisons**: six cases ×
-WorldSync and the three Expanded baselines. Each model is compared with that
+The gallery now displays **30 model/reference comparisons**: six cases ×
+WorldSync and the four Expanded baselines. Each model is compared with that
 case's same displayed AnyPos GT-reference track. A three-row table sits below
 the **GT reference** label and above the GT video. Its header is **SE(3) ↓ /
 selected model name / WorldSync**. The comparison column directly displays
-**Cosmos-Predict2.5**, **CtrlWorld** or **DreamDojo**, following the model selector.
+**Cosmos3**, **Cosmos-Predict2.5**, **CtrlWorld** or **DreamDojo**, following the model selector.
 The accessible caption identifies the same selection. The table shows those two
 models' errors against GT, without an artificial GT self-error of zero.
 These are differences between estimated tracks, not errors against simulator
@@ -251,8 +272,8 @@ pose metric.
 
 The computation uses the frozen accepted **main50** pose scorer and FastDTW
 implementation. Historical 140-row StateMajor rules are not substituted.
-The source tracks remain eighteen reused artifacts plus twelve CPU FP32
-Cosmos-Predict2.5/CtrlWorld tracks. The twelve WorldSync/DreamDojo comparisons
+The source tracks comprise twenty-four reused artifacts (including six Cosmos3
+v1 tracks) plus twelve CPU FP32 Cosmos-Predict2.5/CtrlWorld tracks. The twelve WorldSync/DreamDojo comparisons
 reproduce the recorded raw scores exactly. CPU annotation comparisons can
 differ from historical CUDA BF16 predictions and model-specific GT caches;
 the demo consistently uses one displayed reference per case.
@@ -266,12 +287,38 @@ Cosmos-Predict2.5 has lower NDTW on the microphone-handover case, and
 DreamDojo has lower NDTW on the move-stapler case.
 
 The private `demo-scores/trajectory-metrics.md` and `trajectory-metrics.json`
-record all 24 pairs, same-path component errors, source/array/checkpoint/video
+record the original 24 pairs, same-path component errors, source/array/checkpoint/video
 hashes and differences from historical scores. `compute_trajectory_metrics.py`
 uses a debug reproduction before the complete calculation; the frozen scorer
 module and FastDTW implementation hashes are recorded. This calculation runs
 on existing arrays, without model inference, new video generation or rerunning
-visual gates.
+visual gates. The six restored Cosmos3/reference comparisons are recorded
+separately in the private `cosmos3-restore` supplement and merged into the same
+public fields. They use the same metric definition and the displayed GT
+reference for each case.
+
+## Regenerating annotation and score data
+
+Run the original `demo-annotations` and `demo-scores` exports first, then merge
+the `cosmos3-restore` supplement into the catalog. The supplement adds six
+Cosmos3 trajectories, six model/reference comparisons and 24 gate records to
+the original thirty tracks, 24 comparisons and 96 gates. The original
+exporters predate this restoration; rerunning them after the supplemental
+merge can omit or replace the Cosmos3 annotations. Validate the final catalog
+for 36 displayed tracks, 30 comparisons and 120 gate records, with the same
+six GT references and unchanged 34-case/476-video archive. Keep the media,
+model identity and array/reference hash checks in the merge verification.
+
+From the private `20260915-demo-appendix` audit directory, apply the supplement
+after the original exports:
+
+```sh
+python3 cosmos3-restore/apply_cosmos3.py --gates cosmos3-restore/gates/clip-bundle.json
+```
+
+The trajectory bundle defaults to `cosmos3-restore/trajectory/clip-bundle.json`.
+The resulting `cosmos3-restore/merge-verification.json` records the final counts,
+source hashes and preservation of the existing GT and other model outputs.
 
 ## Score boundary
 

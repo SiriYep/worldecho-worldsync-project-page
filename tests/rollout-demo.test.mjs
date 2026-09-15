@@ -13,25 +13,27 @@ const catalog = {
     { id: "cosmos_predict25_expert", label: "Cosmos-Predict2.5", regime: "expert", step: 20000 },
     { id: "worldsync", label: "WorldSync", regime: "worldsync", step: 60000 },
     { id: "cosmos_predict25_coverage", label: "Cosmos-Predict2.5", regime: "expanded", step: 40000 },
+    { id: "cosmos3_coverage", label: "Cosmos3", regime: "expanded", step: 40000 },
   ],
   cases: [
     { id: "excluded", label: "Other task", review: { status: "exclude" }, gt: clip("excluded-gt") },
-    { id: "first", label: "Move card", review: { status: "recommend" }, gt: clip("first-gt"), outputs: { cosmos_predict25_coverage: clip("first-cosmos"), ctrlworld_coverage: clip("first-ctrl"), worldsync: clip("first-worldsync") } },
+    { id: "first", label: "Move card", review: { status: "recommend" }, gt: clip("first-gt"), outputs: { cosmos3_coverage: clip("first-cosmos3"), cosmos_predict25_coverage: clip("first-cosmos"), ctrlworld_coverage: clip("first-ctrl"), worldsync: clip("first-worldsync") } },
     { id: "second", label: "Rotate wrist", review: { status: "recommend" }, gt: clip("second-gt"), outputs: { cosmos_predict25_coverage: clip("second-cosmos"), worldsync: clip("second-worldsync") } },
     { id: "backup", review: { status: "backup" }, gt: clip("backup-gt") },
     { id: "unreviewed", gt: clip("unreviewed-gt") },
   ],
 };
 
-test("only the three requested Expanded configurations are exposed in stable order", () => {
+test("all four requested Expanded configurations are exposed without changing the default", () => {
   const before = structuredClone(catalog);
   assert.deepEqual(getComparisonModels(validateCatalog(catalog)).map((model) => model.id), [
-    "cosmos_predict25_coverage", "ctrlworld_coverage", "dreamdojo_coverage",
+    "cosmos3_coverage", "cosmos_predict25_coverage", "ctrlworld_coverage", "dreamdojo_coverage",
   ]);
   const chosen = selectComparison(catalog);
   assert.equal(chosen.baseline.id, "cosmos_predict25_coverage");
   assert.equal(chosen.sample.id, "first");
   assert.equal(chosen.clips.baseline.src, "assets/test-only/first-cosmos.mp4");
+  assert.equal(selectComparison(catalog, "first", "cosmos3_coverage").clips.baseline.src, "assets/test-only/first-cosmos3.mp4");
   assert.deepEqual(catalog, before);
 });
 
@@ -108,6 +110,7 @@ test("gate numbers retain their own scales, genuine zero, and absent binary thre
   assert.equal(formatGateScore({ id: "image_quality", status: "pass", score: 0.5607575758, threshold: 0.4 }).valueText, "0.561");
   assert.equal(formatGateScore({ id: "motion_smoothness", status: "pass", score: 1.7517638547, threshold: 0.6 }).valueText, "1.752");
   assert.equal(formatGateScore({ id: "motion_smoothness", status: "fail", score: 0, threshold: 0.6 }).valueText, "0.000");
+  assert.equal(formatGateScore({ id: "image_quality", status: "fail", score: 0.3996969697, threshold: 0.4 }).valueText, "0.3997");
   const binary = formatGateScore({ id: "arm_integrity", status: "pass", score: 1, threshold: null });
   assert.equal(binary.valueText, "1");
   assert.equal(binary.thresholdText, "");
