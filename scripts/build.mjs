@@ -16,6 +16,8 @@ const publicEntries = [
   "leaderboard.js",
   "action-coverage.js",
   "action-coverage.css",
+  "rollout-demo.js",
+  "rollout-demo.css",
   "theme.js",
   "theme.css",
   "video-playback.js",

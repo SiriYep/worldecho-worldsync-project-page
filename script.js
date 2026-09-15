@@ -3,6 +3,7 @@ import { setupVideoGroups } from "./video-playback.js";
 
 import { setupLeaderboard } from "./leaderboard.js";
 import { setupActionCoverage } from "./action-coverage.js";
+import { setupRolloutDemo } from "./rollout-demo.js";
 
 setupLeaderboard(document.querySelector("[data-leaderboard]"));
 
@@ -141,6 +142,7 @@ if (!prefersReducedMotion) {
 
 /* Shared timeline for the three recorded failure-comparison outputs. */
 const videoGroups = setupVideoGroups();
+setupRolloutDemo(document.querySelector("[data-rollout-demo]"));
 
 /* Failure-case switcher */
 const caseData = {

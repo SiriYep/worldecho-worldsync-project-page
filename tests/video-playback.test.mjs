@@ -45,8 +45,9 @@ class Video extends Element {
   }
 }
 
-function fixture(options = {}) {
+function fixture(options = {}, prepareVideos) {
   const videos = [new Video(), new Video(), new Video()];
+  prepareVideos?.(videos);
   const root = new Element();
   const controls = new Map([
     "[data-playback-toggle]", "[data-playback-restart]", "[data-playback-status]",
@@ -74,6 +75,27 @@ const deferred = () => {
   const promise = new Promise((yes, no) => { resolve = yes; reject = no; });
   return { promise, resolve, reject };
 };
+
+test("initially empty media enters the source transaction without retaining a stale no-source error", async () => {
+  for (const reducedMotion of [false, true]) {
+    const f = fixture({ visible: false, reducedMotion }, (videos) => {
+      videos.forEach((video) => { video.networkState = 3; video.readyState = 0; });
+    });
+    assert.equal(f.root.dataset.playbackState, "error");
+    f.group.replaceSources(() => {});
+    if (!reducedMotion && !f.group.errorMessage) f.group.play();
+    f.videos.forEach((video) => video.ready());
+    f.group.setVisible(true);
+    await settle();
+    assert.equal(f.group.errorMessage, "");
+    assert.equal(f.group.playing, !reducedMotion);
+    assert.ok(f.videos.every((video) => video.loadCalls === 1));
+    // A later media error must still fail visibly after initialization.
+    f.videos[1].error = { code: 4 };
+    f.videos[1].dispatchEvent(new Event("error"));
+    assert.equal(f.root.dataset.playbackState, "error");
+  }
+});
 
 test("waits for every clip, then mounts shared controls and starts as a group", async () => {
   const f = fixture({ visible: false });
