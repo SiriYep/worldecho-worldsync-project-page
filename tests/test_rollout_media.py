@@ -9,6 +9,7 @@ import struct
 import subprocess
 import tempfile
 import unittest
+from unittest.mock import patch
 
 
 SPEC = importlib.util.spec_from_file_location('verify_rollout_media', Path(__file__).resolve().parents[1] / 'scripts' / 'verify-rollout-media.py')
@@ -34,9 +35,9 @@ class ImportGateTests(unittest.TestCase):
         self.source = self.root / 'canonical.mp4'
         shutil.copyfile(self.assets / 'gt-source.mp4', self.source)
         self.sample = {
-            'id': sorted(verify.MOVING_SAMPLE_IDS)[0], 'action': 'assets/demo/action.npy', 'actionSha256': self.action_sha,
+            'id': 'synthetic_new_audited_candidate_cw32', 'action': 'assets/demo/action.npy', 'actionSha256': self.action_sha,
             'gt': {'src': 'assets/demo/gt-source.mp4', 'frames': 33, 'fps': 22, 'width': 4, 'height': 4,
-                   'provenance': {'type': 'canonical-source', 'chunkId': sorted(verify.MOVING_SAMPLE_IDS)[0], 'startFrame': 0, 'frames': 33, 'actionSha256': self.action_sha, 'sourceSha256': hashlib.sha256(self.source.read_bytes()).hexdigest(), 'manifestSha256': '1' * 64}},
+                   'provenance': {'type': 'canonical-source', 'chunkId': 'synthetic_new_audited_candidate_cw32', 'startFrame': 0, 'frames': 33, 'actionSha256': self.action_sha, 'sourceSha256': hashlib.sha256(self.source.read_bytes()).hexdigest(), 'manifestSha256': '1' * 64}},
         }
         self.receipts = {self.sample['id']: {'outputSha256': hashlib.sha256((self.assets / 'gt-source.mp4').read_bytes()).hexdigest(), 'provenance': copy.deepcopy(self.sample['gt']['provenance'])}}
 
@@ -82,10 +83,13 @@ class ImportGateTests(unittest.TestCase):
         self.assertTrue(any('legacy gt.mp4' in error for error in result['errors']))
 
     def test_withholding_unverified_samples_is_allowed_but_duplicate_samples_are_rejected(self):
+        withheld_id = 'synthetic_reviewed_but_not_displayed_cw32'
+        self.receipts[withheld_id] = copy.deepcopy(self.receipts[self.sample['id']])
+        self.receipts[withheld_id]['provenance']['chunkId'] = withheld_id
         args = (self.root, shutil.which('ffmpeg'), shutil.which('ffprobe'), {self.sample['id']: str(self.source)}, self.receipts)
         result = verify.verify_catalog({'cases': [self.sample]}, *args)
         self.assertEqual(result['status'], 'pass', result)
-        self.assertEqual(len(result['withheld_sample_ids']), 6)
+        self.assertEqual(result['withheld_sample_ids'], [withheld_id])
         result = verify.verify_catalog({'cases': [self.sample, self.sample]}, *args)
         self.assertEqual(result['status'], 'fail')
         self.assertTrue(any('duplicate-free' in error for error in result['errors']))
@@ -94,6 +98,20 @@ class ImportGateTests(unittest.TestCase):
         result = verify.verify_sample(self.sample, self.root, shutil.which('ffmpeg'), shutil.which('ffprobe'), self.source, {})
         self.assertEqual(result['status'], 'fail')
         self.assertTrue(any('No reviewed GT receipt' in error for error in result['errors']))
+
+    def test_registry_update_authorizes_a_new_candidate_without_a_code_whitelist(self):
+        receipt_file = self.root / 'reviewed-receipts.json'
+        receipt_file.write_text(json.dumps({'version': 1, 'receipts': self.receipts}))
+        with patch.object(verify, 'RECEIPT_FILE', receipt_file):
+            result = verify.verify_catalog({'cases': [self.sample]}, self.root, shutil.which('ffmpeg'), shutil.which('ffprobe'))
+        self.assertEqual(result['status'], 'pass', result)
+        self.assertEqual(result['withheld_sample_ids'], [])
+
+    def test_unreviewed_candidate_is_rejected_by_the_catalog_registry(self):
+        result = verify.verify_catalog({'cases': [self.sample]}, self.root, shutil.which('ffmpeg'), shutil.which('ffprobe'), receipts={})
+        self.assertEqual(result['status'], 'fail')
+        self.assertTrue(any('reviewed' in error for error in result['errors']))
+        self.assertTrue(any('No reviewed GT receipt' in error for error in result['samples'][0]['errors']))
 
 
 @unittest.skipUnless(shutil.which('ffmpeg') and shutil.which('ffprobe'), 'ffmpeg and ffprobe required')

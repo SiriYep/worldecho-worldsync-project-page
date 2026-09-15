@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "selectionNote": "Seven task/category pairs were initially selected by pack order, without score filtering. Six are shown after recovering their original simulator videos. Place bread in basket (cross-state replay) is omitted because its original GT video is unavailable. These qualitative examples are not a representative performance estimate.",
+  "selectionNote": "Fourteen candidates for visual review, without model-score filtering. Eight added tasks use the first policy-rollout sample in the canonical manifest; six earlier cases cover other query types. The cross-state replay case remains omitted because its original GT video is unavailable. Shortlisting is a local display choice, not a representative performance estimate.",
   "models": [
     {
       "id": "cosmos3_coverage",
@@ -95,6 +95,1078 @@
     }
   ],
   "cases": [
+    {
+      "id": "exploration_policy_rollout_open_laptop_s01_seed00100002_ep0002_s0036_cw32",
+      "task": "open_laptop",
+      "label": "Open laptop",
+      "family": "exploration_policy_rollout",
+      "familyLabel": "Policy rollout",
+      "reviewBatch": "additional",
+      "input": "assets/rollout-demo/08-open-laptop/input.png",
+      "action": "assets/rollout-demo/08-open-laptop/action.npy",
+      "actionSha256": "beb4264f1459dd7e9eacdd6c55e3f4494c788d1d742b73c862a0b3c45036c727",
+      "gt": {
+        "src": "assets/rollout-demo/08-open-laptop/gt-source.mp4",
+        "poster": "assets/rollout-demo/08-open-laptop/gt-source.jpg",
+        "frames": 33,
+        "fps": 22.0,
+        "width": 320,
+        "height": 256,
+        "provenance": {
+          "type": "canonical-source",
+          "chunkId": "exploration_policy_rollout_open_laptop_s01_seed00100002_ep0002_s0036_cw32",
+          "startFrame": 36,
+          "frames": 33,
+          "actionSha256": "beb4264f1459dd7e9eacdd6c55e3f4494c788d1d742b73c862a0b3c45036c727",
+          "sourceSha256": "03a977f407129b9b8b2cb64201fea83b0c4e83f1732bdb9c99a241c0f5b59eb4",
+          "manifestSha256": "3e5ee4c64a546b7473d37ca989541db51047007e37a6885d96a3157c363b5732"
+        }
+      },
+      "outputs": {
+        "cosmos3_coverage": {
+          "src": "assets/rollout-demo/08-open-laptop/cosmos3_coverage.mp4",
+          "poster": "assets/rollout-demo/08-open-laptop/cosmos3_coverage.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 224,
+          "height": 168
+        },
+        "cosmos3_expert": {
+          "src": "assets/rollout-demo/08-open-laptop/cosmos3_expert.mp4",
+          "poster": "assets/rollout-demo/08-open-laptop/cosmos3_expert.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 224,
+          "height": 168
+        },
+        "cosmos_predict25_coverage": {
+          "src": "assets/rollout-demo/08-open-laptop/cosmos_predict25_coverage.mp4",
+          "poster": "assets/rollout-demo/08-open-laptop/cosmos_predict25_coverage.jpg",
+          "frames": 33,
+          "fps": 22.0,
+          "width": 320,
+          "height": 256
+        },
+        "cosmos_predict25_expert": {
+          "src": "assets/rollout-demo/08-open-laptop/cosmos_predict25_expert.mp4",
+          "poster": "assets/rollout-demo/08-open-laptop/cosmos_predict25_expert.jpg",
+          "frames": 33,
+          "fps": 22.0,
+          "width": 320,
+          "height": 256
+        },
+        "ctrlworld_coverage": {
+          "src": "assets/rollout-demo/08-open-laptop/ctrlworld_coverage.mp4",
+          "poster": "assets/rollout-demo/08-open-laptop/ctrlworld_coverage.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 320,
+          "height": 240
+        },
+        "ctrlworld_expert": {
+          "src": "assets/rollout-demo/08-open-laptop/ctrlworld_expert.mp4",
+          "poster": "assets/rollout-demo/08-open-laptop/ctrlworld_expert.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 320,
+          "height": 240
+        },
+        "dreamdojo_coverage": {
+          "src": "assets/rollout-demo/08-open-laptop/dreamdojo_coverage.mp4",
+          "poster": "assets/rollout-demo/08-open-laptop/dreamdojo_coverage.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 640,
+          "height": 480
+        },
+        "dreamdojo_expert": {
+          "src": "assets/rollout-demo/08-open-laptop/dreamdojo_expert.mp4",
+          "poster": "assets/rollout-demo/08-open-laptop/dreamdojo_expert.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 640,
+          "height": 480
+        },
+        "lingbotva_coverage": {
+          "src": "assets/rollout-demo/08-open-laptop/lingbotva_coverage.mp4",
+          "poster": "assets/rollout-demo/08-open-laptop/lingbotva_coverage.jpg",
+          "frames": 32,
+          "fps": 10.0,
+          "width": 320,
+          "height": 256
+        },
+        "lingbotva_expert": {
+          "src": "assets/rollout-demo/08-open-laptop/lingbotva_expert.mp4",
+          "poster": "assets/rollout-demo/08-open-laptop/lingbotva_expert.jpg",
+          "frames": 32,
+          "fps": 10.0,
+          "width": 320,
+          "height": 256
+        },
+        "motus_coverage": {
+          "src": "assets/rollout-demo/08-open-laptop/motus_coverage.mp4",
+          "poster": "assets/rollout-demo/08-open-laptop/motus_coverage.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 320,
+          "height": 240
+        },
+        "motus_expert": {
+          "src": "assets/rollout-demo/08-open-laptop/motus_expert.mp4",
+          "poster": "assets/rollout-demo/08-open-laptop/motus_expert.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 320,
+          "height": 240
+        },
+        "worldsync": {
+          "src": "assets/rollout-demo/08-open-laptop/worldsync.mp4",
+          "poster": "assets/rollout-demo/08-open-laptop/worldsync.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 320,
+          "height": 256
+        }
+      }
+    },
+    {
+      "id": "exploration_policy_rollout_open_microwave_s02_seed00100011_ep0003_s0635_cw32",
+      "task": "open_microwave",
+      "label": "Open microwave",
+      "family": "exploration_policy_rollout",
+      "familyLabel": "Policy rollout",
+      "reviewBatch": "additional",
+      "input": "assets/rollout-demo/09-open-microwave/input.png",
+      "action": "assets/rollout-demo/09-open-microwave/action.npy",
+      "actionSha256": "9df7669c5e7f4325f85efd9167428015de2f83ddbf43e71091f065a70668ead0",
+      "gt": {
+        "src": "assets/rollout-demo/09-open-microwave/gt-source.mp4",
+        "poster": "assets/rollout-demo/09-open-microwave/gt-source.jpg",
+        "frames": 33,
+        "fps": 22.0,
+        "width": 320,
+        "height": 256,
+        "provenance": {
+          "type": "canonical-source",
+          "chunkId": "exploration_policy_rollout_open_microwave_s02_seed00100011_ep0003_s0635_cw32",
+          "startFrame": 635,
+          "frames": 33,
+          "actionSha256": "9df7669c5e7f4325f85efd9167428015de2f83ddbf43e71091f065a70668ead0",
+          "sourceSha256": "93d499647a0b68cfc7ef8ac10f139220bad7bc3130b142a8d6fa40a5e44e5234",
+          "manifestSha256": "3e5ee4c64a546b7473d37ca989541db51047007e37a6885d96a3157c363b5732"
+        }
+      },
+      "outputs": {
+        "cosmos3_coverage": {
+          "src": "assets/rollout-demo/09-open-microwave/cosmos3_coverage.mp4",
+          "poster": "assets/rollout-demo/09-open-microwave/cosmos3_coverage.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 224,
+          "height": 168
+        },
+        "cosmos3_expert": {
+          "src": "assets/rollout-demo/09-open-microwave/cosmos3_expert.mp4",
+          "poster": "assets/rollout-demo/09-open-microwave/cosmos3_expert.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 224,
+          "height": 168
+        },
+        "cosmos_predict25_coverage": {
+          "src": "assets/rollout-demo/09-open-microwave/cosmos_predict25_coverage.mp4",
+          "poster": "assets/rollout-demo/09-open-microwave/cosmos_predict25_coverage.jpg",
+          "frames": 33,
+          "fps": 22.0,
+          "width": 320,
+          "height": 256
+        },
+        "cosmos_predict25_expert": {
+          "src": "assets/rollout-demo/09-open-microwave/cosmos_predict25_expert.mp4",
+          "poster": "assets/rollout-demo/09-open-microwave/cosmos_predict25_expert.jpg",
+          "frames": 33,
+          "fps": 22.0,
+          "width": 320,
+          "height": 256
+        },
+        "ctrlworld_coverage": {
+          "src": "assets/rollout-demo/09-open-microwave/ctrlworld_coverage.mp4",
+          "poster": "assets/rollout-demo/09-open-microwave/ctrlworld_coverage.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 320,
+          "height": 240
+        },
+        "ctrlworld_expert": {
+          "src": "assets/rollout-demo/09-open-microwave/ctrlworld_expert.mp4",
+          "poster": "assets/rollout-demo/09-open-microwave/ctrlworld_expert.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 320,
+          "height": 240
+        },
+        "dreamdojo_coverage": {
+          "src": "assets/rollout-demo/09-open-microwave/dreamdojo_coverage.mp4",
+          "poster": "assets/rollout-demo/09-open-microwave/dreamdojo_coverage.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 640,
+          "height": 480
+        },
+        "dreamdojo_expert": {
+          "src": "assets/rollout-demo/09-open-microwave/dreamdojo_expert.mp4",
+          "poster": "assets/rollout-demo/09-open-microwave/dreamdojo_expert.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 640,
+          "height": 480
+        },
+        "lingbotva_coverage": {
+          "src": "assets/rollout-demo/09-open-microwave/lingbotva_coverage.mp4",
+          "poster": "assets/rollout-demo/09-open-microwave/lingbotva_coverage.jpg",
+          "frames": 32,
+          "fps": 10.0,
+          "width": 320,
+          "height": 256
+        },
+        "lingbotva_expert": {
+          "src": "assets/rollout-demo/09-open-microwave/lingbotva_expert.mp4",
+          "poster": "assets/rollout-demo/09-open-microwave/lingbotva_expert.jpg",
+          "frames": 32,
+          "fps": 10.0,
+          "width": 320,
+          "height": 256
+        },
+        "motus_coverage": {
+          "src": "assets/rollout-demo/09-open-microwave/motus_coverage.mp4",
+          "poster": "assets/rollout-demo/09-open-microwave/motus_coverage.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 320,
+          "height": 240
+        },
+        "motus_expert": {
+          "src": "assets/rollout-demo/09-open-microwave/motus_expert.mp4",
+          "poster": "assets/rollout-demo/09-open-microwave/motus_expert.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 320,
+          "height": 240
+        },
+        "worldsync": {
+          "src": "assets/rollout-demo/09-open-microwave/worldsync.mp4",
+          "poster": "assets/rollout-demo/09-open-microwave/worldsync.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 320,
+          "height": 256
+        }
+      }
+    },
+    {
+      "id": "exploration_policy_rollout_handover_mic_s04_seed00100001_ep0001_s0509_cw32",
+      "task": "handover_mic",
+      "label": "Handover microphone",
+      "family": "exploration_policy_rollout",
+      "familyLabel": "Policy rollout",
+      "reviewBatch": "additional",
+      "input": "assets/rollout-demo/10-handover-mic/input.png",
+      "action": "assets/rollout-demo/10-handover-mic/action.npy",
+      "actionSha256": "85b5932850cacc7ef3b77f9b5d7f4c0caa33729849a0b58aebcc0d76d9db2cc9",
+      "gt": {
+        "src": "assets/rollout-demo/10-handover-mic/gt-source.mp4",
+        "poster": "assets/rollout-demo/10-handover-mic/gt-source.jpg",
+        "frames": 33,
+        "fps": 22.0,
+        "width": 320,
+        "height": 256,
+        "provenance": {
+          "type": "canonical-source",
+          "chunkId": "exploration_policy_rollout_handover_mic_s04_seed00100001_ep0001_s0509_cw32",
+          "startFrame": 509,
+          "frames": 33,
+          "actionSha256": "85b5932850cacc7ef3b77f9b5d7f4c0caa33729849a0b58aebcc0d76d9db2cc9",
+          "sourceSha256": "6dd7075195bfdb24a402f3254d3889ca2b65a52f409e22328055bd8a46acafd2",
+          "manifestSha256": "3e5ee4c64a546b7473d37ca989541db51047007e37a6885d96a3157c363b5732"
+        }
+      },
+      "outputs": {
+        "cosmos3_coverage": {
+          "src": "assets/rollout-demo/10-handover-mic/cosmos3_coverage.mp4",
+          "poster": "assets/rollout-demo/10-handover-mic/cosmos3_coverage.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 224,
+          "height": 168
+        },
+        "cosmos3_expert": {
+          "src": "assets/rollout-demo/10-handover-mic/cosmos3_expert.mp4",
+          "poster": "assets/rollout-demo/10-handover-mic/cosmos3_expert.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 224,
+          "height": 168
+        },
+        "cosmos_predict25_coverage": {
+          "src": "assets/rollout-demo/10-handover-mic/cosmos_predict25_coverage.mp4",
+          "poster": "assets/rollout-demo/10-handover-mic/cosmos_predict25_coverage.jpg",
+          "frames": 33,
+          "fps": 22.0,
+          "width": 320,
+          "height": 256
+        },
+        "cosmos_predict25_expert": {
+          "src": "assets/rollout-demo/10-handover-mic/cosmos_predict25_expert.mp4",
+          "poster": "assets/rollout-demo/10-handover-mic/cosmos_predict25_expert.jpg",
+          "frames": 33,
+          "fps": 22.0,
+          "width": 320,
+          "height": 256
+        },
+        "ctrlworld_coverage": {
+          "src": "assets/rollout-demo/10-handover-mic/ctrlworld_coverage.mp4",
+          "poster": "assets/rollout-demo/10-handover-mic/ctrlworld_coverage.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 320,
+          "height": 240
+        },
+        "ctrlworld_expert": {
+          "src": "assets/rollout-demo/10-handover-mic/ctrlworld_expert.mp4",
+          "poster": "assets/rollout-demo/10-handover-mic/ctrlworld_expert.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 320,
+          "height": 240
+        },
+        "dreamdojo_coverage": {
+          "src": "assets/rollout-demo/10-handover-mic/dreamdojo_coverage.mp4",
+          "poster": "assets/rollout-demo/10-handover-mic/dreamdojo_coverage.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 640,
+          "height": 480
+        },
+        "dreamdojo_expert": {
+          "src": "assets/rollout-demo/10-handover-mic/dreamdojo_expert.mp4",
+          "poster": "assets/rollout-demo/10-handover-mic/dreamdojo_expert.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 640,
+          "height": 480
+        },
+        "lingbotva_coverage": {
+          "src": "assets/rollout-demo/10-handover-mic/lingbotva_coverage.mp4",
+          "poster": "assets/rollout-demo/10-handover-mic/lingbotva_coverage.jpg",
+          "frames": 32,
+          "fps": 10.0,
+          "width": 320,
+          "height": 256
+        },
+        "lingbotva_expert": {
+          "src": "assets/rollout-demo/10-handover-mic/lingbotva_expert.mp4",
+          "poster": "assets/rollout-demo/10-handover-mic/lingbotva_expert.jpg",
+          "frames": 32,
+          "fps": 10.0,
+          "width": 320,
+          "height": 256
+        },
+        "motus_coverage": {
+          "src": "assets/rollout-demo/10-handover-mic/motus_coverage.mp4",
+          "poster": "assets/rollout-demo/10-handover-mic/motus_coverage.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 320,
+          "height": 240
+        },
+        "motus_expert": {
+          "src": "assets/rollout-demo/10-handover-mic/motus_expert.mp4",
+          "poster": "assets/rollout-demo/10-handover-mic/motus_expert.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 320,
+          "height": 240
+        },
+        "worldsync": {
+          "src": "assets/rollout-demo/10-handover-mic/worldsync.mp4",
+          "poster": "assets/rollout-demo/10-handover-mic/worldsync.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 320,
+          "height": 256
+        }
+      }
+    },
+    {
+      "id": "exploration_policy_rollout_stack_blocks_three_s04_seed00100006_ep0006_s0511_cw32",
+      "task": "stack_blocks_three",
+      "label": "Stack three blocks",
+      "family": "exploration_policy_rollout",
+      "familyLabel": "Policy rollout",
+      "reviewBatch": "additional",
+      "input": "assets/rollout-demo/11-stack-blocks-three/input.png",
+      "action": "assets/rollout-demo/11-stack-blocks-three/action.npy",
+      "actionSha256": "5342ec01a71220fc6913f34d867239fc0ab2c443d1ba387428ceabe937b51514",
+      "gt": {
+        "src": "assets/rollout-demo/11-stack-blocks-three/gt-source.mp4",
+        "poster": "assets/rollout-demo/11-stack-blocks-three/gt-source.jpg",
+        "frames": 33,
+        "fps": 22.0,
+        "width": 320,
+        "height": 256,
+        "provenance": {
+          "type": "canonical-source",
+          "chunkId": "exploration_policy_rollout_stack_blocks_three_s04_seed00100006_ep0006_s0511_cw32",
+          "startFrame": 511,
+          "frames": 33,
+          "actionSha256": "5342ec01a71220fc6913f34d867239fc0ab2c443d1ba387428ceabe937b51514",
+          "sourceSha256": "7b524a47412dada4e96f7b720165cf511a7139dc3c8f2ee664fd668715a7c16e",
+          "manifestSha256": "3e5ee4c64a546b7473d37ca989541db51047007e37a6885d96a3157c363b5732"
+        }
+      },
+      "outputs": {
+        "cosmos3_coverage": {
+          "src": "assets/rollout-demo/11-stack-blocks-three/cosmos3_coverage.mp4",
+          "poster": "assets/rollout-demo/11-stack-blocks-three/cosmos3_coverage.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 224,
+          "height": 168
+        },
+        "cosmos3_expert": {
+          "src": "assets/rollout-demo/11-stack-blocks-three/cosmos3_expert.mp4",
+          "poster": "assets/rollout-demo/11-stack-blocks-three/cosmos3_expert.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 224,
+          "height": 168
+        },
+        "cosmos_predict25_coverage": {
+          "src": "assets/rollout-demo/11-stack-blocks-three/cosmos_predict25_coverage.mp4",
+          "poster": "assets/rollout-demo/11-stack-blocks-three/cosmos_predict25_coverage.jpg",
+          "frames": 33,
+          "fps": 22.0,
+          "width": 320,
+          "height": 256
+        },
+        "cosmos_predict25_expert": {
+          "src": "assets/rollout-demo/11-stack-blocks-three/cosmos_predict25_expert.mp4",
+          "poster": "assets/rollout-demo/11-stack-blocks-three/cosmos_predict25_expert.jpg",
+          "frames": 33,
+          "fps": 22.0,
+          "width": 320,
+          "height": 256
+        },
+        "ctrlworld_coverage": {
+          "src": "assets/rollout-demo/11-stack-blocks-three/ctrlworld_coverage.mp4",
+          "poster": "assets/rollout-demo/11-stack-blocks-three/ctrlworld_coverage.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 320,
+          "height": 240
+        },
+        "ctrlworld_expert": {
+          "src": "assets/rollout-demo/11-stack-blocks-three/ctrlworld_expert.mp4",
+          "poster": "assets/rollout-demo/11-stack-blocks-three/ctrlworld_expert.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 320,
+          "height": 240
+        },
+        "dreamdojo_coverage": {
+          "src": "assets/rollout-demo/11-stack-blocks-three/dreamdojo_coverage.mp4",
+          "poster": "assets/rollout-demo/11-stack-blocks-three/dreamdojo_coverage.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 640,
+          "height": 480
+        },
+        "dreamdojo_expert": {
+          "src": "assets/rollout-demo/11-stack-blocks-three/dreamdojo_expert.mp4",
+          "poster": "assets/rollout-demo/11-stack-blocks-three/dreamdojo_expert.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 640,
+          "height": 480
+        },
+        "lingbotva_coverage": {
+          "src": "assets/rollout-demo/11-stack-blocks-three/lingbotva_coverage.mp4",
+          "poster": "assets/rollout-demo/11-stack-blocks-three/lingbotva_coverage.jpg",
+          "frames": 32,
+          "fps": 10.0,
+          "width": 320,
+          "height": 256
+        },
+        "lingbotva_expert": {
+          "src": "assets/rollout-demo/11-stack-blocks-three/lingbotva_expert.mp4",
+          "poster": "assets/rollout-demo/11-stack-blocks-three/lingbotva_expert.jpg",
+          "frames": 32,
+          "fps": 10.0,
+          "width": 320,
+          "height": 256
+        },
+        "motus_coverage": {
+          "src": "assets/rollout-demo/11-stack-blocks-three/motus_coverage.mp4",
+          "poster": "assets/rollout-demo/11-stack-blocks-three/motus_coverage.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 320,
+          "height": 240
+        },
+        "motus_expert": {
+          "src": "assets/rollout-demo/11-stack-blocks-three/motus_expert.mp4",
+          "poster": "assets/rollout-demo/11-stack-blocks-three/motus_expert.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 320,
+          "height": 240
+        },
+        "worldsync": {
+          "src": "assets/rollout-demo/11-stack-blocks-three/worldsync.mp4",
+          "poster": "assets/rollout-demo/11-stack-blocks-three/worldsync.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 320,
+          "height": 256
+        }
+      }
+    },
+    {
+      "id": "exploration_policy_rollout_stack_bowls_three_s01_seed00100000_ep0000_s0564_cw32",
+      "task": "stack_bowls_three",
+      "label": "Stack three bowls",
+      "family": "exploration_policy_rollout",
+      "familyLabel": "Policy rollout",
+      "reviewBatch": "additional",
+      "input": "assets/rollout-demo/12-stack-bowls-three/input.png",
+      "action": "assets/rollout-demo/12-stack-bowls-three/action.npy",
+      "actionSha256": "848809ed57b0e59ad3ab2e4e56a3f06c0c382d653837b6d6432c8cefc932af73",
+      "gt": {
+        "src": "assets/rollout-demo/12-stack-bowls-three/gt-source.mp4",
+        "poster": "assets/rollout-demo/12-stack-bowls-three/gt-source.jpg",
+        "frames": 33,
+        "fps": 22.0,
+        "width": 320,
+        "height": 256,
+        "provenance": {
+          "type": "canonical-source",
+          "chunkId": "exploration_policy_rollout_stack_bowls_three_s01_seed00100000_ep0000_s0564_cw32",
+          "startFrame": 564,
+          "frames": 33,
+          "actionSha256": "848809ed57b0e59ad3ab2e4e56a3f06c0c382d653837b6d6432c8cefc932af73",
+          "sourceSha256": "879ae8e8313c9fd30c4687c9b3492613a7218f192154cca631303465bb988181",
+          "manifestSha256": "3e5ee4c64a546b7473d37ca989541db51047007e37a6885d96a3157c363b5732"
+        }
+      },
+      "outputs": {
+        "cosmos3_coverage": {
+          "src": "assets/rollout-demo/12-stack-bowls-three/cosmos3_coverage.mp4",
+          "poster": "assets/rollout-demo/12-stack-bowls-three/cosmos3_coverage.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 224,
+          "height": 168
+        },
+        "cosmos3_expert": {
+          "src": "assets/rollout-demo/12-stack-bowls-three/cosmos3_expert.mp4",
+          "poster": "assets/rollout-demo/12-stack-bowls-three/cosmos3_expert.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 224,
+          "height": 168
+        },
+        "cosmos_predict25_coverage": {
+          "src": "assets/rollout-demo/12-stack-bowls-three/cosmos_predict25_coverage.mp4",
+          "poster": "assets/rollout-demo/12-stack-bowls-three/cosmos_predict25_coverage.jpg",
+          "frames": 33,
+          "fps": 22.0,
+          "width": 320,
+          "height": 256
+        },
+        "cosmos_predict25_expert": {
+          "src": "assets/rollout-demo/12-stack-bowls-three/cosmos_predict25_expert.mp4",
+          "poster": "assets/rollout-demo/12-stack-bowls-three/cosmos_predict25_expert.jpg",
+          "frames": 33,
+          "fps": 22.0,
+          "width": 320,
+          "height": 256
+        },
+        "ctrlworld_coverage": {
+          "src": "assets/rollout-demo/12-stack-bowls-three/ctrlworld_coverage.mp4",
+          "poster": "assets/rollout-demo/12-stack-bowls-three/ctrlworld_coverage.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 320,
+          "height": 240
+        },
+        "ctrlworld_expert": {
+          "src": "assets/rollout-demo/12-stack-bowls-three/ctrlworld_expert.mp4",
+          "poster": "assets/rollout-demo/12-stack-bowls-three/ctrlworld_expert.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 320,
+          "height": 240
+        },
+        "dreamdojo_coverage": {
+          "src": "assets/rollout-demo/12-stack-bowls-three/dreamdojo_coverage.mp4",
+          "poster": "assets/rollout-demo/12-stack-bowls-three/dreamdojo_coverage.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 640,
+          "height": 480
+        },
+        "dreamdojo_expert": {
+          "src": "assets/rollout-demo/12-stack-bowls-three/dreamdojo_expert.mp4",
+          "poster": "assets/rollout-demo/12-stack-bowls-three/dreamdojo_expert.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 640,
+          "height": 480
+        },
+        "lingbotva_coverage": {
+          "src": "assets/rollout-demo/12-stack-bowls-three/lingbotva_coverage.mp4",
+          "poster": "assets/rollout-demo/12-stack-bowls-three/lingbotva_coverage.jpg",
+          "frames": 32,
+          "fps": 10.0,
+          "width": 320,
+          "height": 256
+        },
+        "lingbotva_expert": {
+          "src": "assets/rollout-demo/12-stack-bowls-three/lingbotva_expert.mp4",
+          "poster": "assets/rollout-demo/12-stack-bowls-three/lingbotva_expert.jpg",
+          "frames": 32,
+          "fps": 10.0,
+          "width": 320,
+          "height": 256
+        },
+        "motus_coverage": {
+          "src": "assets/rollout-demo/12-stack-bowls-three/motus_coverage.mp4",
+          "poster": "assets/rollout-demo/12-stack-bowls-three/motus_coverage.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 320,
+          "height": 240
+        },
+        "motus_expert": {
+          "src": "assets/rollout-demo/12-stack-bowls-three/motus_expert.mp4",
+          "poster": "assets/rollout-demo/12-stack-bowls-three/motus_expert.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 320,
+          "height": 240
+        },
+        "worldsync": {
+          "src": "assets/rollout-demo/12-stack-bowls-three/worldsync.mp4",
+          "poster": "assets/rollout-demo/12-stack-bowls-three/worldsync.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 320,
+          "height": 256
+        }
+      }
+    },
+    {
+      "id": "exploration_policy_rollout_shake_bottle_s03_seed00100005_ep0004_s0037_cw32",
+      "task": "shake_bottle",
+      "label": "Shake bottle",
+      "family": "exploration_policy_rollout",
+      "familyLabel": "Policy rollout",
+      "reviewBatch": "additional",
+      "input": "assets/rollout-demo/13-shake-bottle/input.png",
+      "action": "assets/rollout-demo/13-shake-bottle/action.npy",
+      "actionSha256": "933e827e735d99d19a7eb82d6de159f5fcfd70b35d0233075d28539dd2c5f76c",
+      "gt": {
+        "src": "assets/rollout-demo/13-shake-bottle/gt-source.mp4",
+        "poster": "assets/rollout-demo/13-shake-bottle/gt-source.jpg",
+        "frames": 33,
+        "fps": 22.0,
+        "width": 320,
+        "height": 256,
+        "provenance": {
+          "type": "canonical-source",
+          "chunkId": "exploration_policy_rollout_shake_bottle_s03_seed00100005_ep0004_s0037_cw32",
+          "startFrame": 37,
+          "frames": 33,
+          "actionSha256": "933e827e735d99d19a7eb82d6de159f5fcfd70b35d0233075d28539dd2c5f76c",
+          "sourceSha256": "6e6b1877564ea0f2900643d11f2147301085ae90043fdfbfba9d9579c438f67a",
+          "manifestSha256": "3e5ee4c64a546b7473d37ca989541db51047007e37a6885d96a3157c363b5732"
+        }
+      },
+      "outputs": {
+        "cosmos3_coverage": {
+          "src": "assets/rollout-demo/13-shake-bottle/cosmos3_coverage.mp4",
+          "poster": "assets/rollout-demo/13-shake-bottle/cosmos3_coverage.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 224,
+          "height": 168
+        },
+        "cosmos3_expert": {
+          "src": "assets/rollout-demo/13-shake-bottle/cosmos3_expert.mp4",
+          "poster": "assets/rollout-demo/13-shake-bottle/cosmos3_expert.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 224,
+          "height": 168
+        },
+        "cosmos_predict25_coverage": {
+          "src": "assets/rollout-demo/13-shake-bottle/cosmos_predict25_coverage.mp4",
+          "poster": "assets/rollout-demo/13-shake-bottle/cosmos_predict25_coverage.jpg",
+          "frames": 33,
+          "fps": 22.0,
+          "width": 320,
+          "height": 256
+        },
+        "cosmos_predict25_expert": {
+          "src": "assets/rollout-demo/13-shake-bottle/cosmos_predict25_expert.mp4",
+          "poster": "assets/rollout-demo/13-shake-bottle/cosmos_predict25_expert.jpg",
+          "frames": 33,
+          "fps": 22.0,
+          "width": 320,
+          "height": 256
+        },
+        "ctrlworld_coverage": {
+          "src": "assets/rollout-demo/13-shake-bottle/ctrlworld_coverage.mp4",
+          "poster": "assets/rollout-demo/13-shake-bottle/ctrlworld_coverage.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 320,
+          "height": 240
+        },
+        "ctrlworld_expert": {
+          "src": "assets/rollout-demo/13-shake-bottle/ctrlworld_expert.mp4",
+          "poster": "assets/rollout-demo/13-shake-bottle/ctrlworld_expert.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 320,
+          "height": 240
+        },
+        "dreamdojo_coverage": {
+          "src": "assets/rollout-demo/13-shake-bottle/dreamdojo_coverage.mp4",
+          "poster": "assets/rollout-demo/13-shake-bottle/dreamdojo_coverage.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 640,
+          "height": 480
+        },
+        "dreamdojo_expert": {
+          "src": "assets/rollout-demo/13-shake-bottle/dreamdojo_expert.mp4",
+          "poster": "assets/rollout-demo/13-shake-bottle/dreamdojo_expert.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 640,
+          "height": 480
+        },
+        "lingbotva_coverage": {
+          "src": "assets/rollout-demo/13-shake-bottle/lingbotva_coverage.mp4",
+          "poster": "assets/rollout-demo/13-shake-bottle/lingbotva_coverage.jpg",
+          "frames": 32,
+          "fps": 10.0,
+          "width": 320,
+          "height": 256
+        },
+        "lingbotva_expert": {
+          "src": "assets/rollout-demo/13-shake-bottle/lingbotva_expert.mp4",
+          "poster": "assets/rollout-demo/13-shake-bottle/lingbotva_expert.jpg",
+          "frames": 32,
+          "fps": 10.0,
+          "width": 320,
+          "height": 256
+        },
+        "motus_coverage": {
+          "src": "assets/rollout-demo/13-shake-bottle/motus_coverage.mp4",
+          "poster": "assets/rollout-demo/13-shake-bottle/motus_coverage.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 320,
+          "height": 240
+        },
+        "motus_expert": {
+          "src": "assets/rollout-demo/13-shake-bottle/motus_expert.mp4",
+          "poster": "assets/rollout-demo/13-shake-bottle/motus_expert.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 320,
+          "height": 240
+        },
+        "worldsync": {
+          "src": "assets/rollout-demo/13-shake-bottle/worldsync.mp4",
+          "poster": "assets/rollout-demo/13-shake-bottle/worldsync.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 320,
+          "height": 256
+        }
+      }
+    },
+    {
+      "id": "exploration_policy_rollout_click_bell_s00_seed00100008_ep0008_s0037_cw32",
+      "task": "click_bell",
+      "label": "Press bell",
+      "family": "exploration_policy_rollout",
+      "familyLabel": "Policy rollout",
+      "reviewBatch": "additional",
+      "input": "assets/rollout-demo/14-click-bell/input.png",
+      "action": "assets/rollout-demo/14-click-bell/action.npy",
+      "actionSha256": "8a535921cea91131fba85223f627a96052ef45131d254794d88113f3b1217cdc",
+      "gt": {
+        "src": "assets/rollout-demo/14-click-bell/gt-source.mp4",
+        "poster": "assets/rollout-demo/14-click-bell/gt-source.jpg",
+        "frames": 33,
+        "fps": 22.0,
+        "width": 320,
+        "height": 256,
+        "provenance": {
+          "type": "canonical-source",
+          "chunkId": "exploration_policy_rollout_click_bell_s00_seed00100008_ep0008_s0037_cw32",
+          "startFrame": 37,
+          "frames": 33,
+          "actionSha256": "8a535921cea91131fba85223f627a96052ef45131d254794d88113f3b1217cdc",
+          "sourceSha256": "a13148d0d24dbdb655d5b9349c9ddcf86fc89f9c3fe1dc3d0d9af753074d5389",
+          "manifestSha256": "3e5ee4c64a546b7473d37ca989541db51047007e37a6885d96a3157c363b5732"
+        }
+      },
+      "outputs": {
+        "cosmos3_coverage": {
+          "src": "assets/rollout-demo/14-click-bell/cosmos3_coverage.mp4",
+          "poster": "assets/rollout-demo/14-click-bell/cosmos3_coverage.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 224,
+          "height": 168
+        },
+        "cosmos3_expert": {
+          "src": "assets/rollout-demo/14-click-bell/cosmos3_expert.mp4",
+          "poster": "assets/rollout-demo/14-click-bell/cosmos3_expert.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 224,
+          "height": 168
+        },
+        "cosmos_predict25_coverage": {
+          "src": "assets/rollout-demo/14-click-bell/cosmos_predict25_coverage.mp4",
+          "poster": "assets/rollout-demo/14-click-bell/cosmos_predict25_coverage.jpg",
+          "frames": 33,
+          "fps": 22.0,
+          "width": 320,
+          "height": 256
+        },
+        "cosmos_predict25_expert": {
+          "src": "assets/rollout-demo/14-click-bell/cosmos_predict25_expert.mp4",
+          "poster": "assets/rollout-demo/14-click-bell/cosmos_predict25_expert.jpg",
+          "frames": 33,
+          "fps": 22.0,
+          "width": 320,
+          "height": 256
+        },
+        "ctrlworld_coverage": {
+          "src": "assets/rollout-demo/14-click-bell/ctrlworld_coverage.mp4",
+          "poster": "assets/rollout-demo/14-click-bell/ctrlworld_coverage.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 320,
+          "height": 240
+        },
+        "ctrlworld_expert": {
+          "src": "assets/rollout-demo/14-click-bell/ctrlworld_expert.mp4",
+          "poster": "assets/rollout-demo/14-click-bell/ctrlworld_expert.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 320,
+          "height": 240
+        },
+        "dreamdojo_coverage": {
+          "src": "assets/rollout-demo/14-click-bell/dreamdojo_coverage.mp4",
+          "poster": "assets/rollout-demo/14-click-bell/dreamdojo_coverage.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 640,
+          "height": 480
+        },
+        "dreamdojo_expert": {
+          "src": "assets/rollout-demo/14-click-bell/dreamdojo_expert.mp4",
+          "poster": "assets/rollout-demo/14-click-bell/dreamdojo_expert.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 640,
+          "height": 480
+        },
+        "lingbotva_coverage": {
+          "src": "assets/rollout-demo/14-click-bell/lingbotva_coverage.mp4",
+          "poster": "assets/rollout-demo/14-click-bell/lingbotva_coverage.jpg",
+          "frames": 32,
+          "fps": 10.0,
+          "width": 320,
+          "height": 256
+        },
+        "lingbotva_expert": {
+          "src": "assets/rollout-demo/14-click-bell/lingbotva_expert.mp4",
+          "poster": "assets/rollout-demo/14-click-bell/lingbotva_expert.jpg",
+          "frames": 32,
+          "fps": 10.0,
+          "width": 320,
+          "height": 256
+        },
+        "motus_coverage": {
+          "src": "assets/rollout-demo/14-click-bell/motus_coverage.mp4",
+          "poster": "assets/rollout-demo/14-click-bell/motus_coverage.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 320,
+          "height": 240
+        },
+        "motus_expert": {
+          "src": "assets/rollout-demo/14-click-bell/motus_expert.mp4",
+          "poster": "assets/rollout-demo/14-click-bell/motus_expert.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 320,
+          "height": 240
+        },
+        "worldsync": {
+          "src": "assets/rollout-demo/14-click-bell/worldsync.mp4",
+          "poster": "assets/rollout-demo/14-click-bell/worldsync.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 320,
+          "height": 256
+        }
+      }
+    },
+    {
+      "id": "exploration_policy_rollout_turn_switch_s04_seed00100008_ep0007_s0021_cw32",
+      "task": "turn_switch",
+      "label": "Turn switch",
+      "family": "exploration_policy_rollout",
+      "familyLabel": "Policy rollout",
+      "reviewBatch": "additional",
+      "input": "assets/rollout-demo/15-turn-switch/input.png",
+      "action": "assets/rollout-demo/15-turn-switch/action.npy",
+      "actionSha256": "dc9e61cfa31a745c3307375fb0cdc226828abbe5745ec5975564a10d6b81d6de",
+      "gt": {
+        "src": "assets/rollout-demo/15-turn-switch/gt-source.mp4",
+        "poster": "assets/rollout-demo/15-turn-switch/gt-source.jpg",
+        "frames": 33,
+        "fps": 22.0,
+        "width": 320,
+        "height": 256,
+        "provenance": {
+          "type": "canonical-source",
+          "chunkId": "exploration_policy_rollout_turn_switch_s04_seed00100008_ep0007_s0021_cw32",
+          "startFrame": 21,
+          "frames": 33,
+          "actionSha256": "dc9e61cfa31a745c3307375fb0cdc226828abbe5745ec5975564a10d6b81d6de",
+          "sourceSha256": "9a358f738528baea227988dbabb59cce36d57638e0b64a9abccfe213dd49563d",
+          "manifestSha256": "3e5ee4c64a546b7473d37ca989541db51047007e37a6885d96a3157c363b5732"
+        }
+      },
+      "outputs": {
+        "cosmos3_coverage": {
+          "src": "assets/rollout-demo/15-turn-switch/cosmos3_coverage.mp4",
+          "poster": "assets/rollout-demo/15-turn-switch/cosmos3_coverage.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 224,
+          "height": 168
+        },
+        "cosmos3_expert": {
+          "src": "assets/rollout-demo/15-turn-switch/cosmos3_expert.mp4",
+          "poster": "assets/rollout-demo/15-turn-switch/cosmos3_expert.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 224,
+          "height": 168
+        },
+        "cosmos_predict25_coverage": {
+          "src": "assets/rollout-demo/15-turn-switch/cosmos_predict25_coverage.mp4",
+          "poster": "assets/rollout-demo/15-turn-switch/cosmos_predict25_coverage.jpg",
+          "frames": 33,
+          "fps": 22.0,
+          "width": 320,
+          "height": 256
+        },
+        "cosmos_predict25_expert": {
+          "src": "assets/rollout-demo/15-turn-switch/cosmos_predict25_expert.mp4",
+          "poster": "assets/rollout-demo/15-turn-switch/cosmos_predict25_expert.jpg",
+          "frames": 33,
+          "fps": 22.0,
+          "width": 320,
+          "height": 256
+        },
+        "ctrlworld_coverage": {
+          "src": "assets/rollout-demo/15-turn-switch/ctrlworld_coverage.mp4",
+          "poster": "assets/rollout-demo/15-turn-switch/ctrlworld_coverage.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 320,
+          "height": 240
+        },
+        "ctrlworld_expert": {
+          "src": "assets/rollout-demo/15-turn-switch/ctrlworld_expert.mp4",
+          "poster": "assets/rollout-demo/15-turn-switch/ctrlworld_expert.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 320,
+          "height": 240
+        },
+        "dreamdojo_coverage": {
+          "src": "assets/rollout-demo/15-turn-switch/dreamdojo_coverage.mp4",
+          "poster": "assets/rollout-demo/15-turn-switch/dreamdojo_coverage.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 640,
+          "height": 480
+        },
+        "dreamdojo_expert": {
+          "src": "assets/rollout-demo/15-turn-switch/dreamdojo_expert.mp4",
+          "poster": "assets/rollout-demo/15-turn-switch/dreamdojo_expert.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 640,
+          "height": 480
+        },
+        "lingbotva_coverage": {
+          "src": "assets/rollout-demo/15-turn-switch/lingbotva_coverage.mp4",
+          "poster": "assets/rollout-demo/15-turn-switch/lingbotva_coverage.jpg",
+          "frames": 32,
+          "fps": 10.0,
+          "width": 320,
+          "height": 256
+        },
+        "lingbotva_expert": {
+          "src": "assets/rollout-demo/15-turn-switch/lingbotva_expert.mp4",
+          "poster": "assets/rollout-demo/15-turn-switch/lingbotva_expert.jpg",
+          "frames": 32,
+          "fps": 10.0,
+          "width": 320,
+          "height": 256
+        },
+        "motus_coverage": {
+          "src": "assets/rollout-demo/15-turn-switch/motus_coverage.mp4",
+          "poster": "assets/rollout-demo/15-turn-switch/motus_coverage.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 320,
+          "height": 240
+        },
+        "motus_expert": {
+          "src": "assets/rollout-demo/15-turn-switch/motus_expert.mp4",
+          "poster": "assets/rollout-demo/15-turn-switch/motus_expert.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 320,
+          "height": 240
+        },
+        "worldsync": {
+          "src": "assets/rollout-demo/15-turn-switch/worldsync.mp4",
+          "poster": "assets/rollout-demo/15-turn-switch/worldsync.jpg",
+          "frames": 33,
+          "fps": 30.0,
+          "width": 320,
+          "height": 256
+        }
+      }
+    },
     {
       "id": "clean_adjust_bottle_ep0040_start0040_cw32",
       "task": "adjust_bottle",

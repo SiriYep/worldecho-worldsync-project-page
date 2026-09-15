@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { selectComparison, trainingLabel, validateCatalog } from "../rollout-demo.js";
+import { getCaseNavigation, readShortlistIds, selectComparison, trainingLabel, validateCatalog, writeShortlistIds } from "../rollout-demo.js";
 
 // Deliberately incomplete synthetic paths exercise selection only, never the site.
 const clip = (name) => ({ src: `assets/test-only/${name}.mp4`, frames: 33, fps: 30, width: 320, height: 256 });
@@ -55,4 +55,52 @@ test("training context keeps different regimes and the video-only baseline expli
   assert.equal(trainingLabel(catalog.models[0]), "video-only");
   assert.equal(trainingLabel({ regime: "Expert Demonstrations (video-only)", step: 20000, actionConditioned: false }), "Expert · 20k steps · video-only");
   assert.equal(trainingLabel({ regime: "Expanded Action Coverage", step: 60000 }), "Expanded · 60k steps");
+});
+
+test("shortlist starts empty and restores only distinct IDs still present in the catalog", () => {
+  const ids = catalog.cases.map((sample) => sample.id);
+  assert.deepEqual(readShortlistIds({ getItem: () => null }, ids), []);
+  assert.deepEqual(readShortlistIds({ getItem: () => '["second","retired","second",42,{"id":"first"},"first"]' }, ids), ["second", "first"]);
+  for (const saved of ["broken json", '{"first":true}', "null"]) {
+    assert.deepEqual(readShortlistIds({ getItem: () => saved }, ids), []);
+  }
+});
+
+test("shortlist writes IDs only and blocked browser storage does not prevent in-memory selection", () => {
+  let saved;
+  const storage = { setItem: (_key, value) => { saved = value; } };
+  assert.equal(writeShortlistIds(storage, ["first", "first", "", { score: 1 }, "second"]), true);
+  assert.deepEqual(JSON.parse(saved), ["first", "second"]);
+  const blocked = { getItem() { throw new Error("blocked"); }, setItem() { throw new Error("blocked"); } };
+  assert.deepEqual(readShortlistIds(blocked, ["first"]), []);
+  assert.equal(writeShortlistIds(blocked, ["first"]), false);
+  assert.equal(getCaseNavigation(catalog.cases, ["first"], true, "first").currentId, "first");
+});
+
+test("sample navigation stops at each boundary and preserves a visible selection when filtering", () => {
+  const first = getCaseNavigation(catalog.cases, ["second"], false, "first");
+  assert.equal(first.previousId, null);
+  assert.equal(first.nextId, "second");
+  const second = getCaseNavigation(catalog.cases, ["second"], false, "second");
+  assert.equal(second.previousId, "first");
+  assert.equal(second.nextId, null);
+  const filtered = getCaseNavigation(catalog.cases, ["second"], true, "second");
+  assert.equal(filtered.currentId, "second");
+  assert.equal(filtered.position, 1);
+  assert.equal(filtered.previousId, null);
+  assert.equal(filtered.nextId, null);
+  assert.equal(getCaseNavigation(catalog.cases, ["second"], true, "first").currentId, "second");
+});
+
+test("removing the final shortlisted item shows an empty list and All restores the prior sample", () => {
+  const empty = getCaseNavigation(catalog.cases, [], true, "second");
+  assert.deepEqual(empty.cases, []);
+  assert.equal(empty.currentId, null);
+  assert.equal(empty.position, 0);
+  assert.equal(empty.previousId, null);
+  assert.equal(empty.nextId, null);
+  const all = getCaseNavigation(catalog.cases, [], false, "second");
+  assert.equal(all.currentId, "second");
+  assert.equal(all.position, 2);
+  assert.equal(all.cases.length, 2);
 });

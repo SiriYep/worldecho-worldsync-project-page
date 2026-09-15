@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewNote": "Frozen receipts for the six canonical GT clips audited on 2026-09-15. Adding a clip or changing an export requires an explicit reviewed receipt update.",
+  "reviewNote": "Frozen source-bound GT exports reviewed for local candidate selection on 2026-09-15. New or changed exports require a reviewed receipt update.",
   "auditRecordSha256": "9452d861cfd1d80046ae097af0320a882d3a995493cbe8ee3461b061ebe16972",
   "receipts": {
     "clean_adjust_bottle_ep0040_start0040_cw32": {
@@ -74,6 +74,103 @@
         "sourceSha256": "d0ae3c6d20c80c662803f56d840c81a710a7f46a189939ce9bcb78d0aa38253d",
         "manifestSha256": "3e5ee4c64a546b7473d37ca989541db51047007e37a6885d96a3157c363b5732"
       }
+    },
+    "exploration_policy_rollout_open_laptop_s01_seed00100002_ep0002_s0036_cw32": {
+      "outputSha256": "a3562b770956d204579e4374eb35adba20d8aea350c2d95699f837bf15fd4bc1",
+      "provenance": {
+        "type": "canonical-source",
+        "chunkId": "exploration_policy_rollout_open_laptop_s01_seed00100002_ep0002_s0036_cw32",
+        "startFrame": 36,
+        "frames": 33,
+        "actionSha256": "beb4264f1459dd7e9eacdd6c55e3f4494c788d1d742b73c862a0b3c45036c727",
+        "sourceSha256": "03a977f407129b9b8b2cb64201fea83b0c4e83f1732bdb9c99a241c0f5b59eb4",
+        "manifestSha256": "3e5ee4c64a546b7473d37ca989541db51047007e37a6885d96a3157c363b5732"
+      }
+    },
+    "exploration_policy_rollout_open_microwave_s02_seed00100011_ep0003_s0635_cw32": {
+      "outputSha256": "e9c1e1b9f59a83bbe546438b5c4277b71d6b5ebae8e761c6e5ee7980a184bc3c",
+      "provenance": {
+        "type": "canonical-source",
+        "chunkId": "exploration_policy_rollout_open_microwave_s02_seed00100011_ep0003_s0635_cw32",
+        "startFrame": 635,
+        "frames": 33,
+        "actionSha256": "9df7669c5e7f4325f85efd9167428015de2f83ddbf43e71091f065a70668ead0",
+        "sourceSha256": "93d499647a0b68cfc7ef8ac10f139220bad7bc3130b142a8d6fa40a5e44e5234",
+        "manifestSha256": "3e5ee4c64a546b7473d37ca989541db51047007e37a6885d96a3157c363b5732"
+      }
+    },
+    "exploration_policy_rollout_handover_mic_s04_seed00100001_ep0001_s0509_cw32": {
+      "outputSha256": "4766435fe1bf40700c8be25dc394c1543d77cb72b97fca3083bea1e5acded15f",
+      "provenance": {
+        "type": "canonical-source",
+        "chunkId": "exploration_policy_rollout_handover_mic_s04_seed00100001_ep0001_s0509_cw32",
+        "startFrame": 509,
+        "frames": 33,
+        "actionSha256": "85b5932850cacc7ef3b77f9b5d7f4c0caa33729849a0b58aebcc0d76d9db2cc9",
+        "sourceSha256": "6dd7075195bfdb24a402f3254d3889ca2b65a52f409e22328055bd8a46acafd2",
+        "manifestSha256": "3e5ee4c64a546b7473d37ca989541db51047007e37a6885d96a3157c363b5732"
+      }
+    },
+    "exploration_policy_rollout_stack_blocks_three_s04_seed00100006_ep0006_s0511_cw32": {
+      "outputSha256": "fd18db715e9df0b4528faf85d235e60da5d9b3161c9bc668f555c859dccbd1a9",
+      "provenance": {
+        "type": "canonical-source",
+        "chunkId": "exploration_policy_rollout_stack_blocks_three_s04_seed00100006_ep0006_s0511_cw32",
+        "startFrame": 511,
+        "frames": 33,
+        "actionSha256": "5342ec01a71220fc6913f34d867239fc0ab2c443d1ba387428ceabe937b51514",
+        "sourceSha256": "7b524a47412dada4e96f7b720165cf511a7139dc3c8f2ee664fd668715a7c16e",
+        "manifestSha256": "3e5ee4c64a546b7473d37ca989541db51047007e37a6885d96a3157c363b5732"
+      }
+    },
+    "exploration_policy_rollout_stack_bowls_three_s01_seed00100000_ep0000_s0564_cw32": {
+      "outputSha256": "3a5a0505841bf9545ac38e85cbc83f1988b8d7c4fb536908bf5791769e935a10",
+      "provenance": {
+        "type": "canonical-source",
+        "chunkId": "exploration_policy_rollout_stack_bowls_three_s01_seed00100000_ep0000_s0564_cw32",
+        "startFrame": 564,
+        "frames": 33,
+        "actionSha256": "848809ed57b0e59ad3ab2e4e56a3f06c0c382d653837b6d6432c8cefc932af73",
+        "sourceSha256": "879ae8e8313c9fd30c4687c9b3492613a7218f192154cca631303465bb988181",
+        "manifestSha256": "3e5ee4c64a546b7473d37ca989541db51047007e37a6885d96a3157c363b5732"
+      }
+    },
+    "exploration_policy_rollout_shake_bottle_s03_seed00100005_ep0004_s0037_cw32": {
+      "outputSha256": "a5bb3da3e573c4e29e56d63c627687b65ff57e567d66bd5c46b0941ff71d4ffa",
+      "provenance": {
+        "type": "canonical-source",
+        "chunkId": "exploration_policy_rollout_shake_bottle_s03_seed00100005_ep0004_s0037_cw32",
+        "startFrame": 37,
+        "frames": 33,
+        "actionSha256": "933e827e735d99d19a7eb82d6de159f5fcfd70b35d0233075d28539dd2c5f76c",
+        "sourceSha256": "6e6b1877564ea0f2900643d11f2147301085ae90043fdfbfba9d9579c438f67a",
+        "manifestSha256": "3e5ee4c64a546b7473d37ca989541db51047007e37a6885d96a3157c363b5732"
+      }
+    },
+    "exploration_policy_rollout_click_bell_s00_seed00100008_ep0008_s0037_cw32": {
+      "outputSha256": "45a0be06e3725aeceb8031d85de0b4c09a3c839de4b4415657108a2bf41e3f1f",
+      "provenance": {
+        "type": "canonical-source",
+        "chunkId": "exploration_policy_rollout_click_bell_s00_seed00100008_ep0008_s0037_cw32",
+        "startFrame": 37,
+        "frames": 33,
+        "actionSha256": "8a535921cea91131fba85223f627a96052ef45131d254794d88113f3b1217cdc",
+        "sourceSha256": "a13148d0d24dbdb655d5b9349c9ddcf86fc89f9c3fe1dc3d0d9af753074d5389",
+        "manifestSha256": "3e5ee4c64a546b7473d37ca989541db51047007e37a6885d96a3157c363b5732"
+      }
+    },
+    "exploration_policy_rollout_turn_switch_s04_seed00100008_ep0007_s0021_cw32": {
+      "outputSha256": "646229e9c9e70386309918e4578c20559bda11550aacfd3284dc47204225d2b2",
+      "provenance": {
+        "type": "canonical-source",
+        "chunkId": "exploration_policy_rollout_turn_switch_s04_seed00100008_ep0007_s0021_cw32",
+        "startFrame": 21,
+        "frames": 33,
+        "actionSha256": "dc9e61cfa31a745c3307375fb0cdc226828abbe5745ec5975564a10d6b81d6de",
+        "sourceSha256": "9a358f738528baea227988dbabb59cce36d57638e0b64a9abccfe213dd49563d",
+        "manifestSha256": "3e5ee4c64a546b7473d37ca989541db51047007e37a6885d96a3157c363b5732"
+      }
     }
-  }
+  },
+  "additionalAuditRecordSha256": "3c9b30c4cfd0c51008f7d94d00fffc691af34c69cb41351a7e647cfa77d7e375"
 }

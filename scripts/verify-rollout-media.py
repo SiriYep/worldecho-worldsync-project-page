@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Import gate for the seven moving GT clips in this project-page demo.
+"""Import gate for audited candidate GT clips in this project-page demo.
 
 This binds each video and its public provenance to a reviewed receipt, checks
 source/action checksums when available, decoded media, and obvious still-frame
-substitutes. It is not a metric of
-physical accuracy, action following, or performance on arbitrary samples.
+substitutes. The reviewed receipt registry defines the supported candidates;
+it is not a metric of physical accuracy, action following, or performance on
+arbitrary samples.
 """
 import argparse
 import ast
@@ -22,15 +23,6 @@ import sys
 SITE = Path(__file__).resolve().parents[1]
 RECEIPT_FILE = Path(__file__).with_name('rollout-gt-receipts.json')
 EXPECTED_FRAMES = 33
-MOVING_SAMPLE_IDS = frozenset((
-    'clean_adjust_bottle_ep0040_start0040_cw32',
-    'perturbed_pca_grab_roller_ep0042_start0064_seed0003_s0000_cw32',
-    'perturbed_raw_handover_block_ep0015_start0047_seed0002_s0000_cw32',
-    'counterfactual_replay_place_bread_basket_src_ep0000_seed0000__replay_seed0003_s0065_cw32',
-    'exploration_policy_rollout_rotate_qrcode_s00_seed00100012_ep0009_s0174_cw32',
-    'random_feasible_uniform_stack_blocks_two_ep0001_start0069_seed0015_s0176_cw32',
-    'random_feasible_weighted_lift_pot_ep0001_start0027_seed0007_s0249_cw32',
-))
 
 
 def is_hash(value):
@@ -57,10 +49,10 @@ def load_receipts():
         raise ValueError('The reviewed GT receipt file is missing or invalid.')
     required = {'type', 'chunkId', 'startFrame', 'frames', 'actionSha256', 'sourceSha256', 'manifestSha256'}
     for sample_id, receipt in receipts.items():
-        if not isinstance(receipt, dict):
+        if not isinstance(sample_id, str) or not sample_id.strip() or not isinstance(receipt, dict):
             raise ValueError(f'The reviewed GT receipt is invalid for {sample_id}.')
         provenance = receipt.get('provenance') if isinstance(receipt, dict) else None
-        if sample_id not in MOVING_SAMPLE_IDS or not is_hash(receipt.get('outputSha256')) or not isinstance(provenance, dict) or not required.issubset(provenance):
+        if not is_hash(receipt.get('outputSha256')) or not isinstance(provenance, dict) or not required.issubset(provenance):
             raise ValueError(f'The reviewed GT receipt is incomplete for {sample_id}.')
         if provenance['type'] != 'canonical-source' or provenance['chunkId'] != sample_id or not integer(provenance['startFrame']) or provenance['startFrame'] < 0 or not integer(provenance['frames']) or provenance['frames'] != EXPECTED_FRAMES:
             raise ValueError(f'The reviewed GT receipt provenance is invalid for {sample_id}.')
@@ -151,8 +143,6 @@ def verify_sample(sample, root, ffmpeg, ffprobe, source_file=None, receipts=None
         for key, expected in expected_provenance.items():
             if provenance.get(key) != expected:
                 errors.append(f'GT provenance.{key} does not match its reviewed receipt.')
-    if sample.get('id') not in MOVING_SAMPLE_IDS:
-        errors.append('This sample is outside the seven reviewed moving demo samples.')
     if not isinstance(gt.get('src'), str) or Path(gt['src']).name != 'gt-source.mp4':
         errors.append('GT must use gt-source.mp4; legacy gt.mp4 still-frame exports are prohibited.')
     if provenance.get('type') != 'canonical-source':
@@ -208,11 +198,10 @@ def verify_sample(sample, root, ffmpeg, ffprobe, source_file=None, receipts=None
             errors.append('GT video bytes do not match the reviewed receipt outputSha256 for this sample.')
         if motion['decoded_frames'] != gt.get('frames'):
             errors.append('Actual decoded GT frame count does not match gt.frames.')
-        if sample.get('id') in MOVING_SAMPLE_IDS:
-            if motion['classification'] == 'near_static_or_encoding_noise':
-                errors.append('Moving-sample GT is near static or encoding noise; reject the still-frame substitute.')
-            elif motion['classification'] == 'manual_review':
-                result['review_reasons'].append('GT variation is between the static and substantial-change thresholds; inspect the canonical source before importing.')
+        if motion['classification'] == 'near_static_or_encoding_noise':
+            errors.append('Audited-candidate GT is near static or encoding noise; reject the still-frame substitute.')
+        elif motion['classification'] == 'manual_review':
+            result['review_reasons'].append('GT variation is between the static and substantial-change thresholds; inspect the canonical source before importing.')
     except (OSError, ValueError, KeyError, ZeroDivisionError, subprocess.CalledProcessError) as error:
         errors.append(f'GT media verification failed: {error}')
     result['status'] = 'fail' if errors else 'review' if result['review_reasons'] else 'pass'
@@ -224,20 +213,20 @@ def verify_catalog(catalog, root, ffmpeg, ffprobe, sources=None, receipts=None):
     cases = catalog.get('cases', [])
     ids = [sample.get('id') for sample in cases]
     errors = []
-    if not ids or not set(ids).issubset(MOVING_SAMPLE_IDS) or len(ids) != len(set(ids)):
-        errors.append('Catalog must contain a nonempty, duplicate-free subset of the seven reviewed moving sample IDs.')
+    if not ids or not set(ids).issubset(receipts) or len(ids) != len(set(ids)):
+        errors.append('Catalog must contain a nonempty, duplicate-free subset of the reviewed receipt registry.')
     if sources is not None and any(not isinstance(sources.get(sample_id), str) or not sources[sample_id].strip() for sample_id in ids):
         errors.append('The private source manifest must provide a nonempty source file path for each displayed sample.')
     results = [verify_sample(sample, root, ffmpeg, ffprobe, (sources or {}).get(sample.get('id')), receipts) for sample in cases]
     status = 'fail' if errors or any(row['status'] == 'fail' for row in results) else 'review' if any(row['status'] == 'review' for row in results) else 'pass'
     return {
         'status': status,
-        'scope': 'Import gate for these seven preselected moving GT examples only; not a general physical accuracy or action-following metric.',
+        'scope': 'Import gate for audited candidate GT examples in the reviewed receipt registry only; not a general physical accuracy or action-following metric.',
         'source_hash_note': 'sourceSha256 must match the frozen reviewed receipt. It is additionally recomputed when the private --sources manifest supplies a local canonical file.',
         'receipt_binding': 'Each displayed sample must match its frozen output video SHA256 and all public provenance fields, including source, action, manifest, offset and frame count. Adding a recovered sample requires a reviewed receipt update.',
         'motion_gate': {'near_static_reject': {'max_rgb_mad_lte': 0.25, 'max_fraction_pixels_change_gt8_lte': 0.001}, 'substantial_change': {'max_rgb_mad_gte': 1.0, 'max_fraction_pixels_change_gt8_gte': 0.02}, 'between_thresholds': 'manual_review; exit code 2'},
         'errors': errors, 'samples': results,
-        'withheld_sample_ids': sorted(MOVING_SAMPLE_IDS - set(ids)),
+        'withheld_sample_ids': sorted(set(receipts) - set(ids)),
     }
 
 

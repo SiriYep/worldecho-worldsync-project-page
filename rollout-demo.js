@@ -1,7 +1,44 @@
 import { VideoGroup } from "./video-playback.js";
 
 const DEFAULT_MODEL = "cosmos_predict25_expert";
+const SHORTLIST_KEY = "worldsync-rollout-shortlist-v1";
 const instances = new WeakMap();
+
+/** Persist only sample IDs; stale IDs and malformed browser storage are ignored. */
+export function readShortlistIds(storage, availableIds) {
+  try {
+    const parsed = JSON.parse(storage?.getItem(SHORTLIST_KEY) ?? "[]");
+    if (!Array.isArray(parsed)) return [];
+    const available = new Set(availableIds);
+    return [...new Set(parsed.filter((id) => typeof id === "string" && available.has(id)))];
+  } catch {
+    return [];
+  }
+}
+
+export function writeShortlistIds(storage, ids) {
+  try {
+    if (!storage) return false;
+    storage.setItem(SHORTLIST_KEY, JSON.stringify([...new Set(ids.filter((id) => typeof id === "string" && id))]));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/** Boundary-based navigation never falls back to an unshortlisted sample. */
+export function getCaseNavigation(cases, shortlistedIds, shortlistedOnly, currentId) {
+  const shortlist = new Set(shortlistedIds);
+  const visible = shortlistedOnly ? cases.filter((sample) => shortlist.has(sample.id)) : cases;
+  const index = Math.max(0, visible.findIndex((sample) => sample.id === currentId));
+  return {
+    cases: visible,
+    currentId: visible[index]?.id ?? null,
+    position: visible.length ? index + 1 : 0,
+    previousId: visible[index - 1]?.id ?? null,
+    nextId: visible[index + 1]?.id ?? null,
+  };
+}
 
 function assetPath(value) {
   return typeof value === "string" && value.startsWith("assets/") && !value.split("/").includes("..") ? value : "";
@@ -71,6 +108,13 @@ export function setupRolloutDemo(root) {
   const loadMessage = query("[data-rollout-load-message]");
   const retry = query("[data-rollout-retry]");
   const content = query("[data-rollout-content]");
+  const comparisonContent = query("[data-rollout-comparison-content]");
+  const previousButton = query("[data-rollout-previous]");
+  const nextButton = query("[data-rollout-next]");
+  const shortlistButton = query("[data-rollout-shortlist]");
+  const shortlistFilter = query("[data-rollout-shortlisted-only]");
+  const emptyShortlist = query("[data-rollout-empty]");
+  shortlistFilter.checked = false;
   const input = query("[data-rollout-input]");
   const inputError = query("[data-rollout-input-error]");
   const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -84,9 +128,50 @@ export function setupRolloutDemo(root) {
   let observer;
   let loading = false;
   let selected;
+  let shortlistedIds = [];
+  let navigation;
+  let hasVisibleSample = true;
+  let inViewport = !("IntersectionObserver" in window);
+  let storage;
+  try { storage = window.localStorage; } catch { /* Selection still works for this visit. */ }
 
   const setText = (selector, value) => { query(selector).textContent = value || ""; };
+  const updatePlaybackVisibility = () => group?.setVisible(inViewport && hasVisibleSample);
+
+  function updateReviewControls() {
+    navigation = getCaseNavigation(catalog.cases, shortlistedIds, shortlistFilter.checked, caseSelect.value);
+    previousButton.disabled = !navigation.previousId;
+    nextButton.disabled = !navigation.nextId;
+    shortlistButton.disabled = !navigation.currentId;
+    const shortlisted = shortlistedIds.includes(navigation.currentId);
+    shortlistButton.textContent = shortlisted ? "Shortlisted" : "Shortlist";
+    shortlistButton.setAttribute("aria-pressed", String(shortlisted));
+    setText("[data-rollout-position]", `${navigation.position} of ${navigation.cases.length}`);
+    setText("[data-rollout-shortlist-count]", `${shortlistedIds.length} shortlisted`);
+  }
+
+  function refreshCaseList(preferredId = selected?.sample.id) {
+    navigation = getCaseNavigation(catalog.cases, shortlistedIds, shortlistFilter.checked, preferredId);
+    hasVisibleSample = navigation.currentId !== null;
+    caseSelect.replaceChildren(...navigation.cases.map((sample) => new Option(
+      `${sample.reviewBatch === "additional" ? "New · " : ""}${sample.label || sample.task || sample.id}`, sample.id,
+    )));
+    if (hasVisibleSample) caseSelect.value = navigation.currentId;
+    else caseSelect.replaceChildren(new Option("No shortlisted samples", ""));
+    caseSelect.disabled = !hasVisibleSample;
+    modelSelect.disabled = !hasVisibleSample;
+    comparisonContent.hidden = !hasVisibleSample;
+    emptyShortlist.hidden = hasVisibleSample;
+    updateReviewControls();
+    // Filtering the current sample in/out must preserve its playback intent.
+    // Hiding uses visibility rather than a deliberate pause, including when
+    // the user removes the final shortlisted item.
+    if (hasVisibleSample && selected?.sample.id !== navigation.currentId) renderSelection();
+    updatePlaybackVisibility();
+  }
+
   function renderSelection() {
+    if (!hasVisibleSample) return;
     selected = selectComparison(catalog, caseSelect.value, modelSelect.value);
     const { sample, baseline, worldsync, clips } = selected;
     caseSelect.value = sample.id;
@@ -134,6 +219,7 @@ export function setupRolloutDemo(root) {
     if (group && Object.values(clips).some((clip) => !assetPath(clip?.src))) {
       group.fail("A recording is unavailable. Choose another sample or model.");
     }
+    updateReviewControls();
   }
 
   function connectPlayback() {
@@ -141,11 +227,14 @@ export function setupRolloutDemo(root) {
     group = new VideoGroup(root, {
       reducedMotion: mediaQuery.matches,
       documentVisible: !document.hidden,
-      visible: !("IntersectionObserver" in window),
+      visible: inViewport && hasVisibleSample,
     });
     if ("IntersectionObserver" in window) {
       observer = new IntersectionObserver((entries) => {
-        for (const entry of entries) group.setVisible(entry.isIntersecting);
+        for (const entry of entries) {
+          inViewport = entry.isIntersecting;
+          updatePlaybackVisibility();
+        }
       }, { threshold: 0.01 });
       observer.observe(root);
     }
@@ -174,7 +263,8 @@ export function setupRolloutDemo(root) {
       const response = await fetch(root.dataset.catalog, { cache: "no-cache" });
       if (!response.ok) throw new Error(`Catalog returned ${response.status}.`);
       catalog = validateCatalog(await response.json());
-      caseSelect.replaceChildren(...catalog.cases.map((sample) => new Option(sample.label || sample.task || sample.id, sample.id)));
+      shortlistedIds = readShortlistIds(storage, catalog.cases.map((sample) => sample.id));
+      if (!storage) setText("[data-rollout-storage-note]", "Shortlist kept for this visit");
       modelSelect.replaceChildren(...catalog.models.filter((model) => model.id !== "worldsync").map((model) => (
         new Option(`${model.label || model.id} — ${trainingLabel(model)}`, model.id)
       )));
@@ -189,7 +279,7 @@ export function setupRolloutDemo(root) {
       // state, calls load(), and leaves subsequent real media errors visible.
       const firstLoad = !group;
       connectPlayback();
-      renderSelection();
+      refreshCaseList();
       if (firstLoad && !mediaQuery.matches && !group.errorMessage) group.play();
       content.hidden = false;
       loadPanel.hidden = true;
@@ -205,6 +295,29 @@ export function setupRolloutDemo(root) {
 
   caseSelect.addEventListener("change", renderSelection);
   modelSelect.addEventListener("change", renderSelection);
+  previousButton.addEventListener("click", () => {
+    if (!navigation?.previousId) return;
+    caseSelect.value = navigation.previousId;
+    renderSelection();
+  });
+  nextButton.addEventListener("click", () => {
+    if (!navigation?.nextId) return;
+    caseSelect.value = navigation.nextId;
+    renderSelection();
+  });
+  shortlistButton.addEventListener("click", () => {
+    if (!hasVisibleSample || !selected) return;
+    const id = selected.sample.id;
+    shortlistedIds = shortlistedIds.includes(id) ? shortlistedIds.filter((candidate) => candidate !== id) : [...shortlistedIds, id];
+    const saved = writeShortlistIds(storage, shortlistedIds);
+    setText("[data-rollout-storage-note]", saved ? "Saved in this browser" : "Shortlist kept for this visit");
+    refreshCaseList();
+  });
+  shortlistFilter.addEventListener("change", () => refreshCaseList());
+  query("[data-rollout-all]").addEventListener("click", () => {
+    shortlistFilter.checked = false;
+    refreshCaseList();
+  });
   retry.addEventListener("click", loadCatalog);
   input.addEventListener("error", () => {
     input.hidden = true;

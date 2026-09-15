@@ -543,6 +543,22 @@
                 <label for="rollout-case">Sample<select id="rollout-case" data-rollout-case></select></label>
                 <label for="rollout-model">Comparison model<select id="rollout-model" data-rollout-model></select></label>
               </div>
+              <div class="rollout-review-controls" aria-label="Sample review controls">
+                <div class="rollout-case-navigation">
+                  <button type="button" data-rollout-previous aria-label="Previous sample">← Previous</button>
+                  <span data-rollout-position aria-live="polite"></span>
+                  <button type="button" data-rollout-next aria-label="Next sample">Next →</button>
+                </div>
+                <button type="button" data-rollout-shortlist aria-pressed="false">Shortlist</button>
+                <label class="rollout-shortlist-filter"><input type="checkbox" data-rollout-shortlisted-only>Shortlisted only</label>
+                <span class="rollout-shortlist-count" data-rollout-shortlist-count aria-live="polite">0 shortlisted</span>
+                <span class="rollout-storage-note" data-rollout-storage-note>Saved in this browser</span>
+              </div>
+              <div class="rollout-shortlist-empty" data-rollout-empty hidden role="status">
+                <p>No shortlisted samples yet. Browse all samples and select Shortlist to keep a candidate.</p>
+                <button type="button" data-rollout-all>All samples</button>
+              </div>
+              <div data-rollout-comparison-content>
               <div class="rollout-case-heading">
                 <h3 data-rollout-title></h3>
                 <p data-rollout-coverage></p>
@@ -593,6 +609,7 @@
                   <a class="rollout-action-link" data-rollout-action download>Download recorded actions ↗</a>
                   <p class="rollout-selection-note" data-rollout-selection-note></p>
                 </details>
+              </div>
               </div>
             </div>
             <noscript><p class="demo-status">Enable JavaScript to choose a sample and compare prerecorded rollouts.</p></noscript>

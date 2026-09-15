@@ -17,6 +17,6 @@ Do not assign model names to the separate visual-collapse/action-mismatch clips 
 
 ## Page status
 
-The section now displays six cases with recovered simulator ground truth, twelve selectable baseline configurations, and WorldSync. The `#state-control` fragment remains for link compatibility. See [the current provenance, selection, playback and preview documentation](rollout-demo.md).
+The section now displays fourteen candidate cases with recovered simulator ground truth, twelve selectable baseline configurations, and WorldSync. The `#state-control` fragment remains for link compatibility. See [the current provenance, selection, playback and preview documentation](rollout-demo.md).
 
 The separate interactive playground and the GitHub/Hugging Face release have their own requirements. The release still concerns a checkpoint trained on 50 tasks and minimal single-task inference; this gallery clarification does not change that scope.
