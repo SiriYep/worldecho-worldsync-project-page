@@ -17,6 +17,8 @@ Do not assign model names to the separate visual-collapse/action-mismatch clips 
 
 ## Page status
 
-The section now displays fourteen candidate cases with recovered simulator ground truth, twelve selectable baseline configurations, and WorldSync. The `#state-control` fragment remains for link compatibility. See [the current provenance, selection, playback and preview documentation](rollout-demo.md).
+The section contains 34 reviewed cases with recovered simulator ground truth, twelve selectable baseline configurations, and WorldSync: 476 recordings. Existing scores from all 500 pack samples were used for prescreening; all 34 displayed cases received a seven-frame visual review against GT and all baselines. Six recommended cases also received an all-33-frame GT/WorldSync review. This does not mean all 500 samples were watched as videos.
+
+The gallery initially shows six Recommended cases. Sixteen Backup, eight Not selected, and four Needs review cases remain accessible by clearing Recommended only. Per-case observations and cautions explain the selection. The personal Shortlist is saved in the browser and is independent of the review labels; both filters can be combined. The `#state-control` fragment remains for link compatibility. See [provenance, playback and preview documentation](rollout-demo.md) and [the selection method and recommendations](rollout-screening.md).
 
 The separate interactive playground and the GitHub/Hugging Face release have their own requirements. The release still concerns a checkpoint trained on 50 tasks and minimal single-task inference; this gallery clarification does not change that scope.

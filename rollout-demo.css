@@ -17,6 +17,13 @@
 .rollout-case-heading { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px 24px; }
 .rollout-case-heading h3 { font-size: 19px; }
 .rollout-case-heading > p { color: var(--muted); font: 10px/1.7 var(--font-mono); }
+.rollout-review { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: start; gap: 8px 12px; margin-top: 14px; padding: 12px 0; border-top: 1px solid var(--line); }
+.rollout-review-status { padding: 3px 7px; border: 1px solid var(--line-strong); border-radius: 3px; color: var(--ink); font: 10px/1.6 var(--font-mono); white-space: nowrap; }
+.rollout-review[data-review-status="recommend"] .rollout-review-status { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+.rollout-review[data-review-status="uncertain"] .rollout-review-status { border-style: dashed; }
+.rollout-review[data-review-status="exclude"] .rollout-review-status { color: var(--ink-soft); }
+.rollout-review > p { color: var(--ink-soft); font-size: 12px; line-height: 1.7; }
+.rollout-review .rollout-review-caution { grid-column: 2; padding-left: 10px; border-left: 2px solid var(--line-strong); font-size: 11px; }
 .rollout-conditioning { margin-top: 8px; color: var(--ink-soft); font-size: 12px; line-height: 1.7; }
 .rollout-demo[data-video-only="true"] .rollout-conditioning { padding-left: 12px; border-left: 2px solid var(--line-strong); }
 .rollout-demo .demo-comparison { gap: 20px; }
@@ -55,4 +62,15 @@
   .rollout-demo .demo-slot figcaption { min-height: 0; }
   .rollout-details-grid { grid-template-columns: 1fr; gap: 0; }
   .rollout-demo .playback-status { flex-basis: 100%; }
+}
+@media (min-width: 620px) {
+  .rollout-demo .demo-comparison { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (min-width: 620px) and (max-width: 700px) {
+  .rollout-demo .demo-slot figcaption { min-height: 112px; }
+}
+@media (max-width: 400px) {
+  .rollout-review { grid-template-columns: 1fr; }
+  .rollout-review-status { justify-self: start; }
+  .rollout-review .rollout-review-caution { grid-column: 1; }
 }

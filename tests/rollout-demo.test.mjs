@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { getCaseNavigation, readShortlistIds, selectComparison, trainingLabel, validateCatalog, writeShortlistIds } from "../rollout-demo.js";
+import { caseOptionLabel, getCaseNavigation, readShortlistIds, selectComparison, trainingLabel, validateCatalog, writeShortlistIds } from "../rollout-demo.js";
 
 // Deliberately incomplete synthetic paths exercise selection only, never the site.
 const clip = (name) => ({ src: `assets/test-only/${name}.mp4`, frames: 33, fps: 30, width: 320, height: 256 });
@@ -103,4 +103,34 @@ test("removing the final shortlisted item shows an empty list and All restores t
   assert.equal(all.currentId, "second");
   assert.equal(all.position, 2);
   assert.equal(all.cases.length, 2);
+});
+
+test("recommendation and personal shortlist filters combine without changing personal choices", () => {
+  const cases = [
+    { id: "first", review: { status: "recommend" } },
+    { id: "second", review: { status: "exclude" } },
+    { id: "third", review: { status: "recommend" } },
+  ];
+  const personal = ["second", "third"];
+  const recommended = getCaseNavigation(cases, personal, false, "second", true);
+  assert.deepEqual(recommended.cases.map((sample) => sample.id), ["first", "third"]);
+  const both = getCaseNavigation(cases, personal, true, "third", true);
+  assert.deepEqual(both.cases.map((sample) => sample.id), ["third"]);
+  assert.equal(both.currentId, "third");
+  assert.deepEqual(personal, ["second", "third"]);
+  const empty = getCaseNavigation(cases, ["second"], true, "second", true);
+  assert.equal(empty.currentId, null);
+  assert.equal(empty.position, 0);
+  const all = getCaseNavigation(cases, ["second"], false, "second", false);
+  assert.equal(all.currentId, "second");
+  assert.equal(all.cases.length, 3);
+});
+
+test("duplicate task names remain distinguishable by review status and query family", () => {
+  const first = { label: "Shake bottle", reviewBatch: "additional", familyLabel: "Random feasible · weighted", review: { status: "recommend" } };
+  const second = { label: "Shake bottle", familyLabel: "Policy rollout", review: { status: "exclude" } };
+  assert.equal(caseOptionLabel(first), "Recommended · Shake bottle · Random feasible · weighted");
+  assert.equal(caseOptionLabel(second), "Not selected · Shake bottle · Policy rollout");
+  assert.equal(caseOptionLabel({ label: "Unreviewed sample" }), "Needs review · Unreviewed sample");
+  assert.equal(caseOptionLabel({ ...first, review: { status: "backup" } }).startsWith("Backup ·"), true);
 });

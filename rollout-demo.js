@@ -2,7 +2,16 @@ import { VideoGroup } from "./video-playback.js";
 
 const DEFAULT_MODEL = "cosmos_predict25_expert";
 const SHORTLIST_KEY = "worldsync-rollout-shortlist-v1";
+const REVIEW_LABELS = { recommend: "Recommended", backup: "Backup", exclude: "Not selected", uncertain: "Needs review" };
 const instances = new WeakMap();
+
+function reviewStatus(sample) {
+  return Object.hasOwn(REVIEW_LABELS, sample.review?.status) ? sample.review.status : "uncertain";
+}
+
+export function caseOptionLabel(sample) {
+  return [REVIEW_LABELS[reviewStatus(sample)], sample.label || sample.task || sample.id, sample.familyLabel || sample.family].filter(Boolean).join(" · ");
+}
 
 /** Persist only sample IDs; stale IDs and malformed browser storage are ignored. */
 export function readShortlistIds(storage, availableIds) {
@@ -27,9 +36,9 @@ export function writeShortlistIds(storage, ids) {
 }
 
 /** Boundary-based navigation never falls back to an unshortlisted sample. */
-export function getCaseNavigation(cases, shortlistedIds, shortlistedOnly, currentId) {
+export function getCaseNavigation(cases, shortlistedIds, shortlistedOnly, currentId, recommendedOnly = false) {
   const shortlist = new Set(shortlistedIds);
-  const visible = shortlistedOnly ? cases.filter((sample) => shortlist.has(sample.id)) : cases;
+  const visible = cases.filter((sample) => (!shortlistedOnly || shortlist.has(sample.id)) && (!recommendedOnly || sample.review?.status === "recommend"));
   const index = Math.max(0, visible.findIndex((sample) => sample.id === currentId));
   return {
     cases: visible,
@@ -113,8 +122,10 @@ export function setupRolloutDemo(root) {
   const nextButton = query("[data-rollout-next]");
   const shortlistButton = query("[data-rollout-shortlist]");
   const shortlistFilter = query("[data-rollout-shortlisted-only]");
+  const recommendedFilter = query("[data-rollout-recommended-only]");
   const emptyShortlist = query("[data-rollout-empty]");
   shortlistFilter.checked = false;
+  recommendedFilter.checked = false;
   const input = query("[data-rollout-input]");
   const inputError = query("[data-rollout-input-error]");
   const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -139,7 +150,7 @@ export function setupRolloutDemo(root) {
   const updatePlaybackVisibility = () => group?.setVisible(inViewport && hasVisibleSample);
 
   function updateReviewControls() {
-    navigation = getCaseNavigation(catalog.cases, shortlistedIds, shortlistFilter.checked, caseSelect.value);
+    navigation = getCaseNavigation(catalog.cases, shortlistedIds, shortlistFilter.checked, caseSelect.value, recommendedFilter.checked);
     previousButton.disabled = !navigation.previousId;
     nextButton.disabled = !navigation.nextId;
     shortlistButton.disabled = !navigation.currentId;
@@ -151,13 +162,11 @@ export function setupRolloutDemo(root) {
   }
 
   function refreshCaseList(preferredId = selected?.sample.id) {
-    navigation = getCaseNavigation(catalog.cases, shortlistedIds, shortlistFilter.checked, preferredId);
+    navigation = getCaseNavigation(catalog.cases, shortlistedIds, shortlistFilter.checked, preferredId, recommendedFilter.checked);
     hasVisibleSample = navigation.currentId !== null;
-    caseSelect.replaceChildren(...navigation.cases.map((sample) => new Option(
-      `${sample.reviewBatch === "additional" ? "New · " : ""}${sample.label || sample.task || sample.id}`, sample.id,
-    )));
+    caseSelect.replaceChildren(...navigation.cases.map((sample) => new Option(caseOptionLabel(sample), sample.id)));
     if (hasVisibleSample) caseSelect.value = navigation.currentId;
-    else caseSelect.replaceChildren(new Option("No shortlisted samples", ""));
+    else caseSelect.replaceChildren(new Option("No matching samples", ""));
     caseSelect.disabled = !hasVisibleSample;
     modelSelect.disabled = !hasVisibleSample;
     comparisonContent.hidden = !hasVisibleSample;
@@ -177,6 +186,12 @@ export function setupRolloutDemo(root) {
     caseSelect.value = sample.id;
     modelSelect.value = baseline.id;
     setText("[data-rollout-title]", sample.label || sample.task || sample.id);
+    const status = reviewStatus(sample);
+    query("[data-rollout-review]").dataset.reviewStatus = status;
+    setText("[data-rollout-review-status]", REVIEW_LABELS[status]);
+    setText("[data-rollout-review-note]", sample.review?.note || "Inspect the gripper trajectory and final object position against GT.");
+    setText("[data-rollout-review-caution]", sample.review?.caution);
+    query("[data-rollout-review-caution]").hidden = !sample.review?.caution;
     setText("[data-rollout-model-name]", baseline.label || baseline.id);
     setText("[data-rollout-model-regime]", trainingLabel(baseline));
     setText("[data-rollout-worldsync-regime]", trainingLabel(worldsync));
@@ -264,6 +279,7 @@ export function setupRolloutDemo(root) {
       if (!response.ok) throw new Error(`Catalog returned ${response.status}.`);
       catalog = validateCatalog(await response.json());
       shortlistedIds = readShortlistIds(storage, catalog.cases.map((sample) => sample.id));
+      if (!group) recommendedFilter.checked = catalog.cases.some((sample) => sample.review?.status === "recommend");
       if (!storage) setText("[data-rollout-storage-note]", "Shortlist kept for this visit");
       modelSelect.replaceChildren(...catalog.models.filter((model) => model.id !== "worldsync").map((model) => (
         new Option(`${model.label || model.id} — ${trainingLabel(model)}`, model.id)
@@ -314,8 +330,10 @@ export function setupRolloutDemo(root) {
     refreshCaseList();
   });
   shortlistFilter.addEventListener("change", () => refreshCaseList());
+  recommendedFilter.addEventListener("change", () => refreshCaseList());
   query("[data-rollout-all]").addEventListener("click", () => {
     shortlistFilter.checked = false;
+    recommendedFilter.checked = false;
     refreshCaseList();
   });
   retry.addEventListener("click", loadCatalog);

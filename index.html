@@ -550,18 +550,24 @@
                   <button type="button" data-rollout-next aria-label="Next sample">Next →</button>
                 </div>
                 <button type="button" data-rollout-shortlist aria-pressed="false">Shortlist</button>
+                <label class="rollout-shortlist-filter"><input type="checkbox" data-rollout-recommended-only>Recommended only</label>
                 <label class="rollout-shortlist-filter"><input type="checkbox" data-rollout-shortlisted-only>Shortlisted only</label>
                 <span class="rollout-shortlist-count" data-rollout-shortlist-count aria-live="polite">0 shortlisted</span>
                 <span class="rollout-storage-note" data-rollout-storage-note>Saved in this browser</span>
               </div>
               <div class="rollout-shortlist-empty" data-rollout-empty hidden role="status">
-                <p>No shortlisted samples yet. Browse all samples and select Shortlist to keep a candidate.</p>
+                <p>No samples match these filters. Choose All samples to browse and shortlist candidates.</p>
                 <button type="button" data-rollout-all>All samples</button>
               </div>
               <div data-rollout-comparison-content>
               <div class="rollout-case-heading">
                 <h3 data-rollout-title></h3>
                 <p data-rollout-coverage></p>
+              </div>
+              <div class="rollout-review" data-rollout-review>
+                <span class="rollout-review-status" data-rollout-review-status>Needs review</span>
+                <p data-rollout-review-note></p>
+                <p class="rollout-review-caution" data-rollout-review-caution hidden></p>
               </div>
               <p class="rollout-conditioning" data-rollout-conditioning></p>
               <div class="demo-comparison">
