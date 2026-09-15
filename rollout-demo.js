@@ -1,56 +1,48 @@
 import { VideoGroup } from "./video-playback.js";
+import { setupRolloutTrajectories } from "./rollout-trajectory.js";
 
-const DEFAULT_MODEL = "cosmos_predict25_expert";
-const SHORTLIST_KEY = "worldsync-rollout-shortlist-v1";
-const REVIEW_LABELS = { recommend: "Recommended", backup: "Backup", exclude: "Not selected", uncertain: "Needs review" };
+const COMPARISON_IDS = ["cosmos_predict25_coverage", "ctrlworld_coverage", "dreamdojo_coverage"];
+const DEFAULT_MODEL = COMPARISON_IDS[0];
+const GATES = [
+  { id: "image_quality", label: "Image quality" },
+  { id: "motion_smoothness", label: "Smoothness" },
+  { id: "eef_visibility", label: "EEF visibility" },
+  { id: "arm_integrity", label: "Arm integrity" },
+];
+const GATE_STATUS = {
+  pass: { icon: "✓", label: "Passed" },
+  fail: { icon: "×", label: "Failed" },
+  unavailable: { icon: "?", label: "Unavailable" },
+  skipped: { icon: "−", label: "Skipped" },
+};
 const instances = new WeakMap();
 
-function reviewStatus(sample) {
-  return Object.hasOwn(REVIEW_LABELS, sample.review?.status) ? sample.review.status : "uncertain";
-}
-
 export function caseOptionLabel(sample) {
-  return [REVIEW_LABELS[reviewStatus(sample)], sample.label || sample.task || sample.id, sample.familyLabel || sample.family].filter(Boolean).join(" · ");
-}
-
-/** Persist only sample IDs; stale IDs and malformed browser storage are ignored. */
-export function readShortlistIds(storage, availableIds) {
-  try {
-    const parsed = JSON.parse(storage?.getItem(SHORTLIST_KEY) ?? "[]");
-    if (!Array.isArray(parsed)) return [];
-    const available = new Set(availableIds);
-    return [...new Set(parsed.filter((id) => typeof id === "string" && available.has(id)))];
-  } catch {
-    return [];
-  }
-}
-
-export function writeShortlistIds(storage, ids) {
-  try {
-    if (!storage) return false;
-    storage.setItem(SHORTLIST_KEY, JSON.stringify([...new Set(ids.filter((id) => typeof id === "string" && id))]));
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-/** Boundary-based navigation never falls back to an unshortlisted sample. */
-export function getCaseNavigation(cases, shortlistedIds, shortlistedOnly, currentId, recommendedOnly = false) {
-  const shortlist = new Set(shortlistedIds);
-  const visible = cases.filter((sample) => (!shortlistedOnly || shortlist.has(sample.id)) && (!recommendedOnly || sample.review?.status === "recommend"));
-  const index = Math.max(0, visible.findIndex((sample) => sample.id === currentId));
-  return {
-    cases: visible,
-    currentId: visible[index]?.id ?? null,
-    position: visible.length ? index + 1 : 0,
-    previousId: visible[index - 1]?.id ?? null,
-    nextId: visible[index + 1]?.id ?? null,
-  };
+  return sample.label || String(sample.task || "Task").replaceAll("_", " ");
 }
 
 function assetPath(value) {
   return typeof value === "string" && value.startsWith("assets/") && !value.split("/").includes("..") ? value : "";
+}
+
+/** The full catalog remains intact; the gallery exposes only reviewed examples. */
+export function getDemoCases(catalog) {
+  return catalog.cases.filter((sample) => sample.review?.status === "recommend");
+}
+
+export function getComparisonModels(catalog) {
+  return COMPARISON_IDS.map((id) => catalog.models.find((model) => model.id === id)).filter(Boolean);
+}
+
+/** Missing, ambiguous or malformed records must never appear as passed gates. */
+export function getVisualGates(clip) {
+  const records = Array.isArray(clip?.visualGates) ? clip.visualGates : [];
+  return GATES.map((gate) => {
+    const matches = records.filter((record) => record?.id === gate.id);
+    const record = matches.length === 1 ? matches[0] : null;
+    const status = record && Object.hasOwn(GATE_STATUS, record.status) ? record.status : "unavailable";
+    return { ...gate, status, icon: GATE_STATUS[status].icon };
+  });
 }
 
 /** Keep catalog errors separate from an individual missing recording. */
@@ -66,18 +58,19 @@ export function validateCatalog(catalog) {
       throw new TypeError(`The catalog has duplicate ${kind} IDs.`);
     }
   }
-  if (!catalog.models.some((model) => model.id === "worldsync") || catalog.models.length < 2) {
-    throw new TypeError("The catalog needs WorldSync and a comparison model.");
+  if (!catalog.models.some((model) => model.id === "worldsync") || !getComparisonModels(catalog).length) {
+    throw new TypeError("The catalog needs WorldSync and a supported comparison model.");
   }
   return catalog;
 }
 
-/** Preserve an explicit model choice across samples, including missing clips. */
+/** Keep the chosen baseline when its recording is missing; never substitute it. */
 export function selectComparison(catalog, caseId, modelId = DEFAULT_MODEL) {
-  const sample = catalog.cases.find((item) => item.id === caseId) || catalog.cases[0];
-  const baselines = catalog.models.filter((model) => model.id !== "worldsync");
-  const baseline = baselines.find((model) => model.id === modelId)
-    || baselines.find((model) => model.id === DEFAULT_MODEL) || baselines[0];
+  const cases = getDemoCases(catalog);
+  const sample = cases.find((item) => item.id === caseId) || cases[0];
+  if (!sample) return null;
+  const baselines = getComparisonModels(catalog);
+  const baseline = baselines.find((model) => model.id === modelId) || baselines[0];
   return {
     sample,
     baseline,
@@ -86,24 +79,16 @@ export function selectComparison(catalog, caseId, modelId = DEFAULT_MODEL) {
   };
 }
 
-export function trainingLabel(model) {
-  const regime = String(model.regime || "");
-  const name = /^expert(?:\b|$)/i.test(regime) ? "Expert"
-    : /^expanded(?:\b|$)/i.test(regime) ? "Expanded"
-      : regime.toLowerCase() === "worldsync" ? "WorldSync" : regime;
-  const step = Number(model.step);
-  const count = step > 0 && Number.isFinite(step) ? `${step >= 1000 ? `${step / 1000}k` : step} steps` : String(model.step || "");
-  const conditioning = model.actionConditioned === false && !name.includes("video-only") ? "video-only" : "";
-  return [name, count, conditioning].filter(Boolean).join(" · ");
-}
-
-function clipInfo(clip) {
-  if (!clip || !assetPath(clip.src)) return "Recording unavailable";
-  return [
-    Number.isFinite(clip.frames) ? `${clip.frames} frames` : "",
-    Number.isFinite(clip.fps) ? `${Number(clip.fps.toFixed(2))} fps` : "",
-    clip.width > 0 && clip.height > 0 ? `${clip.width} × ${clip.height}` : "",
-  ].filter(Boolean).join(" · ");
+// Keep the common synchronization behavior; only shorten this gallery's labels.
+class RolloutVideoGroup extends VideoGroup {
+  render() {
+    super.render();
+    if (this.toggle) {
+      this.toggle.textContent = this.wanted ? "Pause" : "Play";
+      this.toggle.setAttribute("aria-label", this.wanted ? "Pause all videos" : "Play all videos");
+    }
+    if (this.status && this.errorMessage) this.status.textContent = this.errorMessage.replaceAll("Play comparison", "Play");
+  }
 }
 
 /** Owns its VideoGroup; this root deliberately has no data-video-group attribute. */
@@ -117,138 +102,92 @@ export function setupRolloutDemo(root) {
   const loadMessage = query("[data-rollout-load-message]");
   const retry = query("[data-rollout-retry]");
   const content = query("[data-rollout-content]");
-  const comparisonContent = query("[data-rollout-comparison-content]");
-  const previousButton = query("[data-rollout-previous]");
-  const nextButton = query("[data-rollout-next]");
-  const shortlistButton = query("[data-rollout-shortlist]");
-  const shortlistFilter = query("[data-rollout-shortlisted-only]");
-  const recommendedFilter = query("[data-rollout-recommended-only]");
-  const emptyShortlist = query("[data-rollout-empty]");
-  shortlistFilter.checked = false;
-  recommendedFilter.checked = false;
-  const input = query("[data-rollout-input]");
-  const inputError = query("[data-rollout-input-error]");
   const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
   const slots = new Map(Array.from(root.querySelectorAll("[data-rollout-slot]")).map((slot) => [slot.dataset.rolloutSlot, {
     video: slot.querySelector("video"),
     error: slot.querySelector(".rollout-media-error"),
-    info: slot.querySelector("[data-rollout-info]"),
+    gates: slot.querySelector("[data-rollout-gates]"),
   }]));
   let catalog;
   let group;
   let observer;
   let loading = false;
   let selected;
-  let shortlistedIds = [];
-  let navigation;
-  let hasVisibleSample = true;
+  let trajectoryGroup;
   let inViewport = !("IntersectionObserver" in window);
-  let storage;
-  try { storage = window.localStorage; } catch { /* Selection still works for this visit. */ }
 
-  const setText = (selector, value) => { query(selector).textContent = value || ""; };
-  const updatePlaybackVisibility = () => group?.setVisible(inViewport && hasVisibleSample);
-
-  function updateReviewControls() {
-    navigation = getCaseNavigation(catalog.cases, shortlistedIds, shortlistFilter.checked, caseSelect.value, recommendedFilter.checked);
-    previousButton.disabled = !navigation.previousId;
-    nextButton.disabled = !navigation.nextId;
-    shortlistButton.disabled = !navigation.currentId;
-    const shortlisted = shortlistedIds.includes(navigation.currentId);
-    shortlistButton.textContent = shortlisted ? "Shortlisted" : "Shortlist";
-    shortlistButton.setAttribute("aria-pressed", String(shortlisted));
-    setText("[data-rollout-position]", `${navigation.position} of ${navigation.cases.length}`);
-    setText("[data-rollout-shortlist-count]", `${shortlistedIds.length} shortlisted`);
-  }
-
-  function refreshCaseList(preferredId = selected?.sample.id) {
-    navigation = getCaseNavigation(catalog.cases, shortlistedIds, shortlistFilter.checked, preferredId, recommendedFilter.checked);
-    hasVisibleSample = navigation.currentId !== null;
-    caseSelect.replaceChildren(...navigation.cases.map((sample) => new Option(caseOptionLabel(sample), sample.id)));
-    if (hasVisibleSample) caseSelect.value = navigation.currentId;
-    else caseSelect.replaceChildren(new Option("No matching samples", ""));
-    caseSelect.disabled = !hasVisibleSample;
-    modelSelect.disabled = !hasVisibleSample;
-    comparisonContent.hidden = !hasVisibleSample;
-    emptyShortlist.hidden = hasVisibleSample;
-    updateReviewControls();
-    // Filtering the current sample in/out must preserve its playback intent.
-    // Hiding uses visibility rather than a deliberate pause, including when
-    // the user removes the final shortlisted item.
-    if (hasVisibleSample && selected?.sample.id !== navigation.currentId) renderSelection();
-    updatePlaybackVisibility();
+  function renderGates(slot, clip, isReference) {
+    const gates = getVisualGates(clip);
+    if (isReference && gates.every((gate) => gate.status === "unavailable")) {
+      const reference = document.createElement("li");
+      reference.className = "rollout-gate-reference";
+      reference.textContent = "GT reference";
+      slot.gates.replaceChildren(reference);
+      slot.gates.setAttribute("aria-label", "Ground-truth reference");
+      return;
+    }
+    slot.gates.setAttribute("aria-label", isReference ? "GT visual gates" : "Model visual gates");
+    slot.gates.replaceChildren(...gates.map((gate) => {
+      const item = document.createElement("li");
+      const statusLabel = GATE_STATUS[gate.status].label;
+      item.dataset.gate = gate.id;
+      item.dataset.status = gate.status;
+      item.title = `${gate.label}: ${statusLabel} · Recorded sample-pack check`;
+      item.setAttribute("aria-label", item.title);
+      const icon = document.createElement("span");
+      icon.className = "rollout-gate-icon";
+      icon.textContent = gate.icon;
+      icon.setAttribute("aria-hidden", "true");
+      const label = document.createElement("span");
+      label.textContent = gate.label;
+      item.append(icon, label);
+      return item;
+    }));
   }
 
   function renderSelection() {
-    if (!hasVisibleSample) return;
     selected = selectComparison(catalog, caseSelect.value, modelSelect.value);
-    const { sample, baseline, worldsync, clips } = selected;
+    if (!selected) return;
+    const { sample, baseline, clips } = selected;
     caseSelect.value = sample.id;
     modelSelect.value = baseline.id;
-    setText("[data-rollout-title]", sample.label || sample.task || sample.id);
-    const status = reviewStatus(sample);
-    query("[data-rollout-review]").dataset.reviewStatus = status;
-    setText("[data-rollout-review-status]", REVIEW_LABELS[status]);
-    setText("[data-rollout-review-note]", sample.review?.note || "Inspect the gripper trajectory and final object position against GT.");
-    setText("[data-rollout-review-caution]", sample.review?.caution);
-    query("[data-rollout-review-caution]").hidden = !sample.review?.caution;
-    setText("[data-rollout-model-name]", baseline.label || baseline.id);
-    setText("[data-rollout-model-regime]", trainingLabel(baseline));
-    setText("[data-rollout-worldsync-regime]", trainingLabel(worldsync));
-    setText("[data-rollout-conditioning]", baseline.actionConditioned === false
-      ? `${baseline.label || baseline.id} is a video-only baseline with no action input. WorldSync uses the recorded actions.`
-      : "The model rollouts share the same initial observation and recorded actions.");
-    root.dataset.videoOnly = String(baseline.actionConditioned === false);
-    setText("[data-rollout-task]", sample.task);
-    setText("[data-rollout-family]", sample.familyLabel ? `${sample.familyLabel} (${sample.family})` : sample.family);
-    setText("[data-rollout-id]", sample.id);
-    input.hidden = !assetPath(sample.input);
-    inputError.hidden = !!assetPath(sample.input);
-    inputError.textContent = "Initial observation is unavailable for this sample.";
-    if (assetPath(sample.input)) input.src = sample.input;
-    else input.removeAttribute("src");
-    input.alt = `Initial observation for ${sample.label || sample.task || sample.id}`;
-    const action = query("[data-rollout-action]");
-    action.hidden = !assetPath(sample.action);
-    if (assetPath(sample.action)) action.href = sample.action;
-    else action.removeAttribute("href");
-
+    query("[data-rollout-model-name]").textContent = baseline.label || baseline.id;
     const updateSources = () => {
       for (const [key, slot] of slots) {
         const clip = clips[key];
         const available = !!assetPath(clip?.src);
         slot.video.hidden = !available;
         slot.error.hidden = available;
-        slot.error.textContent = "This recording is unavailable. Choose another sample or model.";
-        slot.info.textContent = clipInfo(clip);
+        slot.error.textContent = "Recording unavailable. Choose another task or model.";
+        renderGates(slot, clip, key === "gt");
         if (available) slot.video.src = clip.src;
         else slot.video.removeAttribute("src");
         if (assetPath(clip?.poster)) slot.video.poster = clip.poster;
         else slot.video.removeAttribute("poster");
-        const modelName = key === "gt" ? "Simulator ground truth" : key === "baseline" ? baseline.label || baseline.id : "WorldSync";
-        slot.video.setAttribute("aria-label", `${modelName} rollout for ${sample.label || sample.task || sample.id}`);
+        const modelName = key === "gt" ? "Ground truth" : key === "baseline" ? baseline.label || baseline.id : "WorldSync";
+        slot.video.setAttribute("aria-label", `${modelName}: ${caseOptionLabel(sample)}`);
       }
     };
-    if (group) group.replaceSources(updateSources);
-    else updateSources();
-    if (group && Object.values(clips).some((clip) => !assetPath(clip?.src))) {
-      group.fail("A recording is unavailable. Choose another sample or model.");
+    group.replaceSources(updateSources);
+    if (Object.values(clips).some((clip) => !assetPath(clip?.src))) {
+      group.fail("A recording is unavailable. Choose another task or model.");
     }
-    updateReviewControls();
+    trajectoryGroup.update(clips);
+    root.dispatchEvent(new CustomEvent("rollout:selectionchange", { detail: selected }));
   }
 
   function connectPlayback() {
     if (group) return;
-    group = new VideoGroup(root, {
+    group = new RolloutVideoGroup(root, {
       reducedMotion: mediaQuery.matches,
       documentVisible: !document.hidden,
-      visible: inViewport && hasVisibleSample,
+      visible: inViewport,
     });
     if ("IntersectionObserver" in window) {
       observer = new IntersectionObserver((entries) => {
         for (const entry of entries) {
           inViewport = entry.isIntersecting;
-          updatePlaybackVisibility();
+          group.setVisible(inViewport);
         }
       }, { threshold: 0.01 });
       observer.observe(root);
@@ -258,7 +197,7 @@ export function setupRolloutDemo(root) {
     for (const [key, slot] of slots) {
       slot.video.addEventListener("error", () => {
         if (!slot.video.error || group.replacing) return;
-        slot.error.textContent = "This clip could not load. Select Play comparison to retry.";
+        slot.error.textContent = "Video unavailable. Select Play to retry.";
         slot.error.hidden = false;
       });
       slot.video.addEventListener("loadstart", () => {
@@ -272,35 +211,38 @@ export function setupRolloutDemo(root) {
     loading = true;
     retry.hidden = true;
     loadPanel.hidden = false;
-    loadMessage.textContent = "Loading recorded comparisons…";
+    loadMessage.textContent = "Loading videos…";
     root.setAttribute("aria-busy", "true");
     try {
       const response = await fetch(root.dataset.catalog, { cache: "no-cache" });
       if (!response.ok) throw new Error(`Catalog returned ${response.status}.`);
       catalog = validateCatalog(await response.json());
-      shortlistedIds = readShortlistIds(storage, catalog.cases.map((sample) => sample.id));
-      if (!group) recommendedFilter.checked = catalog.cases.some((sample) => sample.review?.status === "recommend");
-      if (!storage) setText("[data-rollout-storage-note]", "Shortlist kept for this visit");
-      modelSelect.replaceChildren(...catalog.models.filter((model) => model.id !== "worldsync").map((model) => (
-        new Option(`${model.label || model.id} — ${trainingLabel(model)}`, model.id)
-      )));
-      modelSelect.value = selectComparison(catalog).baseline.id;
-      const families = new Set(catalog.cases.map((sample) => sample.family).filter(Boolean));
-      const queryTypes = new Set(Array.from(families, (family) => family.replace(/^perturbed_.+$/, "perturbed").replace(/^random_feasible_.+$/, "random_feasible")));
-      setText("[data-rollout-coverage]", `${catalog.cases.length} samples · ${queryTypes.size} query types · ${families.size} subtypes`);
-      setText("[data-rollout-selection-note]", catalog.selectionNote);
-      // Attach listeners before assigning the first sources. Initial empty
-      // <video> elements can still report NETWORK_NO_SOURCE after setting src;
-      // the same replaceSources transaction used for switches clears that old
-      // state, calls load(), and leaves subsequent real media errors visible.
+      const cases = getDemoCases(catalog);
+      if (!cases.length) {
+        group?.setVisible(false);
+        content.hidden = true;
+        loadMessage.textContent = "No videos are available yet.";
+        retry.hidden = false;
+        return;
+      }
+      const previousModel = modelSelect.value;
+      const previousCase = caseSelect.value;
+      modelSelect.replaceChildren(...getComparisonModels(catalog).map((model) => new Option(model.label || model.id, model.id)));
+      caseSelect.replaceChildren(...cases.map((sample) => new Option(caseOptionLabel(sample), sample.id)));
+      const initial = selectComparison(catalog, previousCase, previousModel);
+      modelSelect.value = initial.baseline.id;
+      caseSelect.value = initial.sample.id;
+      // The first assignment also uses load() to clear the empty video's old
+      // NETWORK_NO_SOURCE state without suppressing subsequent real errors.
       const firstLoad = !group;
       connectPlayback();
-      refreshCaseList();
+      renderSelection();
+      group.setVisible(inViewport);
       if (firstLoad && !mediaQuery.matches && !group.errorMessage) group.play();
       content.hidden = false;
       loadPanel.hidden = true;
     } catch (error) {
-      loadMessage.textContent = "The recorded comparisons could not load. Retry to load the sample catalog.";
+      loadMessage.textContent = "Videos could not load. Please retry.";
       retry.hidden = false;
       console.warn("Rollout demo catalog is unavailable.", error);
     } finally {
@@ -311,38 +253,10 @@ export function setupRolloutDemo(root) {
 
   caseSelect.addEventListener("change", renderSelection);
   modelSelect.addEventListener("change", renderSelection);
-  previousButton.addEventListener("click", () => {
-    if (!navigation?.previousId) return;
-    caseSelect.value = navigation.previousId;
-    renderSelection();
-  });
-  nextButton.addEventListener("click", () => {
-    if (!navigation?.nextId) return;
-    caseSelect.value = navigation.nextId;
-    renderSelection();
-  });
-  shortlistButton.addEventListener("click", () => {
-    if (!hasVisibleSample || !selected) return;
-    const id = selected.sample.id;
-    shortlistedIds = shortlistedIds.includes(id) ? shortlistedIds.filter((candidate) => candidate !== id) : [...shortlistedIds, id];
-    const saved = writeShortlistIds(storage, shortlistedIds);
-    setText("[data-rollout-storage-note]", saved ? "Saved in this browser" : "Shortlist kept for this visit");
-    refreshCaseList();
-  });
-  shortlistFilter.addEventListener("change", () => refreshCaseList());
-  recommendedFilter.addEventListener("change", () => refreshCaseList());
-  query("[data-rollout-all]").addEventListener("click", () => {
-    shortlistFilter.checked = false;
-    recommendedFilter.checked = false;
-    refreshCaseList();
-  });
   retry.addEventListener("click", loadCatalog);
-  input.addEventListener("error", () => {
-    input.hidden = true;
-    inputError.textContent = "Initial observation could not load. Choose the sample again to retry.";
-    inputError.hidden = false;
-  });
-  const instance = { load: loadCatalog };
+  trajectoryGroup = setupRolloutTrajectories(root);
+  // Personal shortlist storage from the review UI is intentionally untouched.
+  const instance = { load: loadCatalog, get selection() { return selected; } };
   instances.set(root, instance);
   loadCatalog();
   return instance;

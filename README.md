@@ -7,11 +7,14 @@ This is a static project page for the WorldEcho & WorldSync preprint:
 
 ## Local preview
 
-Serve this directory with any static HTTP server, then open `index.html`. The page uses only local fonts, figures, institution logos, posters, and videos.
+Build the static page and use the preview server with video byte-range support:
 
-For example, run `python3 -m http.server 4186 --bind 127.0.0.1` and open `http://127.0.0.1:4186/`.
-Run `npm run build` to produce the deployable static page in `dist/client`.
-Run `npm test` for ranking, chart calculations, theme, grouped-playback, and action-draft behavior tests; no dependency installation is needed.
+```sh
+npm run build
+python3 scripts/preview.py --port 4190
+```
+
+Open `http://127.0.0.1:4190/#state-control`. The build is in `dist/client`; the page uses local fonts, figures, logos, posters and videos. `npm test` covers the browser logic, grouped playback and trajectory overlay calculations. No dependency installation is needed.
 
 ## Interactive interface preview
 
@@ -61,9 +64,9 @@ The leaderboard presents seven entries from public Table 1: six Expert baselines
 
 The action-coverage section renders Figure 5c with automatic hover highlighting and Action queries / Density coverage views. Moving over a point cloud or density region highlights the complete category; moving into empty space or leaving the plot restores all. Category buttons also support keyboard and touch selection. Both views preserve the source PCA coordinates and display bounds. The figure covers the single `adjust_bottle` task: all 50 samples per category are displayed (250 points total), and 95% HDR is estimated from the same full population. The off-expert outline is the union of four independently estimated family regions. The original paper image remains visible if the data cannot load. See [source, reproduction, and interaction details](docs/action-coverage.md).
 
-The fourth-part rollout gallery contains 34 reviewed cases: recovered simulator GT, twelve selectable baseline configurations, and WorldSync (476 recordings in total). Existing pack scores were screened across all 500 samples; 34 cases received a visual check at seven fixed frame positions, and the six recommendations received an additional all-33-frame GT/WorldSync review. The gallery keeps all 34 cases: six Recommended, sixteen Backup, eight Not selected, and four Needs review. Recommended only is enabled initially; it can be combined with an independent browser-local shortlist. Each case includes an observation and a caution, with its query subtype in the selector.
+The fourth-part rollout gallery shows six selected tasks, with GT and WorldSync beside one of three comparison models: Cosmos-Predict2.5, CtrlWorld or DreamDojo. The three baselines use Expanded configurations; the interface shows task and model names only. Play/Pause, Restart and a common seek slider control the three videos. Four compact icons show existing sample-pack gate records; GT is an unscored reference. All 30 displayed recordings have calibrated AnyPos trajectory overlays, with an on/off control. A separate Real-world experiments section contains two cards labeled Video forthcoming.
 
-The supplied pack’s repeated-image GT files were removed; one cross-state replay case remains omitted because its original GT video is unavailable. The displayed subset covers four query types and six subtypes. Playback follows normalized clip progress, and LingBotVA is explicitly video-only. These selected short recordings do not estimate aggregate performance or establish task completion. See [media provenance and local preview instructions](docs/rollout-demo.md) and [selection method and six recommendations](docs/rollout-screening.md).
+The complete 34-case catalog and 476 recordings remain as audit material; the six-task interface exposes 30 recordings across its model choices. Review labels, cautions, sample details and shortlist controls are removed from the main view, while previously stored shortlist IDs remain untouched. The supplied pack’s repeated-image GT was replaced with canonical simulator sources; one cross-state replay case remains omitted because its original RGB is unavailable. The six tasks cover PCA perturbations and uniform feasible actions. Playback aligns normalized clip progress. These selected short recordings do not estimate aggregate performance or establish task completion. See [media, gate and trajectory provenance](docs/rollout-demo.md) and [selection method and recommendations](docs/rollout-screening.md).
 
 The separate GitHub/Hugging Face release retains its previously agreed 50-task-trained checkpoint and minimal single-task inference scope.
 

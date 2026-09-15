@@ -1,136 +1,105 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { caseOptionLabel, getCaseNavigation, readShortlistIds, selectComparison, trainingLabel, validateCatalog, writeShortlistIds } from "../rollout-demo.js";
+import { caseOptionLabel, getComparisonModels, getDemoCases, getVisualGates, selectComparison, validateCatalog } from "../rollout-demo.js";
 
-// Deliberately incomplete synthetic paths exercise selection only, never the site.
+// Synthetic paths exercise selection only and are never served by the site.
 const clip = (name) => ({ src: `assets/test-only/${name}.mp4`, frames: 33, fps: 30, width: 320, height: 256 });
 const catalog = {
   version: 1,
   models: [
-    { id: "lingbotva", label: "LingBotVA", regime: "video-only", actionConditioned: false },
-    { id: "cosmos_predict25_expert", label: "Cosmos Predict 2.5", regime: "expert", step: 20000, actionConditioned: true },
-    { id: "worldsync", label: "WorldSync", regime: "worldsync", step: 60000, actionConditioned: true },
+    { id: "dreamdojo_coverage", label: "DreamDojo", regime: "expanded", step: 40000 },
+    { id: "lingbotva_expert", label: "LingBotVA", actionConditioned: false },
+    { id: "ctrlworld_coverage", label: "CtrlWorld", regime: "expanded", step: 40000 },
+    { id: "cosmos_predict25_expert", label: "Cosmos-Predict2.5", regime: "expert", step: 20000 },
+    { id: "worldsync", label: "WorldSync", regime: "worldsync", step: 60000 },
+    { id: "cosmos_predict25_coverage", label: "Cosmos-Predict2.5", regime: "expanded", step: 40000 },
   ],
   cases: [
-    { id: "first", gt: clip("first-gt"), outputs: { cosmos_predict25_expert: clip("first-cosmos"), lingbotva: clip("first-lingbot"), worldsync: clip("first-worldsync") } },
-    { id: "second", gt: clip("second-gt"), outputs: { cosmos_predict25_expert: clip("second-cosmos"), worldsync: clip("second-worldsync") } },
+    { id: "excluded", label: "Other task", review: { status: "exclude" }, gt: clip("excluded-gt") },
+    { id: "first", label: "Move card", review: { status: "recommend" }, gt: clip("first-gt"), outputs: { cosmos_predict25_coverage: clip("first-cosmos"), ctrlworld_coverage: clip("first-ctrl"), worldsync: clip("first-worldsync") } },
+    { id: "second", label: "Rotate wrist", review: { status: "recommend" }, gt: clip("second-gt"), outputs: { cosmos_predict25_coverage: clip("second-cosmos"), worldsync: clip("second-worldsync") } },
+    { id: "backup", review: { status: "backup" }, gt: clip("backup-gt") },
+    { id: "unreviewed", gt: clip("unreviewed-gt") },
   ],
 };
 
-test("default comparison is the requested Expert configuration regardless of model ordering", () => {
-  const chosen = selectComparison(validateCatalog(catalog));
-  assert.equal(chosen.baseline.id, "cosmos_predict25_expert");
+test("only the three requested Expanded configurations are exposed in stable order", () => {
+  const before = structuredClone(catalog);
+  assert.deepEqual(getComparisonModels(validateCatalog(catalog)).map((model) => model.id), [
+    "cosmos_predict25_coverage", "ctrlworld_coverage", "dreamdojo_coverage",
+  ]);
+  const chosen = selectComparison(catalog);
+  assert.equal(chosen.baseline.id, "cosmos_predict25_coverage");
   assert.equal(chosen.sample.id, "first");
   assert.equal(chosen.clips.baseline.src, "assets/test-only/first-cosmos.mp4");
+  assert.deepEqual(catalog, before);
 });
 
-test("switching samples keeps the selected model and never substitutes another recording", () => {
-  const chosen = selectComparison(catalog, "second", "lingbotva");
-  assert.equal(chosen.baseline.id, "lingbotva");
-  assert.equal(chosen.baseline.actionConditioned, false);
+test("the gallery excludes nonrecommended cases without deleting them from the catalog", () => {
+  assert.deepEqual(getDemoCases(catalog).map((sample) => sample.id), ["first", "second"]);
+  assert.equal(selectComparison(catalog, "excluded").sample.id, "first");
+  assert.equal(catalog.cases.length, 5);
+  const noRecommendations = { ...catalog, cases: catalog.cases.filter((sample) => sample.review?.status !== "recommend") };
+  assert.equal(selectComparison(noRecommendations), null);
+});
+
+test("switching tasks retains the baseline even if that exact clip is missing", () => {
+  const chosen = selectComparison(catalog, "second", "ctrlworld_coverage");
+  assert.equal(chosen.baseline.id, "ctrlworld_coverage");
   assert.equal(chosen.clips.baseline, undefined);
   assert.equal(chosen.clips.gt.src, "assets/test-only/second-gt.mp4");
   assert.equal(chosen.clips.worldsync.src, "assets/test-only/second-worldsync.mp4");
 });
 
-test("unknown choices recover predictably and WorldSync is never its own baseline", () => {
-  for (const id of ["missing", "worldsync"]) {
-    const chosen = selectComparison(catalog, "missing", id);
-    assert.equal(chosen.sample.id, "first");
-    assert.equal(chosen.baseline.id, "cosmos_predict25_expert");
+test("unsupported and stale model choices return to the requested default", () => {
+  for (const id of ["missing", "worldsync", "cosmos_predict25_expert", "lingbotva_expert"]) {
+    assert.equal(selectComparison(catalog, "first", id).baseline.id, "cosmos_predict25_coverage");
   }
 });
 
-test("catalog errors are detected before attaching media or controls", () => {
+test("catalog errors are reported before attaching media", () => {
   assert.throws(() => validateCatalog({ ...catalog, version: 2 }), /Unsupported/);
   assert.throws(() => validateCatalog({ ...catalog, cases: [] }), /named samples/);
   assert.throws(() => validateCatalog({ ...catalog, cases: [catalog.cases[0], catalog.cases[0]] }), /duplicate sample/);
-  assert.throws(() => validateCatalog({ ...catalog, models: catalog.models.slice(0, 2) }), /WorldSync/);
+  assert.throws(() => validateCatalog({ ...catalog, models: catalog.models.filter((m) => m.id !== "worldsync") }), /WorldSync/);
+  assert.throws(() => validateCatalog({ ...catalog, models: catalog.models.filter((m) => !m.id.endsWith("_coverage")) }), /supported comparison/);
 });
 
-test("training context keeps different regimes and the video-only baseline explicit", () => {
-  assert.equal(trainingLabel(catalog.models[1]), "Expert · 20k steps");
-  assert.equal(trainingLabel({ regime: "expanded", step: 40000 }), "Expanded · 40k steps");
-  assert.equal(trainingLabel(catalog.models[2]), "WorldSync · 60k steps");
-  assert.equal(trainingLabel(catalog.models[0]), "video-only");
-  assert.equal(trainingLabel({ regime: "Expert Demonstrations (video-only)", step: 20000, actionConditioned: false }), "Expert · 20k steps · video-only");
-  assert.equal(trainingLabel({ regime: "Expanded Action Coverage", step: 60000 }), "Expanded · 60k steps");
+test("task labels contain only the task name", () => {
+  assert.equal(caseOptionLabel({ label: "Move card", familyLabel: "Uniform", review: { status: "recommend" }, id: "long-chunk-id" }), "Move card");
+  assert.equal(caseOptionLabel({ task: "move_card", id: "long-chunk-id" }), "move card");
 });
 
-test("shortlist starts empty and restores only distinct IDs still present in the catalog", () => {
-  const ids = catalog.cases.map((sample) => sample.id);
-  assert.deepEqual(readShortlistIds({ getItem: () => null }, ids), []);
-  assert.deepEqual(readShortlistIds({ getItem: () => '["second","retired","second",42,{"id":"first"},"first"]' }, ids), ["second", "first"]);
-  for (const saved of ["broken json", '{"first":true}', "null"]) {
-    assert.deepEqual(readShortlistIds({ getItem: () => saved }, ids), []);
+test("missing gate data never becomes a pass", () => {
+  for (const value of [undefined, {}, { visualGates: null }, { visualGates: { passed: true } }, { visualGates: [] }]) {
+    const gates = getVisualGates(value);
+    assert.equal(gates.length, 4);
+    assert.ok(gates.every((gate) => gate.status === "unavailable" && gate.icon === "?"));
   }
 });
 
-test("shortlist writes IDs only and blocked browser storage does not prevent in-memory selection", () => {
-  let saved;
-  const storage = { setItem: (_key, value) => { saved = value; } };
-  assert.equal(writeShortlistIds(storage, ["first", "first", "", { score: 1 }, "second"]), true);
-  assert.deepEqual(JSON.parse(saved), ["first", "second"]);
-  const blocked = { getItem() { throw new Error("blocked"); }, setItem() { throw new Error("blocked"); } };
-  assert.deepEqual(readShortlistIds(blocked, ["first"]), []);
-  assert.equal(writeShortlistIds(blocked, ["first"]), false);
-  assert.equal(getCaseNavigation(catalog.cases, ["first"], true, "first").currentId, "first");
+test("each gate keeps its own explicit result irrespective of record order", () => {
+  const gates = getVisualGates({ visualGates: [
+    { id: "arm_integrity", status: "skipped" },
+    { id: "motion_smoothness", status: "fail" },
+    { id: "image_quality", status: "pass" },
+    { id: "eef_visibility", status: "unavailable" },
+  ] });
+  assert.deepEqual(gates.map(({ id, status, icon }) => ({ id, status, icon })), [
+    { id: "image_quality", status: "pass", icon: "✓" },
+    { id: "motion_smoothness", status: "fail", icon: "×" },
+    { id: "eef_visibility", status: "unavailable", icon: "?" },
+    { id: "arm_integrity", status: "skipped", icon: "−" },
+  ]);
 });
 
-test("sample navigation stops at each boundary and preserves a visible selection when filtering", () => {
-  const first = getCaseNavigation(catalog.cases, ["second"], false, "first");
-  assert.equal(first.previousId, null);
-  assert.equal(first.nextId, "second");
-  const second = getCaseNavigation(catalog.cases, ["second"], false, "second");
-  assert.equal(second.previousId, "first");
-  assert.equal(second.nextId, null);
-  const filtered = getCaseNavigation(catalog.cases, ["second"], true, "second");
-  assert.equal(filtered.currentId, "second");
-  assert.equal(filtered.position, 1);
-  assert.equal(filtered.previousId, null);
-  assert.equal(filtered.nextId, null);
-  assert.equal(getCaseNavigation(catalog.cases, ["second"], true, "first").currentId, "second");
-});
-
-test("removing the final shortlisted item shows an empty list and All restores the prior sample", () => {
-  const empty = getCaseNavigation(catalog.cases, [], true, "second");
-  assert.deepEqual(empty.cases, []);
-  assert.equal(empty.currentId, null);
-  assert.equal(empty.position, 0);
-  assert.equal(empty.previousId, null);
-  assert.equal(empty.nextId, null);
-  const all = getCaseNavigation(catalog.cases, [], false, "second");
-  assert.equal(all.currentId, "second");
-  assert.equal(all.position, 2);
-  assert.equal(all.cases.length, 2);
-});
-
-test("recommendation and personal shortlist filters combine without changing personal choices", () => {
-  const cases = [
-    { id: "first", review: { status: "recommend" } },
-    { id: "second", review: { status: "exclude" } },
-    { id: "third", review: { status: "recommend" } },
-  ];
-  const personal = ["second", "third"];
-  const recommended = getCaseNavigation(cases, personal, false, "second", true);
-  assert.deepEqual(recommended.cases.map((sample) => sample.id), ["first", "third"]);
-  const both = getCaseNavigation(cases, personal, true, "third", true);
-  assert.deepEqual(both.cases.map((sample) => sample.id), ["third"]);
-  assert.equal(both.currentId, "third");
-  assert.deepEqual(personal, ["second", "third"]);
-  const empty = getCaseNavigation(cases, ["second"], true, "second", true);
-  assert.equal(empty.currentId, null);
-  assert.equal(empty.position, 0);
-  const all = getCaseNavigation(cases, ["second"], false, "second", false);
-  assert.equal(all.currentId, "second");
-  assert.equal(all.cases.length, 3);
-});
-
-test("duplicate task names remain distinguishable by review status and query family", () => {
-  const first = { label: "Shake bottle", reviewBatch: "additional", familyLabel: "Random feasible · weighted", review: { status: "recommend" } };
-  const second = { label: "Shake bottle", familyLabel: "Policy rollout", review: { status: "exclude" } };
-  assert.equal(caseOptionLabel(first), "Recommended · Shake bottle · Random feasible · weighted");
-  assert.equal(caseOptionLabel(second), "Not selected · Shake bottle · Policy rollout");
-  assert.equal(caseOptionLabel({ label: "Unreviewed sample" }), "Needs review · Unreviewed sample");
-  assert.equal(caseOptionLabel({ ...first, review: { status: "backup" } }).startsWith("Backup ·"), true);
+test("duplicate, invalid and legacy passed fields require explicit usable gate data", () => {
+  const gates = getVisualGates({ visualGates: [
+    { id: "image_quality", status: "pass" }, { id: "image_quality", status: "fail" },
+    { id: "motion_smoothness", status: "success" },
+    { id: "eef_visibility", passed: true },
+    { id: "arm_integrity", status: "__proto__" },
+    { id: "unknown_check", status: "pass" }, null,
+  ] });
+  assert.ok(gates.every((gate) => gate.status === "unavailable"));
 });

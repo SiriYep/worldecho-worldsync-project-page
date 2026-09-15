@@ -528,97 +528,60 @@
 
       <section id="state-control" class="section-pad state-control-section" aria-labelledby="state-control-heading">
         <div class="container">
-          <div class="section-heading split-heading">
-            <div><p class="kicker">Part IV / Rollout comparisons</p><h2 id="state-control-heading">Same actions.<br>Different rollouts.</h2></div>
-            <p class="lead">Compare each model’s predicted motion with the simulator’s actual execution of the same action sequence. Watch the grippers’ movement direction and final position.</p>
-          </div>
-          <div class="demo-gallery rollout-demo" data-rollout-demo data-catalog="assets/rollout-demo/catalog.json" aria-describedby="rollout-alignment-note">
-            <div class="demo-gallery-heading"><h3>Simulator ground truth and model predictions</h3><span class="rollout-recorded">Prerecorded comparisons</span></div>
+          <div class="section-heading"><h2 id="state-control-heading">Rollout comparisons</h2></div>
+          <div class="demo-gallery rollout-demo" data-rollout-demo data-catalog="assets/rollout-demo/catalog.json" aria-label="Recorded rollout comparisons">
             <div class="rollout-load" data-rollout-load role="status">
-              <p data-rollout-load-message>Loading recorded comparisons…</p>
-              <button type="button" data-rollout-retry hidden>Retry loading</button>
+              <p data-rollout-load-message>Loading videos…</p>
+              <button type="button" data-rollout-retry hidden>Retry</button>
             </div>
             <div data-rollout-content hidden>
               <div class="rollout-toolbar">
-                <label for="rollout-case">Sample<select id="rollout-case" data-rollout-case></select></label>
+                <label for="rollout-case">Task<select id="rollout-case" data-rollout-case></select></label>
                 <label for="rollout-model">Comparison model<select id="rollout-model" data-rollout-model></select></label>
               </div>
-              <div class="rollout-review-controls" aria-label="Sample review controls">
-                <div class="rollout-case-navigation">
-                  <button type="button" data-rollout-previous aria-label="Previous sample">← Previous</button>
-                  <span data-rollout-position aria-live="polite"></span>
-                  <button type="button" data-rollout-next aria-label="Next sample">Next →</button>
-                </div>
-                <button type="button" data-rollout-shortlist aria-pressed="false">Shortlist</button>
-                <label class="rollout-shortlist-filter"><input type="checkbox" data-rollout-recommended-only>Recommended only</label>
-                <label class="rollout-shortlist-filter"><input type="checkbox" data-rollout-shortlisted-only>Shortlisted only</label>
-                <span class="rollout-shortlist-count" data-rollout-shortlist-count aria-live="polite">0 shortlisted</span>
-                <span class="rollout-storage-note" data-rollout-storage-note>Saved in this browser</span>
+              <div class="rollout-annotations" title="AnyPos-estimated end-effector trajectories, including on the reference video">
+                <label><input type="checkbox" data-rollout-trajectory-toggle checked> AnyPos trajectories</label>
+                <span class="rollout-arm-left">Left</span><span class="rollout-arm-right">Right</span>
               </div>
-              <div class="rollout-shortlist-empty" data-rollout-empty hidden role="status">
-                <p>No samples match these filters. Choose All samples to browse and shortlist candidates.</p>
-                <button type="button" data-rollout-all>All samples</button>
-              </div>
-              <div data-rollout-comparison-content>
-              <div class="rollout-case-heading">
-                <h3 data-rollout-title></h3>
-                <p data-rollout-coverage></p>
-              </div>
-              <div class="rollout-review" data-rollout-review>
-                <span class="rollout-review-status" data-rollout-review-status>Needs review</span>
-                <p data-rollout-review-note></p>
-                <p class="rollout-review-caution" data-rollout-review-caution hidden></p>
-              </div>
-              <p class="rollout-conditioning" data-rollout-conditioning></p>
               <div class="demo-comparison">
                 <figure class="demo-slot" data-rollout-slot="gt">
-                  <figcaption><span class="demo-step">01 / Ground truth (GT)</span><h4>Simulator execution</h4><p class="rollout-regime">Recorded action consequences</p></figcaption>
-                  <div class="rollout-media"><video muted playsinline preload="auto" aria-label="Simulator ground-truth rollout"></video><p class="rollout-media-error" hidden></p></div>
-                  <p class="rollout-clip-info" data-rollout-info></p>
+                  <figcaption><h4>GT</h4></figcaption>
+                  <ul class="rollout-gates" data-rollout-gates aria-label="GT visual gates"></ul>
+                  <div class="rollout-media"><video muted playsinline preload="auto" aria-label="Ground-truth rollout"></video><canvas data-rollout-trajectory aria-hidden="true"></canvas><p class="rollout-media-error" hidden></p></div>
                 </figure>
                 <figure class="demo-slot" data-rollout-slot="baseline">
-                  <figcaption><span class="demo-step">02 / Comparison model</span><h4 data-rollout-model-name></h4><p class="rollout-regime" data-rollout-model-regime></p></figcaption>
-                  <div class="rollout-media"><video muted playsinline preload="auto" aria-label="Comparison model rollout"></video><p class="rollout-media-error" hidden></p></div>
-                  <p class="rollout-clip-info" data-rollout-info></p>
+                  <figcaption><h4 data-rollout-model-name></h4></figcaption>
+                  <ul class="rollout-gates" data-rollout-gates aria-label="Comparison model visual gates"></ul>
+                  <div class="rollout-media"><video muted playsinline preload="auto" aria-label="Comparison model rollout"></video><canvas data-rollout-trajectory aria-hidden="true"></canvas><p class="rollout-media-error" hidden></p></div>
                 </figure>
                 <figure class="demo-slot demo-slot-ours" data-rollout-slot="worldsync">
-                  <figcaption><span class="demo-step">03 / WorldSync</span><h4>WorldSync</h4><p class="rollout-regime" data-rollout-worldsync-regime></p></figcaption>
-                  <div class="rollout-media"><video muted playsinline preload="auto" aria-label="WorldSync rollout"></video><p class="rollout-media-error" hidden></p></div>
-                  <p class="rollout-clip-info" data-rollout-info></p>
+                  <figcaption><h4>WorldSync</h4></figcaption>
+                  <ul class="rollout-gates" data-rollout-gates aria-label="WorldSync visual gates"></ul>
+                  <div class="rollout-media"><video muted playsinline preload="auto" aria-label="WorldSync rollout"></video><canvas data-rollout-trajectory aria-hidden="true"></canvas><p class="rollout-media-error" hidden></p></div>
                 </figure>
               </div>
               <div class="playback-controls" hidden>
                 <div class="playback-actions">
-                  <button type="button" data-playback-toggle>Play comparison</button>
+                  <button type="button" data-playback-toggle>Play</button>
                   <button type="button" data-playback-restart>Restart</button>
                   <span class="playback-status" data-playback-status role="status" aria-live="polite"></span>
                 </div>
                 <div class="playback-timeline">
-                  <input type="range" min="0" max="100" step="0.1" value="0" data-playback-seek aria-label="Seek all rollout clips by normalized progress" aria-describedby="rollout-alignment-note">
-                  <span class="playback-time" data-playback-time></span>
+                  <input type="range" min="0" max="100" step="0.1" value="0" data-playback-seek aria-label="Seek all videos by normalized clip progress">
                 </div>
               </div>
-              <p id="rollout-alignment-note" class="rollout-alignment-note">Clips are synchronized by normalized clip progress. Equal progress does not imply equal physical time.</p>
-              <div class="rollout-details-grid">
-                <details class="rollout-details" data-rollout-input-details>
-                  <summary>Initial observation</summary>
-                  <figure class="rollout-input"><img data-rollout-input loading="lazy" alt=""><figcaption>Shared initial observation for this sample.</figcaption></figure>
-                  <p class="rollout-input-error" data-rollout-input-error hidden>Initial observation could not load.</p>
-                </details>
-                <details class="rollout-details">
-                  <summary>Sample details &amp; selection</summary>
-                  <dl class="rollout-metadata">
-                    <dt>Task</dt><dd data-rollout-task></dd>
-                    <dt>Family</dt><dd data-rollout-family></dd>
-                    <dt>Sample ID</dt><dd><code data-rollout-id></code></dd>
-                  </dl>
-                  <a class="rollout-action-link" data-rollout-action download>Download recorded actions ↗</a>
-                  <p class="rollout-selection-note" data-rollout-selection-note></p>
-                </details>
-              </div>
-              </div>
             </div>
-            <noscript><p class="demo-status">Enable JavaScript to choose a sample and compare prerecorded rollouts.</p></noscript>
+            <noscript><p class="demo-status">Enable JavaScript to compare recorded rollouts.</p></noscript>
+          </div>
+        </div>
+      </section>
+
+      <section id="real-world-experiments" class="section-pad" aria-labelledby="real-world-heading">
+        <div class="container">
+          <div class="section-heading"><h2 id="real-world-heading">Real-world experiments</h2></div>
+          <div class="real-world-grid">
+            <article class="real-world-card"><div><h3>Robot demo 1</h3><p>Video forthcoming</p></div></article>
+            <article class="real-world-card"><div><h3>Robot demo 2</h3><p>Video forthcoming</p></div></article>
           </div>
         </div>
       </section>

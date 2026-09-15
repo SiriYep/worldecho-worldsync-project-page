@@ -2,12 +2,18 @@
 
 Review date: 15 September 2026.
 
-The gallery retains **34 cases and 476 recordings**, including six recommended
-comparisons. It combines fourteen initial candidates with twenty additions
-selected after screening the existing scores for all 500 samples in the source
-pack. Every displayed case includes restored simulator GT, WorldSync and all
-twelve baseline configurations. This is a deliberately selected qualitative
-review set; its averages would not estimate population performance.
+The audit retains **34 cases and 476 recordings**. The current compact gallery
+shows only the six recommendations, with GT and WorldSync beside one of three
+Expanded baselines: Cosmos-Predict2.5, CtrlWorld and DreamDojo. This exposes 30
+recordings across the model choices. The full catalog and other media remain
+intact.
+
+The review set combines fourteen initial candidates with twenty additions
+selected after screening existing scores for all 500 source-pack samples.
+Each audited case includes restored simulator GT, WorldSync and twelve
+baseline configurations. This deliberately selected set cannot estimate
+population performance. The interface has been simplified; the selection
+history, exact IDs and observations below remain the audit record.
 
 ## Selection procedure and evidence
 
@@ -45,7 +51,7 @@ review set; its averages would not estimate population performance.
    file hashes, and verify the imported media against reviewed receipts.
    Repeated conditioning-image MP4s from the source pack are rejected. See
    [GT correction and import checks](rollout-demo.md#gt-correction-2026-09-15).
-6. **Inspect all 34 displayed cases.** Compare GT, WorldSync and every baseline
+6. **Inspect all 34 audit cases.** Compare GT, WorldSync and every baseline
    at seven fixed normalized-progress positions. For 33-frame clips the frame
    indices are `0, 5, 11, 16, 21, 27, 32`; for 32-frame clips they are
    `0, 5, 10, 16, 21, 26, 31`. Inspect motion direction, endpoint, gripper and
@@ -71,20 +77,33 @@ sample IDs and reviews, and
 exports. The selection record, rather than a future changing score rank, fixes
 this review batch.
 
-## Review labels and browser filters
+## Retained review labels and current view
 
-| Label | Count | Meaning for this gallery |
+| Audit label | Count | Meaning of the review |
 | --- | ---: | --- |
 | Recommended | 6 | A useful short comparison, with the stated caveats |
 | Backup | 16 | Usable secondary comparison; often small motion, limited separation or visible defects |
 | Not selected | 8 | Visible mismatch or deformation makes it unsuitable as a positive main example |
 | Needs review | 4 | Fine motion, contact, release or geometry needs closer playback inspection |
 
-All 34 remain available. Recommended only is enabled initially and can be
-combined with Shortlisted only. The personal shortlist starts empty and saves
-only sample IDs in that browser. It never changes automatically with review
-labels. All samples clears both filters. Each option includes the task and
-query subtype because the same task can have several distinct chunks.
+All 34 remain in the catalog and audit. Only the six recommendations are
+exposed by the current task selector, which displays task names alone. Review
+labels, family names, observations and cautions are kept here rather than
+shown above the videos. The comparison selector is limited to the three
+Expanded rows. The prior Recommended only and Shortlisted only filters,
+Previous/Next and shortlist controls are removed. Existing personal shortlist
+IDs in browser localStorage remain untouched; this compact view does not
+read or write them.
+
+The current view displays existing gate records and AnyPos image projections
+for all 30 recordings: eighteen tracks reuse verified direct artifacts
+(GT-reference, WorldSync and DreamDojo), and twelve Cosmos-Predict2.5/CtrlWorld
+tracks were extracted separately on CPU in FP32 with the same frozen weights.
+The CPU tracks are display annotations, not reproduction of CUDA BF16 scoring;
+no metrics were recomputed. The overlay can be switched off, and missing or
+invalid projections remain hidden. Two Real-world experiments cards are
+explicitly labeled Video forthcoming. See [current media and annotation
+behavior](rollout-demo.md).
 
 ## Six recommended comparisons
 
@@ -130,8 +149,9 @@ Exact recommended sample IDs, in initial gallery order:
   60k training steps respectively. LingBotVA is video-only, and inspected
   historical scoring uses its 32-frame window while other configurations use
   33. Its interface is not the same action-conditioned interface as the other
-  models. The gallery presents both baseline regimes and names competitive
-  Expanded models in the recommendations.
+  models. The historical visual screening compared both baseline regimes;
+  the current interface exposes three Expanded models only. The observations
+  name competitive baselines even where WorldSync is recommended.
 - **Timing and encoding:** the gallery and contact sheets align normalized
   clip progress. Different frame rates and lengths do not establish matching
   physical times or support speed/latency conclusions. GT exports and some
@@ -145,5 +165,7 @@ Exact recommended sample IDs, in initial gallery order:
   task/query family, prove task success, or establish that WorldSync beats
   every baseline.
 
-No new model inference or scoring was performed for this screening. Existing
-paper figures and leaderboard results are unchanged.
+No new rollout generation or scoring was performed for the screening recorded
+here. Subsequent trajectory annotation work is separate and must carry its own
+source/checkpoint/projection audit. Existing paper figures and leaderboard
+results are unchanged.
